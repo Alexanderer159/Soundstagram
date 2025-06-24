@@ -10,19 +10,18 @@ from back.models.user_models import db
 from back.controllers.user_controller import api
 from back.admin import setup_admin
 from back.commands import setup_commands
+from back.extensions import bcrypt, jwt
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
-jwt = JWTManager(app)
-
-bcrypt = Bcrypt(app)
+bcrypt.init_app(app)
+jwt.init_app(app)
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
-app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # database condiguration
@@ -31,7 +30,8 @@ if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
