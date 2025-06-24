@@ -6,38 +6,54 @@ from back.models.user_models import db, User
 from back.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
-from back.app import bcrypt, jwt
+from back.extensions import bcrypt, jwt
+from datetime import datetime
 
 api = Blueprint('api', __name__)
 
 CORS(api)
 
-@app.route('/register', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
+    email = data.get('email')
+    password = data.get('password')
+    username = data.get('username')  
+
+    if not email or not password:
+        return jsonify({'msg': 'Faltan campos obligatorios'}), 400
 
     if User.query.filter_by(email=email).first():
         return jsonify({'msg': 'El correo ya está registrado'}), 400
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(email=email, password=hashed_password)
+
+    new_user = User(
+        email=email,
+        password_hash=hashed_password,
+        username=username or email.split('@')[0],
+        is_active=True,
+        created_at=datetime.utcnow().isoformat(),
+        updated_at=datetime.utcnow().isoformat()
+    )
 
     db.session.add(new_user)
     db.session.commit()
 
     return jsonify({'msg': 'Usuario creado correctamente'}), 201
 
-@app.route('/login', methods=['POST'])
+@api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'msg': 'Faltan campos obligatorios'}), 400
 
     user = User.query.filter_by(email=email).first()
 
-    if not user or not bcrypt.check_password_hash(user.password, password):
+    if not user or not bcrypt.check_password_hash(user.password_hash, password):
         return jsonify({'msg': 'Credenciales inválidas'}), 401
 
     token = create_access_token(identity=user.id)
