@@ -6,8 +6,9 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from back.utils import APIException, generate_sitemap
-from back.models.user_models import db
+from back.models.user_model import db
 from back.controllers.user_controller import api
+from back.controllers.project_controller import project_api
 from back.admin import setup_admin
 from back.commands import setup_commands
 from back.extensions import bcrypt, jwt
@@ -45,6 +46,7 @@ setup_commands(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(project_api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
