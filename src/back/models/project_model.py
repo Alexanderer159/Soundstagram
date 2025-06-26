@@ -1,10 +1,18 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Text, ForeignKey, DateTime
+from sqlalchemy import String, Text, ForeignKey, DateTime, StatusEnum, Enum, PyEnum 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from back.models.user_model import User
 
 db = SQLAlchemy()
+
+class VisibilityEnum(PyEnum):
+    public = "public"
+    private = "private"
+
+class StatusEnum(PyEnum):
+    active = "active"
+    archived = "archived"
 
 class Project(db.Model):
     __tablename__ = "projects"
@@ -12,8 +20,12 @@ class Project(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    genre: Mapped[str] = mapped_column(String(50), nullable=True)
+    tags: Mapped[str] = mapped_column(String(50), nullable=True)
+    visibility: Mapped[StatusEnum] = mapped_column(Enum(StatusEnum), default=StatusEnum.public, nullable=False)
+    status: Mapped[StatusEnum] = mapped_column(Enum(StatusEnum), default=StatusEnum.active, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.timezone.utc, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.timezone.utc, onupdate=datetime.timezone.utc, nullable=False)
 
     owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
     owner: Mapped["User"] = relationship("User", backref="projects")
@@ -23,8 +35,12 @@ class Project(db.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
+            "genre": self.genre,
+            "tags": self.tags,
+            "visibility": self.visibility.value,
+            "status": self.status.value,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "owner_id": self.owner_id,
-            "owner_username": self.owner.username if self.owner else None,
+            "owner_username": self.owner.username if self.owner else None
         }
