@@ -21,21 +21,10 @@ class Project(db.Model):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     genre: Mapped[str] = mapped_column(String(50), nullable=True)
     tags: Mapped[str] = mapped_column(String(50), nullable=True)
-
-    visibility: Mapped[VisibilityEnum] = mapped_column(
-        SQLEnum(VisibilityEnum), default=VisibilityEnum.public, nullable=False
-    )
-
-    status: Mapped[StatusEnum] = mapped_column(
-        SQLEnum(StatusEnum), default=StatusEnum.active, nullable=False
-    )
-
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
-    )
+    visibility: Mapped[VisibilityEnum] = mapped_column(SQLEnum(VisibilityEnum), default=VisibilityEnum.public, nullable=False)
+    status: Mapped[StatusEnum] = mapped_column(SQLEnum(StatusEnum), default=StatusEnum.active, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
     owner: Mapped["User"] = relationship("User", back_populates="projects")
