@@ -1,42 +1,51 @@
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_cors import CORS
-from back.models.project_model import db, Project, VisibilityEnum, StatusEnum
-from back.models.user_model import User
 from datetime import datetime
 
-project_api = Blueprint('project_api', __name__)
+from back.extensions import db
+from back.models.project_model import Project, VisibilityEnum, StatusEnum
+from back.models.user_model import User
 
+project_api = Blueprint('project_api', __name__)
 CORS(project_api)
 
+# 🔧 Crear un nuevo proyecto
 @project_api.route('/projects', methods=['POST'])
 @jwt_required()
 def create_project():
     user_id = get_jwt_identity()
     data = request.get_json()
 
+    try:
+        visibility = VisibilityEnum(data.get('visibility', 'public'))
+        status = StatusEnum(data.get('status', 'active'))
+    except ValueError:
+        return jsonify({'msg': 'Valores de visibility o status no válidos'}), 400
+
     new_project = Project(
         title=data.get('title'),
         description=data.get('description'),
         genre=data.get('genre'),
         tags=data.get('tags'),
-        visibility=data.get('visibility', 'public'), 
-        status=data.get('status', 'active'), 
+        visibility=visibility,
+        status=status,
         owner_id=user_id
     )
 
     db.session.add(new_project)
     db.session.commit()
-
     return jsonify(new_project.serialize()), 201
 
-@project_api.route('/projects', methods=['GET'])
+# 🌍 Obtener todos los proyectos públicos
+@project_api.route('/projects/public', methods=['GET'])
 @jwt_required()
 def get_all_public_projects():
     projects = Project.query.filter_by(visibility=VisibilityEnum.public).all()
     return jsonify([p.serialize() for p in projects]), 200
 
-@project_api.route('/projects/<int:user_id>', methods=['GET'])
+# 👤 Obtener todos los proyectos de un usuario
+@project_api.route('/projects/user/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_user_projects(user_id):
     user = User.query.get(user_id)
@@ -46,22 +55,28 @@ def get_user_projects(user_id):
     projects = Project.query.filter_by(owner_id=user_id).all()
     return jsonify([p.serialize() for p in projects]), 200
 
-
+# 🔍 Obtener un proyecto por su ID
 @project_api.route('/projects/<int:project_id>', methods=['GET'])
 @jwt_required()
 def get_project_by_id(project_id):
-    project = Project.query.filter_by(id=project_id).first()
+    user_id = get_jwt_identity()
+    project = Project.query.get(project_id)
+
     if not project:
         return jsonify({'msg': 'Proyecto no encontrado'}), 404
+
+    if project.visibility == VisibilityEnum.private and project.owner_id != user_id:
+        return jsonify({'msg': 'No autorizado para ver este proyecto'}), 403
+
     return jsonify(project.serialize()), 200
 
-
-
+# 📝 Actualizar un proyecto
 @project_api.route('/projects/<int:project_id>', methods=['PUT'])
 @jwt_required()
 def update_project(project_id):
     user_id = get_jwt_identity()
-    project = Project.query.filter_by(id=project_id).first()
+    project = Project.query.get(project_id)
+
     if not project:
         return jsonify({'msg': 'Proyecto no encontrado'}), 404
 
@@ -75,32 +90,31 @@ def update_project(project_id):
     project.genre = data.get('genre', project.genre)
     project.tags = data.get('tags', project.tags)
 
-    visibility = data.get('visibility')
-    if visibility:
+    if 'visibility' in data:
         try:
-            project.visibility = VisibilityEnum(visibility)
+            project.visibility = VisibilityEnum(data['visibility'])
         except ValueError:
             return jsonify({'msg': 'Valor de visibility no válido'}), 400
 
-    status = data.get('status')
-    if status:
+    if 'status' in data:
         try:
-            project.status = StatusEnum(status)
+            project.status = StatusEnum(data['status'])
         except ValueError:
             return jsonify({'msg': 'Valor de status no válido'}), 400
 
     project.updated_at = datetime.utcnow()
     db.session.commit()
-
     return jsonify(project.serialize()), 200
 
+# 🗑️ Eliminar un proyecto
 @project_api.route('/projects/<int:project_id>', methods=['DELETE'])
 @jwt_required()
 def delete_project(project_id):
     user_id = get_jwt_identity()
     project = Project.query.filter_by(id=project_id, owner_id=user_id).first()
+
     if not project:
-        return jsonify({'msg': 'Proyecto no encontrado'}), 404
+        return jsonify({'msg': 'Proyecto no encontrado o no autorizado'}), 404
 
     db.session.delete(project)
     db.session.commit()

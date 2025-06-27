@@ -2,23 +2,23 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, jsonify, send_from_directory
 from flask_migrate import Migrate
-from flask_swagger import swagger
+from flask_cors import CORS
 from back.utils import APIException, generate_sitemap
-from back.models.user_model import db
+from back.extensions import db, bcrypt, jwt
+from back.models.user_model import User  # Para asegurar que los modelos se cargan
 from back.controllers.user_controller import api
 from back.controllers.project_controller import project_api
+from back.auth.auth import auth_api
 from back.admin import setup_admin
 from back.commands import setup_commands
-from back.extensions import bcrypt, jwt
-from flask_jwt_extended import JWTManager
-from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 bcrypt.init_app(app)
 jwt.init_app(app)
+
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -35,8 +35,8 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+MIGRATE = Migrate(app, db, compare_type=True)
 
 # add the admin
 setup_admin(app)
@@ -47,6 +47,7 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(project_api, url_prefix='/api')
+app.register_blueprint(auth_api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
