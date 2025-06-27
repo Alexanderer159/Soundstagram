@@ -1,8 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
-
-db = SQLAlchemy()
+from datetime import datetime
+from sqlalchemy import String, Boolean, DateTime
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from back.extensions import db
 
 class User(db.Model):
     __tablename__ = "users"
@@ -15,8 +14,11 @@ class User(db.Model):
     bio: Mapped[str] = mapped_column(nullable=True)
     profile_pic_url: Mapped[str] = mapped_column(nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
-    created_at: Mapped[str] = mapped_column(nullable=False)
-    updated_at: Mapped[str] = mapped_column(nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    # Relaciones con otros modelos (si las defines en otros lados con back_populates)
+    projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -26,6 +28,6 @@ class User(db.Model):
             "full_name": self.full_name,
             "bio": self.bio,
             "profile_pic_url": self.profile_pic_url,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
         }

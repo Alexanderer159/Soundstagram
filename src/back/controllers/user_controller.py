@@ -33,8 +33,8 @@ def register():
         password_hash=hashed_password,
         username=username or email.split('@')[0],
         is_active=True,
-        created_at=datetime.utcnow().isoformat(),
-        updated_at=datetime.utcnow().isoformat()
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
     )
 
     db.session.add(new_user)
