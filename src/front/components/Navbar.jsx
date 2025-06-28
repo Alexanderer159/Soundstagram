@@ -1,17 +1,65 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {  faMagnifyingGlass, faSquareFull } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faCircleUser } from '@fortawesome/free-regular-svg-icons'
+import '../styles/index.css';
 
 export const Navbar = () => {
 
 	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
+		<nav className="navbar navbar-dark bg-dark shadow">
+			<div className="container-fluid d-flex flex-row m-0 p-0 justify-content-between align-items-center">
+
+
+				<Link to="/" style={{ textDecoration: 'none' }}>
+				<div className="d-flex flex-row align-items-center">
+				<img src="public/Pictures/Soundstagram_no_bg.svg" className="img-fluid icon mx-3 p-1"/>
+					<p className="navbar-brand h1 m-0 p-0 text-center">Soundstagram!</p>
+				</div>
+
+
 				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
+				<Link to="/feed" style={{ textDecoration: 'none' }}>
+				<p className="navbar-brand h1 text-center">Home</p>
+				</Link>
+				<Link to="/projectdetails" style={{ textDecoration: 'none' }}>
+				<p className="navbar-brand h1 text-center">Explore</p>
+				</Link>
+				<Link to="/notifications" style={{ textDecoration: 'none' }}>
+				<p className="navbar-brand h1 text-center">Messages</p>
+				</Link>
+
+
+				<div className="actions mx-4 justify-content-between d-flex flex-row">
+					<Link to="/feed" style={{ textDecoration: 'none' }}>
+						<FontAwesomeIcon icon={faMagnifyingGlass} mask={faSquareFull}/>
+					</Link>	
+
+					<Link to="/notifications" style={{ textDecoration: 'none' }}>
+						<FontAwesomeIcon className="mx-4" icon={faBell} mask={faSquareFull}/>
 					</Link>
+
+
+					<div className="dropdown profile px-3" data-bs-theme="dark">
+    					<FontAwesomeIcon type="button" data-bs-toggle="dropdown" data-bs-theme="dark" aria-expanded="false" icon={faCircleUser} mask={faSquareFull}/>
+  							<ul className="dropdown-menu dropdown-menu-end shadow text-end">
+   								<li>
+									<Link to="/editprofile">
+										<a className="dropdown-item">Profile</a>
+									</Link>
+								</li>
+   								<li>
+									<Link to="/editprofile">
+										<a className="dropdown-item">Add Project</a>
+									</Link>
+								</li>
+								<li>
+									<Link to="/editprofile">
+										<a className="dropdown-item">Likes</a>
+									</Link>
+								</li>
+  							</ul>
+					</div>
 				</div>
 			</div>
 		</nav>

@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* navbar styles */
+body {
+    background-color: rgb(33, 37, 41);
+    color: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240)) ;
+    font-family: "Rubik", sans-serif;
+}
+
+.navbar{
+    font-family: "Rubik", sans-serif;
+}
+
+.navbar img {
+transition: 1s ease;
+height: 45px;
+width: 50px;
+&:hover{
+ transition: 1s ease;
+ height: 55px;
+ width: 65px;
+}
+}
+
+.navbar p{
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1.5s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: x-large;
+}
+}
+
+.actions svg{
+background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+color: rgb(33, 37, 41);
+background-size: 200%, 200%;
+font-size: 25px;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+.actions svg:hover{
+font-size: 35px;
+background-size: 200%, 200%;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+
+.profile{
+    border: 1px solid rgba(0,0,0,0);
+}
+
+.dropdown-menu {
+  pointer-events: none;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+.profile:hover .dropdown-menu, 
+.profile .dropdown-menu:hover{
+  animation: slideleft 2s forwards;
+  pointer-events: all;
+}
+
+.profile:not(:hover):not(.dropdown-menu:hover) .dropdown-menu {
+  animation: slideright 2s forwards;
+}
+
+.dropdown-menu a{
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1.5s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: large;
+}
+}
+
+
+/* Loader */
+
+    .loader {
+        width: 50%;
+        height: 500px;
+        border-radius: 50%;
+    }
+    .line {
+        width: 15px;
+        transition: 1s ease;
+        border-radius: 5px;
+        bottom: 0;
+        background: linear-gradient(240deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+        background-size: 100%, 100%;
+        animation: gradient-shift 0.1s infinite linear;
+    }
+
+    .line:hover {
+    animation: none;
+    height: 0px;
+    transition: 1s ease;
+    }
+
+ .line1 {
+        animation: line-grow 1s ease alternate infinite;
+    }
+    .line2 {
+        animation: line-grow 1s 0.2s ease alternate infinite;
+    }
+    .line3 {
+        animation: line-grow 1s 0.4s ease alternate infinite;
+    }
+    .line4 {
+        animation: line-grow 1s 0.6s ease alternate infinite;
+    }
+    .line5 {
+        animation: line-grow 1s 0.8s ease alternate infinite;
+    }
+    .line6 {
+        animation: line-grow 1s 1s ease alternate infinite;
+    }
+    .line7 {
+        animation: line-grow 1s 1.2s ease alternate infinite;
+    }
+    .line8 {
+        animation: line-grow 1s 1.4s ease alternate infinite;
+    }
+    .line9 {
+        animation: line-grow 1s 1.6s ease alternate infinite;
+    }
+    .line10 {
+        animation: line-grow 1s 1.8s ease alternate infinite;
+    }
+    .line11 {
+        animation: line-grow 1s 2s ease alternate infinite;
+    }
+        .line12 {
+        animation: line-grow 1s 2.2s ease alternate infinite;
+    }
+        .line13 {
+        animation: line-grow 1s 2.4s ease alternate infinite;
+    }
+        .line14 {
+        animation: line-grow 1s 2.6s ease alternate infinite;
+    }
+        .line15 {
+        animation: line-grow 1s 2.8s ease alternate infinite;
+    }
+        .line16 {
+        animation: line-grow 1s 3s ease alternate infinite;
+    }
+        .line17 {
+        animation: line-grow 1s 3.2s ease alternate infinite;
+    }
+        .line18 {
+        animation: line-grow 1s 3.4s ease alternate infinite;
+    }
+        .line19 {
+        animation: line-grow 1s 3.6s ease alternate infinite;
+    }
+        .line20 {
+        animation: line-grow 1s 3.8s ease alternate infinite;
+    }
+        .line21 {
+        animation: line-grow 1s 4s ease alternate infinite;
+    }
+        .line22 {
+        animation: line-grow 1s 4.2s ease alternate infinite;
+    }
+        .line23 {
+        animation: line-grow 1s 4.4s ease alternate infinite;
+    }
+        .line24 {
+        animation: line-grow 1s 4.6s ease alternate infinite;
+    }
+        .line25 {
+        animation: line-grow 1s 4.8s ease alternate infinite;
+    }
+        .line26 {
+        animation: line-grow 1s 5s ease alternate infinite;
+    }
+        .line27 {
+        animation: line-grow 1s 5.2s ease alternate infinite;
+    }
+        .line28 {
+        animation: line-grow 1s 5.4s ease alternate infinite;
+    }
+        .line29 {
+        animation: line-grow 1s 5.6s ease alternate infinite;
+    }
+        .line30 {
+        animation: line-grow 1s 5.8s ease alternate infinite;
+    }
+
+/* Home */
+
+h1{
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 100%, 100%;
+    background-clip: text;
+    color: transparent;
+}
+
+form {
+    border: 1px solid rgb(13, 202, 240);
+    border-radius: 10px;
+    animation: fadeIn 2s 3s forwards;
+    opacity: 0;
+}
+
+    /* ----------------     KEYFRAMES    ----------------- */
+
+@keyframes fadeIn {
+    0% {
+    opacity: 0;
+            }
+
+    100% {
+    opacity: 1;
+            }
+        }
+
+@keyframes line-grow {
+    0% {
+        height: 10px;
+        }
+    100% {
+        height: 75%;
+        }
+    }
+
+@keyframes gradient-shift{
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+        100%{
+        background-position: 0% 100%;
+    }
+}
+
+@keyframes slideleft {
+  from {
+    transform: translateX(150%);
+  }
+  to {
+    transform: translateX(20%);
+  }
+}
+
+@keyframes slideright {
+  from {
+    transform: translateX(20%);
+  }
+  to {
+    transform: translateX(150%);
+  }
+}

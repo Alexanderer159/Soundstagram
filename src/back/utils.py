@@ -34,7 +34,7 @@ def generate_sitemap(app):
     return """
         <div style="text-align: center;">
         <img style="max-height: 200px" src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Simple_Music.svg/600px-Simple_Music.svg.png' />
-        <h1>Soundcloud's API</h1>
+        <h1>Soundstagram's API</h1>
         <p><strong>COPY THIS INTO .ENV VITE_BACKEND_URL</strong>= <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
         <p>Hopefully everything works as intended this time!</p>
         <p>Remember to specify a real endpoint path like: </p>
