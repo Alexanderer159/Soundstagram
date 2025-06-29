@@ -3,6 +3,7 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { Link } from "react-router-dom"
 import "../styles/index.css"
+import "../styles/footer.css"
 
 export const Footer = () => (
 	<div className="footer d-flex flex-row justify-content-between px-5 align-items-center">

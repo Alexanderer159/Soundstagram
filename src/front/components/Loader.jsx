@@ -1,4 +1,5 @@
 import '../styles/index.css'
+import '../styles/loader.css'
 
 export const Loader = () => {
 

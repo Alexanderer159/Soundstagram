@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faMagnifyingGlass, faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { faBell, faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import '../styles/index.css'
+import '../styles/navbar.css'
 
 export const Navbar = () => {
 

@@ -1,0 +1,104 @@
+.header {
+    animation: gradient-shift 5s infinite, fadeIn 4s 1s forwards, slide 2s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.change{
+    font-size: 7rem;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    overflow: hidden;
+    opacity: 0;
+    animation: gradient-shift 5s infinite, fadeIn 4s 3s forwards, slidebackwards 2s 2s forwards;
+}
+
+.combo{
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+}
+
+.rounded-circle {
+    width: 150px;
+    height: 150px;
+}
+
+.proform{
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+}
+
+.pro-btn{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    font-size: 25px;
+}
+.pro-btn:active {
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    color: white;
+}
+
+.pro-btn-disc{
+    border: 1px solid rgb(255, 0, 13);
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(162, 0, 255), rgb(240, 13, 13));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    font-size: 25px;
+    animation: fadeIn 1.5s forwards;
+}
+.pro-btn-disc:active {
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(162, 0, 255), rgb(240, 13, 13));
+    color: white;
+}
+
+input{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+}
+
+
+
+/* Keyframes */
+
+@keyframes gradient-shift{
+    0% { background-position: 0% 50%;}
+    50% { background-position: 100% 50%;}
+    100% { background-position: 0% 100%;}
+}
+
+@keyframes slide {
+  0%{ transform: translateX(-150%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes slidebackwards {
+  0%{ transform: translateX(150%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0;}
+    100% { opacity: 1;}
+        }
+
+@keyframes popin {
+    0% { font-size: 0px;}
+    50% { font-size: 50px;}
+    100% { font-size: 25px;}
+        }

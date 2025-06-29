@@ -1,0 +1,108 @@
+.welcome {
+    font-size: 5rem;
+    font-family: "Rubik", sans-serif;
+    animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    z-index: -1 !important;
+    position: relative;
+}
+
+.slogan {
+    animation: gradient-shift 5s infinite, fadeIn 4s 8s forwards, slidewaves 7s 8s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    overflow: hidden;
+    opacity: 0;
+}
+.slogan::after{
+    content:"";
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 200%, 200%;
+    height: 4px;
+    width: 900px;
+    position: absolute;
+    margin-left: 40px;
+    bottom: -2px;
+    left: 950px;
+    overflow: hidden;
+    animation: slideline 7s 9s forwards, gradient-shift 5s infinite;
+}
+
+/* Form */
+
+.form {
+    border-radius: 10px;
+    animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease-in-out 2s 6s forwards;
+    opacity: 0;
+    margin-left: 50px;
+}
+
+.form p{
+background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite;
+}
+
+.form input{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+}
+
+.form .btn{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.form .btn:active {
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    animation: gradient-shift ease infinite;
+    color: white;
+}
+
+/* Keyframes */
+
+@keyframes glow {
+    0% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+    25% { box-shadow: -10px -10px 35px rgb(0, 255, 191);}
+    50% { box-shadow: -10px 10px 35px rgb(0, 255, 136);}
+    75% { box-shadow: 10px 10px 35px rgb(0, 255, 191);}
+    100% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+        }
+        
+@keyframes slidewaves {
+  0%{ transform: translateX(150%);}
+  50% { transform: translateY(15%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes slideline {
+  0%{ transform: translateX(150%);}
+  25%{transform: translateX(-250%); opacity: 1;}
+  50%{transform: translateX(150%); opacity: 1;}
+  75%{transform: translateY(15%); opacity: 1;}
+  100%{transform: translateX(0%); opacity: 1;}
+}
+
+@keyframes slideform {
+  0%{ transform: translateX(50%);}
+  50%{transform: translateX(-10%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes presentation {
+    0%{ transform: translateY(50%);font-size: 200px;}
+    50%{transform: translateY(50%);font-size: 200px;}
+    100% { transform: translateY(0%);}
+}
