@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* All pages */
+
+body {
+    background-color: rgb(33, 37, 41);
+    font-family: "Rubik", sans-serif;
+}
+
+/* ----------------     KEYFRAMES    ----------------- */
+
+@keyframes fadeIn {
+    0% { opacity: 0;}
+    100% { opacity: 1;}
+        }
+
+@keyframes gradient-shift{
+    0% { background-position: 0% 50%;}
+    50% { background-position: 100% 50%;}
+    100% { background-position: 0% 100%;}
+}
