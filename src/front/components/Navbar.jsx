@@ -43,7 +43,7 @@ export const Navbar = () => {
     					<FontAwesomeIcon type="button" data-bs-toggle="dropdown" data-bs-theme="dark" aria-expanded="false" icon={faCircleUser} mask={faSquareFull}/>
   							<ul className="dropdown-menu dropdown-menu-end shadow text-end">
    								<li>
-									<Link to="/editprofile"className="dropdown-item">Profile</Link>
+									<Link to="/profile"className="dropdown-item">Profile</Link>
 								</li>
    								<li>
 									<Link to="/addtrack" className="dropdown-item">Add a track</Link>
