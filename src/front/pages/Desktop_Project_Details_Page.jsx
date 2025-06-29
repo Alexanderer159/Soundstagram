@@ -4,6 +4,8 @@ import SendIcon from "@mui/icons-material/Send";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CommentsPage } from "./Desktop_Comments_Page";
+import "../styles/index.css"
+import { Loader } from "../components/Loader.jsx"
 
 const mockProject = {
     title: "Electric Groove Remix",
@@ -28,9 +30,9 @@ const mockProject = {
 
 export const ProjectDetailPage = () => {
     return (
-        <div className="min-h-screen bg-[#0F172A] text-white px-8 py-10">
-            <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-10">
-                {/* Sidebar */}
+        <div className="min-h-screen bg-dark-custom text-white px-8 py-10">
+            <div className="max-w-5xl bg-dark-custom mx-auto grid md:grid-cols-3 gap-10">
+
                 <div className="md:col-span-1 space-y-4">
                     <Typography variant="h5" className="text-white font-semibold">
                         {mockProject.title}
@@ -59,7 +61,7 @@ export const ProjectDetailPage = () => {
                 </div>
 
                 {/* Main content */}
-                <div className="md:col-span-2 space-y-6">
+                <div className="md:col-span-2 space-y-6 bg-dark-custom">
                     <div className="bg-[#1F2937] p-6 rounded-xl">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
@@ -75,9 +77,15 @@ export const ProjectDetailPage = () => {
                     </div>
 
                     {mockProject.tracks.map((track, index) => (
-                        <Paper key={index} className="bg-[#1e293b] p-4 rounded-xl">
-                            <div className="flex items-center justify-between bg-[#1e293b]">
-                                <div className="flex items-center gap-3">
+                        <Paper key={index}
+                            sx={{
+                                backgroundColor: "rgb(33, 37, 41)",
+                                padding: "1rem",
+                                borderRadius: "12px",
+                            }}
+                            className="bg-dark-custom p-4 rounded-xl">
+                            <div className="flex items-center justify-between bg-dark-custom">
+                                <div className="flex items-center gap-3 bg-dark-custom">
                                     <Avatar src={track.avatar} alt={track.user} />
                                     <div>
                                         <Typography className="text-white text-sm font-medium">{track.name}</Typography>
@@ -89,7 +97,7 @@ export const ProjectDetailPage = () => {
                                         <PlayArrowIcon />
                                     </IconButton>
                                     <div className="bg-[#1e293b] rounded-md p-1">
-                                        <img src={track.waveform} alt="waveform" className="h-12 object-contain" />
+                                        <Loader />
                                     </div>
                                     <Typography className="text-xs text-[#94A3B8]">{track.date}</Typography>
                                     <Button size="small" className="text-[#4DE7F3] hover:underline text-xs">View details</Button>
@@ -103,20 +111,7 @@ export const ProjectDetailPage = () => {
                         <>
                             <CommentsPage />
                         </>
-                        <div className="flex items-center bg-[#0F172A] rounded-md px-4 py-2">
-                            <InputBase
-                                fullWidth
-                                placeholder="Add a comment..."
-                                className="text-[#4DE7F3] placeholder-[#4DE7F3]"
-                                inputProps={{ style: { color: "#4DE7F3" } }}
-                            />
-                            <IconButton className="text-[#4DE7F3] ml-2">
-                                <SendIcon />
-                            </IconButton>
-                        </div>
                     </div>
-
-
                     <Button className="bg-[#1F2937] text-[#4DE7F3] border border-[#4DE7F3] hover:bg-[#1e293b] w-full py-2 rounded-md mt-4">
                         + Add Track
                     </Button>
