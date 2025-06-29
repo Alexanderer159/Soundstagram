@@ -10,7 +10,6 @@ from back.models.user_model import User
 auth_api = Blueprint('auth_api', __name__)
 CORS(auth_api)
 
-# 📝 Endpoint: Registro de usuario
 @auth_api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -18,7 +17,6 @@ def register():
     password = data.get('password')
     username = data.get('username')
 
-    # Validaciones básicas
     if not email or not password:
         return jsonify({'msg': 'Faltan campos obligatorios'}), 400
 
@@ -31,7 +29,6 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({'msg': 'El correo ya está registrado'}), 400
 
-    # Crear usuario
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     new_user = User(
         email=email,
@@ -46,7 +43,6 @@ def register():
 
     return jsonify({'msg': 'Usuario creado correctamente'}), 201
 
-# 🔐 Endpoint: Login de usuario
 @auth_api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -67,5 +63,5 @@ def login():
     token = create_access_token(identity=str(user.id))
     return jsonify({
         'access_token': token,
-        'user': user.serialize_public()
+        'user': user.serialize()
     }), 200
