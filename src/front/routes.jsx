@@ -14,6 +14,7 @@ import { NewContributionPage } from "./pages/Desktop_New_Contribution_Page";
 import { AddExistingTrackPage } from "./pages/Desktop_Add_existing_track_page";
 import { ExploreProjectsPage } from "./pages/Desktop_Explore_Projects_Page";
 import { CommentsPage } from "./pages/Desktop_Comments_Page";
+import { DemoProfile } from "./pages/DemoProfile";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ export const router = createBrowserRouter(
       <Route path="/demo" element={<Demo />} />
       <Route path="/register" element={< RegisterPage />} />
       <Route path="/feed" element={< FeedPage />} />
+      <Route path="/demoProfile" element={< DemoProfile />} />
       <Route path="/projectdetails" element={< ProjectDetailPage />} />
       <Route path="/notifications" element={< NotificationsPage />} />
       <Route path="/editprofile" element={< EditProfilePage />} />
