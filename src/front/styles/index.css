@@ -5,7 +5,6 @@
 /* navbar styles */
 body {
     background-color: rgb(33, 37, 41);
-    color: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240)) ;
     font-family: "Rubik", sans-serif;
 }
 
@@ -104,21 +103,19 @@ font-size: large;
     }
     .line {
         width: 15px;
-        transition: 1s ease;
+        transition: height 0.5s ease;
         border-radius: 5px;
         bottom: 0;
         background: linear-gradient(240deg, rgb(13, 202, 240),  rgb(0, 255, 136));
-        background-size: 100%, 100%;
+        background-size: 200%, 200%;
         animation: gradient-shift 0.1s infinite linear;
     }
 
     .line:hover {
-    animation: none;
-    height: 0px;
-    transition: 1s ease;
+    animation: shrink-line 0.2s ease forwards;
     }
 
- .line1 {
+    .line1 {
         animation: line-grow 1s ease alternate infinite;
     }
     .line2 {
@@ -211,7 +208,7 @@ font-size: large;
 
 /* Home */
 
-h1{
+h1 {
     opacity: 0;
     animation: fadeIn 3s forwards;
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
@@ -221,10 +218,64 @@ h1{
 }
 
 form {
-    border: 1px solid rgb(13, 202, 240);
+    border: 1px solid rgb(0, 247, 255);
     border-radius: 10px;
-    animation: fadeIn 2s 3s forwards;
+    animation: fadeIn 2s 7s forwards;
     opacity: 0;
+}
+
+input{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+}
+
+h2 {
+    opacity: 0;
+    animation: fadeIn 3s 3s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background-size: 100%, 100%;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Footer */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-family: "Rubik", sans-serif;
+}
+
+.footer p {
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1.5s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: x-large;
+}
+}
+
+.footer h3 {
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+}
+
+.footer li {
+    list-style-type: none;
 }
 
     /* ----------------     KEYFRAMES    ----------------- */
@@ -238,6 +289,15 @@ form {
     opacity: 1;
             }
         }
+
+@keyframes shrink-line {
+  from {
+    height: 75%;
+  }
+  to {
+    height: 10px;
+  }
+}
 
 @keyframes line-grow {
     0% {
