@@ -13,12 +13,12 @@ export const Navbar = () => {
 
 				<Link to="/" style={{ textDecoration: 'none' }}>
 				<div className="d-flex flex-row align-items-center">
-				<img src="public/Pictures/Soundstagram_no_bg.svg" className="img-fluid icon mx-3 p-1"/>
+				<img src="/Pictures/Soundstagram_no_bg.svg" className="img-fluid icon mx-3 p-1"/>
 					<p className="navbar-brand h1 m-0 p-0 text-center">Soundstagram!</p>
 				</div>
-
-
 				</Link>
+
+				
 				<Link to="/feed" style={{ textDecoration: 'none' }}>
 				<p className="navbar-brand h1 text-center">Home</p>
 				</Link>
