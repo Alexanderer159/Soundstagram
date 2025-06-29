@@ -8,7 +8,7 @@ from flask_cors import CORS
 from back.utils import APIException, generate_sitemap
 from back.extensions import db, bcrypt, jwt
 from back.models.user_model import User  # Para asegurar que los modelos se cargan
-from back.controllers.user_controller import api
+# from back.controllers.user_controller import api
 from back.controllers.project_controller import project_api
 from back.auth.auth import auth_api
 from back.admin import setup_admin
@@ -45,7 +45,7 @@ setup_admin(app)
 setup_commands(app)
 
 # Add all endpoints form the API with a "api" prefix
-app.register_blueprint(api, url_prefix='/api')
+# app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(project_api, url_prefix='/api')
 app.register_blueprint(auth_api, url_prefix='/api')
 
