@@ -20,12 +20,12 @@ export const EditProfilePage = () => {
 
                 <form className="proform text-light w-75">
                     <div className="mb-3">
-                        <label for="NameInput" className="form-label">Name</label>
+                        <label for="NameInput" className="form-label fs-3">Name</label>
 				<input type="name" className="form-control bg-dark text-white" id="NameInput"/>
                     </div>
 
                 <div class="mb-3">
-                    <label for="BioInput" className="form-label">Bio</label>
+                    <label for="BioInput" className="form-label fs-3">Bio</label>
                     <textarea className="form-control bg-dark text-light" id="BioInput" rows="5"></textarea>
                 </div>
                 <div className="d-flex flex-row justify-content-between">

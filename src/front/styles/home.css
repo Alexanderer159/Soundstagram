@@ -53,22 +53,29 @@ animation: gradient-shift 5s infinite;
 .form input{
     border: 1px solid rgb(0, 247, 255);
     border-radius: 5px;
+    height: 2.5rem;
+    padding: 3%;
+}
+
+.form-check-input{
+    height: 15px !important;
 }
 
 .form .btn{
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    color: rgb(33, 37, 41);
+}
+.form .btn:active {
     border: 1px solid rgb(0, 247, 255);
     border-radius: 5px;
     background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
-}
-.form .btn:active {
-    border: 0px;
-    border-radius: 5px;
-    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
-    animation: gradient-shift ease infinite;
-    color: white;
 }
 
 /* Keyframes */
