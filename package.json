@@ -1,4 +1,5 @@
 {
+	"type": "module",
 	"name": "react-hello-webapp",
 	"engines": {
 		"node": ">=20.0.0"

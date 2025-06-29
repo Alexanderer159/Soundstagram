@@ -1,0 +1,61 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 10px 10px 30px rgb(14, 14, 14);
+    animation: moveinbottom 2.5s 3s forwards;
+    background-color: rgb(33, 37, 41);
+    transform: translate(0px, 500px);
+}
+
+.footer p {
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+margin-bottom: 0;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: x-large;
+}
+}
+
+.footer h3 {
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+}
+
+.footer svg{
+background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+color: rgb(33, 37, 41);
+background-size: 200%, 200%;
+font-size: 25px;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+.footer svg:hover{
+font-size: 35px;
+background-size: 200%, 200%;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+
+/* Keyframes */
+
+@keyframes moveinbottom {
+  0% { transform: translate(0px, 500px);}
+  50% { transform: translate(0px, 50px);}
+75% { transform: translate(0px, 20px);}
+  100% { transform: translate(0, 0);}
+}

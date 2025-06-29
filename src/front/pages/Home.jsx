@@ -3,6 +3,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx"
 import { Link } from "react-router-dom"
 import { Loader } from "../components/Loader.jsx"
 import "../styles/index.css"
+import "../styles/home.css"
 
 export const Home = () => {
 
@@ -36,11 +37,9 @@ export const Home = () => {
 
 	return (
 	<div className="text-center mt-5">
-		<h1 className="m-0 border-0 p-0">Welcome</h1>
+		<h1 className="welcome m-0 border-0 p-0">Welcome</h1>
 		<div className="d-flex flex-row mt-4 gap-5">
-		
-<Loader />
-
+			<Loader />
 		<form className="form text-light p-3 justify-items-center justify-content-end ">
 			<div className="my-3 d-flex flex-column">
 				<p className="fs-4">Log In</p>
@@ -67,7 +66,7 @@ export const Home = () => {
 			</div>
 		</form>
 			</div>
-			<h2 className="display-4 pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
+			<h2 className="slogan display-4 pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
 	</div>
 	);
 }; 

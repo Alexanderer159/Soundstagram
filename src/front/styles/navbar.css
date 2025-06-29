@@ -1,0 +1,113 @@
+.navbar{
+    animation: moveintop 2.5s 3s forwards;
+    transform: translate(0px, -500px);
+}
+
+.navbar img {
+transition: 1s ease;
+height: 45px;
+width: 50px;
+&:hover{
+ transition: 1s ease;
+ height: 55px;
+ width: 65px;
+}
+}
+
+.navbar p{
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1.5s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: x-large;
+}
+}
+
+.actions svg{
+background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+color: rgb(33, 37, 41);
+background-size: 200%, 200%;
+font-size: 25px;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+
+.actions svg:hover{
+font-size: 35px;
+background-size: 200%, 200%;
+transition: 1s;
+animation: gradient-shift 5s infinite linear;
+}
+
+.profile{
+    position: relative;
+}
+
+.dropdown-menu{
+  position: absolute;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+
+.dropdown-menu , .profile {
+  pointer-events: all;
+  border: 1px solid rgba(0,0,0,0);
+  z-index: 9999 !important;
+}
+
+.profile:hover .dropdown-menu, 
+.profile .dropdown-menu:hover{
+  animation: slideleft 2s forwards;
+  pointer-events: all;
+}
+
+.profile:not(:hover):not(.dropdown-menu:hover) .dropdown-menu {
+  animation: slideright 2s forwards;
+}
+
+.dropdown-menu .dropdown-item{
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+transition: 1s ease;
+font-size: large;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+&:hover{
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+transition: 1.5s ease;
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite linear;
+font-size: x-large;
+}
+}
+
+/* Keyframes */
+
+@keyframes moveintop {
+  0% { transform: translate(0px, -500px);}
+  50% { transform: translate(0px, -50px);}
+  75% { transform: translate(0px, -20px);}
+  100% { transform: translate(0, 0);}
+}
+
+@keyframes slideleft {
+  from { transform: translateX(150%);}
+  to { transform: translateX(10%);}
+}
+
+@keyframes slideright {
+  from { transform: translateX(10%);}
+  to { transform: translateX(150%);}
+}
