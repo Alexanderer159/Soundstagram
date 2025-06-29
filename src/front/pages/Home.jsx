@@ -40,15 +40,17 @@ export const Home = () => {
 		<h1 className="welcome m-0 border-0 p-0">Welcome</h1>
 		<div className="d-flex flex-row mt-4 gap-5">
 			<Loader />
-		<form className="form text-light p-3 justify-items-center justify-content-end ">
-			<div className="my-3 d-flex flex-column">
+
+		<form className="form text-light p-2 justify-items-center justify-content-end ">
+
+			<div className="my-3 d-flex flex-column w-75">
 				<p className="fs-4">Log In</p>
 				<label for="emailInput" className="form-label">Email address</label>
 				<input type="email" className="bg-dark text-white" id="EmailInput"/>
-				<div className="my-2 text-light">We'll never share your email with anyone else.</div>
+				<p className="my-2">We'll never share your email with anyone else.</p>
 			</div>
 
-			<div className="my-3 d-flex flex-column">
+			<div className="my-3 d-flex flex-column w-75">
 				<label for="PasswordInput" className="form-label">Password</label>
 				<input type="password" className="bg-dark text-white" id="PasswordInput"/>
 			</div>
