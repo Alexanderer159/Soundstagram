@@ -29,10 +29,12 @@ export const EditProfilePage = () => {
                     <textarea className="form-control bg-dark text-light" id="BioInput" rows="5"></textarea>
                 </div>
                 <div className="d-flex flex-row justify-content-between">
-                    <Link to="/" style={{ textDecoration: 'none' }}>
+                    <Link to="/profile" style={{ textDecoration: 'none' }}>
                     <button className="pro-btn-disc">Discard Changes</button>
                     </Link>
+                    <Link to="/profile" style={{ textDecoration: 'none' }}>
                     <button type="sumbit" className="pro-btn">Save Changes</button>
+                    </Link>
                 </div>
                 </form>
             </div>

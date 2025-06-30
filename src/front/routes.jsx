@@ -15,6 +15,7 @@ import { AddExistingTrackPage } from "./pages/Desktop_Add_existing_track_page";
 import { ExploreProjectsPage } from "./pages/Desktop_Explore_Projects_Page";
 import { CommentsPage } from "./pages/Desktop_Comments_Page";
 import { DemoProfile } from "./pages/DemoProfile";
+import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ export const router = createBrowserRouter(
       <Route path="/demoProfile" element={< DemoProfile />} />
       <Route path="/projectdetails" element={< ProjectDetailPage />} />
       <Route path="/notifications" element={< NotificationsPage />} />
+      <Route path="/profile" element={< DesktopProfilePage />} />
       <Route path="/editprofile" element={< EditProfilePage />} />
       <Route path="/newcontribution" element={< NewContributionPage />} />
       <Route path="/addtrack" element={< AddExistingTrackPage />} />

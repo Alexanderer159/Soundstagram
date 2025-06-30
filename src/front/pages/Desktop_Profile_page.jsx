@@ -1,77 +1,46 @@
 import React from "react";
-import "../styles/profile.css"; // Asegúrate de tener esta hoja de estilos o incluye inline styles
-import avatar from "../assets/profile_avatar.png"; // Reemplaza con la imagen de perfil real
+import "../styles/profile.css";
+import "../styles/index.css";
 import { Link } from "react-router-dom";
 
-const projects = [
-  {
-    title: "Piano Sessions",
-    instruments: "Bass & Piano",
-    date: "Feb 12, 2024",
-    image: "src/front/pages/Desktop_Profile_page.jsx",
-  },
-  {
-    title: "Chill Groove",
-    instruments: "Bass, Drums",
-    date: "Jan 27, 2024",
-    image: "../assets/chill_gradient.png",
-  },
-  {
-    title: "Jazz Beats",
-    instruments: "Bass, Guitar",
-    date: "Dec 05, 2023",
-    image: "../assets/jazz_icon1.png",
-  },
-  {
-    title: "Jazz Beats",
-    instruments: "Bass, Guitar",
-    date: "Dec 05, 2023",
-    image: "../assets/jazz_icon2.png",
-  },
-  {
-    title: "Electro Bass",
-    instruments: "Bass",
-    date: "Nov 18, 2023",
-    image: "../assets/electro_bass.png",
-  },
-];
-
-const DesktopProfilePage = () => {
+export const DesktopProfilePage = () => {
   return (
-    <div className="profile-page">
-      <div className="profile-header">
-        <img className="avatar" src={avatar} alt="User avatar" />
-        <div className="user-info">
-          <h1 className="username">Dora Jones</h1>
-          <p className="handle">@dorajones</p>
-          <div className="follower-stats">
-            <span><strong>134</strong> Followers</span>
-            <span><strong>98</strong> Following</span>
-          </div>
-          <p className="bio">
-            Bassist and music lover. Passionate about funk grooves.
-          </p>
-          <button className="edit-btn">Edit profile</button>
-        </div>
-      </div>
+<>
+  <div className="container-fluid d-flex flex-column m-5 px-5 z-n1 position-absolute">
 
-      <h2 className="projects-title">My Projects</h2>
-      <div className="project-grid">
-        {projects.map((proj, index) => (
-          <div className="project-card" key={index}>
-            <div className="thumbnail">
-              <img src={proj.image} alt={proj.title} />
-            </div>
-            <div className="project-info">
-              <h3>{proj.title}</h3>
-              <p>{proj.instruments}</p>
-              <span className="date">{proj.date}</span>
-            </div>
+    <div className="pb-5 mx-5 my-2">
+      <div className="d-flex flex-row align-items-center gap-3 w-75 justify-content-center">
+        <img src="/avatars/usuaria_luna.png" className="rounded-circle"/>
+          <div className="info">
+            <p className="proname">Anna Johnson</p>
+              <div className="d-flex flex-row gap-3">
+                <p className="text-light">@anna_j</p>
+                <p className="text-light">1.2k Followers</p>
+                <p className="text-light">350 Following</p>
+              </div>
+            <p className="text-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
-        ))}
+      </div>
+        <Link to="/editprofile" style={{ textDecoration: 'none' }}>
+          <button className="pro-btn ms-5 mt-3 py-2 w-25">Edit Profile</button>
+        </Link>
+      </div>
+    <div className="mx-5">
+    <div className="">
+      <p className="text-white display-5">Projects</p>
+    </div>
+    <div className="">
+      <div className="projects mb-4">
+
+      </div>
+      <div className="d-flex justify-content-end me-5">     
+        <Link to="/addtrack" style={{ textDecoration: 'none' }}>
+          <button className="pro-btn ">Add Project</button>
+        </Link>
       </div>
     </div>
+    </div>
+  </div>
+</>
   );
 };
-
-export default DesktopProfilePage;
