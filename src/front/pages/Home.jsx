@@ -111,16 +111,11 @@ export const Home = () => {
 					<button type="submit" className="btn">
 						{isRegisterMode ? "Create Account" : "Login"}
 					</button>
-
 					<div className="d-flex flex-row gap-4 my-5">
 						<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
 							<p>{isRegisterMode ? "Already have an account? Log in" : "Create New Account"}</p>
 						</Link>
-					</div>
-					<div className="d-flex flex-row gap-4 my-5">
-
 						<p>Forgot your password?</p>
-
 					</div>
 				</form>
 			</div>
