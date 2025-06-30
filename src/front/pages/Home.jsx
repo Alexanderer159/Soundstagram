@@ -75,35 +75,17 @@ export const Home = () => {
 				<Loader />
 
 				<form className="form text-light p-2 justify-items-center justify-content-end" onSubmit={handleSubmit}>
-
 					<div className="my-3 d-flex flex-column w-75">
 						<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
 						<label for="emailInput" className="form-label">Email address</label>
-						<input
-							type="email"
-							className="bg-dark text-white"
-							id="emailInput"
-							name="email"
-							value={formData.email}
-							onChange={handleChange}
-							required
-						/>
+						<input type="email" className="bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
 						<p className="my-2">We'll never share your email with anyone else.</p>
 					</div>
 
 					<div className="my-3 d-flex flex-column w-75">
 						<label for="PasswordInput" className="form-label">Password</label>
-						<input
-							type="password"
-							className="bg-dark text-white"
-							id="passwordInput"
-							name="password"
-							value={formData.password}
-							onChange={handleChange}
-							required
-						/>
+						<input type="password" className="bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
 					</div>
-
 					<div className="my-3 form-check">
 						<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
 						<label className="text-start" for="rememberme">Remember me</label>
