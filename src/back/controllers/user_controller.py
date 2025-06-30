@@ -1,60 +1,101 @@
-# """
-# This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-# """
-# from flask import Flask, request, jsonify, url_for, Blueprint
-# from back.models.user_model import db, User
-# from back.utils import generate_sitemap, APIException
-# from flask_cors import CORS
-# from flask_jwt_extended import create_access_token
-# from back.extensions import bcrypt, jwt
-# from datetime import datetime
+from flask import Blueprint, request, jsonify
+from back.models.user_model import User
+from back.models.role_model import Role
+from back.models.instrument_model import Instrument
+from back.extensions import db
+from sqlalchemy.exc import SQLAlchemyError
 
-# api = Blueprint('api', __name__)
+user_api = Blueprint("user_api", __name__)
 
-# CORS(api)
+@user_api.route("/users", methods=["GET"])
+def get_all_users():
+    users = db.session.query(User).all()
+    return jsonify([user.serialize() for user in users]), 200
 
-# @api.route('/register', methods=['POST'])
-# def register():
-#     data = request.get_json()
-#     email = data.get('email')
-#     password = data.get('password')
-#     username = data.get('username')  
 
-#     if not email or not password:
-#         return jsonify({'msg': 'Faltan campos obligatorios'}), 400
+@user_api.route("/users/<int:user_id>", methods=["GET"])
+def get_user(user_id):
+    user = db.session.get(User, user_id)
+    if user:
+        return jsonify(user.serialize()), 200
+    return jsonify({"error": "Usuario no encontrado"}), 404
 
-#     if User.query.filter_by(email=email).first():
-#         return jsonify({'msg': 'El correo ya está registrado'}), 400
 
-#     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+@user_api.route("/users", methods=["POST"])
+def create_user():
+    data = request.get_json()
+    user = User(
+        username=data.get("username"),
+        email=data.get("email"),
+        password_hash=data.get("password_hash"),
+        bio=data.get("bio"),
+        profile_pic_url=data.get("profile_pic_url"),
+        spotify_playlist=data.get("spotify_playlist"),
+    )
 
-#     new_user = User(
-#         email=email,
-#         password_hash=hashed_password,
-#         username=username or email.split('@')[0],
-#         is_active=True,
-#         created_at=datetime.utcnow(),
-#         updated_at=datetime.utcnow()
-#     )
+    role_ids = data.get("role_ids", [])
+    instrument_ids = data.get("instrument_ids", [])
 
-#     db.session.add(new_user)
-#     db.session.commit()
+    if role_ids:
+        user.roles = Role.query.filter(Role.id.in_(role_ids)).all()
+    if instrument_ids:
+        user.instruments = Instrument.query.filter(Instrument.id.in_(instrument_ids)).all()
 
-#     return jsonify({'msg': 'Usuario creado correctamente'}), 201
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(user.serialize()), 201
 
-# @api.route('/login', methods=['POST'])
-# def login():
-#     data = request.get_json()
-#     email = data.get('email')
-#     password = data.get('password')
 
-#     if not email or not password:
-#         return jsonify({'msg': 'Faltan campos obligatorios'}), 400
+@user_api.route("/users/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    user = User.query.get_or_404(user_id)
+    data = request.get_json()
 
-#     user = User.query.filter_by(email=email).first()
+    user.username = data.get("username", user.username)
+    user.email = data.get("email", user.email)
+    user.bio = data.get("bio", user.bio)
+    user.profile_pic_url = data.get("profile_pic_url", user.profile_pic_url)
+    user.spotify_playlist = data.get("spotify_playlist", user.spotify_playlist)
 
-#     if not user or not bcrypt.check_password_hash(user.password_hash, password):
-#         return jsonify({'msg': 'Credenciales inválidas'}), 401
+    role_ids = data.get("role_ids")
+    instrument_ids = data.get("instrument_ids")
 
-#     token = create_access_token(identity=str(user.id))
-#     return jsonify({'access_token': token}), 200
+    if role_ids is not None:
+        user.roles = Role.query.filter(Role.id.in_(role_ids)).all()
+    if instrument_ids is not None:
+        user.instruments = Instrument.query.filter(Instrument.id.in_(instrument_ids)).all()
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
+
+@user_api.route("/users/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    user = db.session.get(User, user_id)
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": "Usuario eliminado correctamente"}), 200
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({"error": "Error al eliminar usuario"}), 500
+
+@user_api.route("/users/role/<int:role_id>", methods=["GET"])
+def get_users_by_role(role_id):
+    role = db.session.get(Role, role_id)
+    if not role:
+        return jsonify({"error": "Rol no encontrado"}), 404
+
+    return jsonify([user.serialize() for user in role.users]), 200
+
+@user_api.route("/users/instrument/<int:instrument_id>", methods=["GET"])
+def get_users_by_instrument(instrument_id):
+    instrument = db.session.get(Instrument, instrument_id)
+    if not instrument:
+        return jsonify({"error": "Instrumento no encontrado"}), 404
+
+    return jsonify([user.serialize() for user in instrument.users]), 200
+

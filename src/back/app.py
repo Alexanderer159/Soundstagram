@@ -7,10 +7,12 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from back.utils import APIException, generate_sitemap
 from back.extensions import db, bcrypt, jwt
-from back.models.user_model import User
 from back.auth.auth import auth_api
 from back.controllers.project_controller import project_api
 from back.controllers.track_controller import track_api
+from back.controllers.user_controller import user_api
+from back.controllers.role_controller import role_api
+from back.controllers.instrument_controller import instrument_api
 from back.admin import setup_admin
 from back.commands import setup_commands
 
@@ -45,10 +47,12 @@ setup_admin(app)
 setup_commands(app)
 
 # Add all endpoints form the API with a "api" prefix
-# app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(user_api, url_prefix='/api')
 app.register_blueprint(project_api, url_prefix='/api')
 app.register_blueprint(auth_api, url_prefix='/api')
 app.register_blueprint(track_api, url_prefix='/api')
+app.register_blueprint(role_api, url_prefix='/api')
+app.register_blueprint(instrument_api, url_prefix='/api')
 # Handle/serialize errors like a JSON object
 
 
