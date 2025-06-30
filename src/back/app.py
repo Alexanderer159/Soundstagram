@@ -8,7 +8,6 @@ from flask_cors import CORS
 from back.utils import APIException, generate_sitemap
 from back.extensions import db, bcrypt, jwt
 from back.models.user_model import User
-# from back.controllers.user_controller import api
 from back.auth.auth import auth_api
 from back.controllers.project_controller import project_api
 from back.controllers.track_controller import track_api

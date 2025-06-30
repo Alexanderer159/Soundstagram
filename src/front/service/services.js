@@ -2,11 +2,30 @@ import axios from 'axios';
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
-export const registerUser = async (email, password) => {
+export const registerUser = async ({
+  email,
+  password,
+  confirmPassword,
+  username,
+  bio,
+  roles,
+  instruments,
+  profile_pic_url,
+  spotify_playlist,
+}) => {
   try {
     const response = await axios.post(`${API_URL}/register`, {
       email,
       password,
+      confirmPassword,
+      username,
+      bio,
+      roles: Array.isArray(roles) ? roles : roles.split(',').map((r) => r.trim()),
+      instruments: Array.isArray(instruments)
+        ? instruments
+        : instruments.split(',').map((i) => i.trim()),
+      profile_pic_url,
+      spotify_playlist,
     });
 
     return response.data;

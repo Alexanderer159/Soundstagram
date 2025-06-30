@@ -20,6 +20,9 @@ import { DemoProfile } from "./pages/DemoProfile";
 import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 import { AboutUs } from "./pages/About_Us";
 
+import { RegisterDemo } from "./pages/RegisterDemo";
+import { RegisterDemo } from "./pages/RegisterDemo";
+import { RegisterDemo } from "./pages/RegisterDemo";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +39,9 @@ export const router = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
+      <Route path="/registerdemo" element={<RegisterDemo />} />
+      <Route path="/registerdemo" element={<RegisterDemo />} />
+      <Route path="/registerdemo" element={<RegisterDemo />} />
       <Route path="/register" element={< RegisterPage />} />
       <Route path="/about_us" element={< AboutUs />} />
       <Route path="/feed" element={< FeedPage />} />
