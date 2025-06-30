@@ -75,51 +75,33 @@ export const Home = () => {
 				<Loader />
 
 				<form className="form text-light p-2 justify-items-center justify-content-end" onSubmit={handleSubmit}>
-
 					<div className="my-3 d-flex flex-column w-75">
 						<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
 						<label for="emailInput" className="form-label">Email address</label>
-						<input
-							type="email"
-							className="bg-dark text-white"
-							id="emailInput"
-							name="email"
-							value={formData.email}
-							onChange={handleChange}
-							required
-						/>
+						<input type="email" className="bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
 						<p className="my-2">We'll never share your email with anyone else.</p>
 					</div>
 
 					<div className="my-3 d-flex flex-column w-75">
 						<label for="PasswordInput" className="form-label">Password</label>
-						<input
-							type="password"
-							className="bg-dark text-white"
-							id="passwordInput"
-							name="password"
-							value={formData.password}
-							onChange={handleChange}
-							required
-						/>
+						<input type="password" className="bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
 					</div>
-
 					<div className="my-3 form-check">
 						<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
 						<label className="text-start" for="rememberme">Remember me</label>
 					</div>
-					<button type="submit" className="btn">
+					<button type="submit" className="btn mt-3">
 						{isRegisterMode ? "Create Account" : "Login"}
 					</button>
-					<div className="d-flex flex-row gap-4 my-5">
+					<div className="d-flex flex-row gap-4 mt-4 px-1">
 						<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
-							<p>{isRegisterMode ? "Already have an account? Log in" : "Create New Account"}</p>
+							<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
 						</Link>
 						<p>Forgot your password?</p>
 					</div>
 				</form>
 			</div>
-			<h2 className="slogan display-4 pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
+			<h2 className="slogan pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
 		</div>
 	);
 }; 
