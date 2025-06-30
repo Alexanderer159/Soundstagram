@@ -1,12 +1,20 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Loader } from "../components/Loader.jsx"
+import { loginUser, registerUser } from '../service/services.js';
 import "../styles/index.css"
+import "../styles/home.css"
 
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+
+	const navigate = useNavigate();
+
+	const [formData, setFormData] = useState({ email: "", password: "" });
+	const [isRegisterMode, setIsRegisterMode] = useState(false);
+	const [error, setError] = useState(null);
 
 	const loadMessage = async () => {
 		try {
@@ -34,40 +42,77 @@ export const Home = () => {
 		loadMessage()
 	}, [])
 
+	const handleChange = (e) =>
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError(null);
+
+		try {
+			if (isRegisterMode) {
+				await registerUser(formData.email, formData.password);
+				setIsRegisterMode(false);
+			}
+
+			const { token, user } = await loginUser(formData.email, formData.password);
+			dispatch({ type: "login_success", payload: { token, user } });
+			navigate("/demoProfile");
+		} catch (err) {
+			setError(err);
+		}
+	};
+
+	const toggleMode = () => {
+		setIsRegisterMode((prev) => !prev);
+		setError(null);
+	};
+
 	return (
-	<div className="text-center mt-5">
-		<h1 className="m-0 border-0 p-0">Welcome</h1>
-		<div className="d-flex flex-row mt-4 gap-5">
-		
-<Loader />
-
-		<form className="form text-light p-3 justify-items-center justify-content-end ">
-			<div className="my-3 d-flex flex-column">
-				<p className="fs-4">Log In</p>
-				<label for="emailInput" className="form-label">Email address</label>
-				<input type="email" className="bg-dark text-white" id="EmailInput"/>
-				<div className="my-2 text-light">We'll never share your email with anyone else.</div>
+		<div className="container-fluid text-center">
+			<div className="row d-flex justify-content-center w-100">
+			<h1 className="col welcome m-0 display-2 fw-bold"></h1>
 			</div>
 
-			<div className="my-3 d-flex flex-column">
-				<label for="PasswordInput" className="form-label">Password</label>
-				<input type="password" className="bg-dark text-white" id="PasswordInput"/>
-			</div>
+			<div className="row my-5 gap-5">
 
-			<div className="my-3 form-check">
-				<input type="checkbox" className="form-check-input bg-dark" id="rememberme"/>
-				<label className="text-start" for="rememberme">Remember me</label>
+				<div className="col-12 col-md-6" style={{ minHeight: '300px' }}>
+					<Loader />
+				</div>	
+
+						<div className="col-12 col-md-5" style={{ minHeight: '300px' }}>
+						<form className="form text-light p-3 justify-items-center" onSubmit={handleSubmit}>
+
+							<div className="my-2 d-flex flex-column">
+								<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
+								<label for="emailInput" className="form-label">Email address</label>
+								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
+								<p className="my-2">We'll never share your email with anyone else.</p>
+							</div>
+
+							<div className="my-3 d-flex flex-column">
+								<label for="PasswordInput" className="form-label">Password</label>
+								<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
+							</div>
+							<div className="my-3 form-check">
+								<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
+								<label className="text-start" for="rememberme">Remember me</label>
+							</div>
+							<button type="submit" className="btn mt-3">
+								{isRegisterMode ? "Create Account" : "Login"}
+							</button>
+							<div className="d-flex flex-row gap-4 mt-4 px-1">
+								<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
+									<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
+								</Link>
+								<p>Forgot your password?</p>
+							</div>
+						</form>
+						</div>
 			</div>
-			<Link to="/feed" style={{ textDecoration: 'none' }}>
-			<button type="submit" class="btn">Submit</button>
-			</Link>
-			<div className="d-flex flex-row gap-4 my-5">
-			<Link to="/register" style={{ textDecoration: 'none' }}><p className="">Forgot Password?</p></Link>
-			<Link to="/register" style={{ textDecoration: 'none' }}><p className="">Create New Account</p></Link>
+			<div className="row">
+			<h2 className="col slogan px-5 text-end justify-content-end align-content-end d-flex fw-bold">Let's make some waves together...</h2>
 			</div>
-		</form>
-			</div>
-			<h2 className="display-4 pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
-	</div>
+		</div>
 	);
 }; 

@@ -1,0 +1,147 @@
+
+.welcome::before{
+content:"Welcome";
+    animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, hiding 1s 8s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    z-index: -1 !important;
+    pointer-events: none;
+    user-select: none;
+}
+
+.welcome::after {
+    content:'What are we doing today?';
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    width: 100%;
+    z-index: -1 !important;
+  display: block;
+  top: 8%;
+  position: absolute;
+  opacity: 0;
+  animation: fadeIn 4s 10s forwards, slidein 2s 9s forwards, gradient-shift 5s infinite;
+}
+
+.slogan {
+    animation: gradient-shift 5s infinite, fadeIn 4s 8s forwards, slidewaves 7s 8s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    font-size: 3.25rem;
+    pointer-events: none;
+    user-select: none;
+}
+.slogan::after{
+    content:"";
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    height: 3%;
+    width: 50%;
+    display: block;
+    position: absolute;
+    bottom: -3%;
+    animation: slideline 4s 9s forwards, gradient-shift 5s infinite;
+}
+
+/* Form */
+
+.form {
+    border-radius: 10px;
+    animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease-in-out 2s 6s forwards;
+    opacity: 0;
+    max-width: 400px;
+    width: 100%;
+}
+
+.form p{
+background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+background-clip: text;
+background-size: 200%, 200%;
+color: transparent;
+animation: gradient-shift 5s infinite;
+}
+
+.form .textinput{
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+    height: 2.5rem;
+    padding: 3%;
+}
+
+.form-check-input{
+    border: 1px solid rgb(0, 247, 255);
+}
+
+.form .btn{
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: rgb(33, 37, 41);
+}
+.form .btn:active {
+    border: 1px solid rgb(0, 247, 255);
+    border-radius: 5px;
+    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.form .btn:hover {
+transition: 1s ease;
+font-size: x-large;
+}
+
+/* Keyframes */
+
+@keyframes glow {
+    0% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+    25% { box-shadow: -10px -10px 35px rgb(0, 255, 191);}
+    50% { box-shadow: -10px 10px 35px rgb(0, 255, 136);}
+    75% { box-shadow: 10px 10px 35px rgb(0, 255, 191);}
+    100% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+        }
+        
+@keyframes slidewaves {
+  0%{ transform: translateX(150%);}
+  50% { transform: translateY(15%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes slideline {
+  0%{ transform: translateX(150%);}
+  25%{transform: translateX(-450%); visibility: hidden;}
+  50%{transform: translateX(150%); visibility: hidden;}
+  75%{transform: translateY(15%); visibility: visible;}
+  100%{transform: translateX(0%);}
+}
+
+@keyframes slideform {
+  0%{ transform: translateX(50%);}
+  50%{transform: translateX(-10%);}
+  100% { transform: translateX(0%);}
+}
+
+@keyframes presentation {
+    0%{ transform: translateY(50%);font-size: 200px;}
+    50%{transform: translateY(50%);font-size: 200px;}
+    100% { transform: translateY(0%);}
+}
+
+@keyframes hiding {
+    from{visibility: visible;}
+    to{visibility: hidden;}
+}
+
+@keyframes slidein {
+    from{transform: translateY(-150%);}
+    to{transform: translateY(0%)}
+}

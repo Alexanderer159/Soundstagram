@@ -16,6 +16,10 @@ import { ExploreProjectsPage } from "./pages/Desktop_Explore_Projects_Page";
 import { CommentsPage } from "./pages/Desktop_Comments_Page";
 // import { AudioUploadAndPlayback } from "./pages/AudioAndUploadPlayback";
 import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
+import { DemoProfile } from "./pages/DemoProfile";
+import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
+import { AboutUs } from "./pages/About_Us";
+
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,9 +37,12 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/register" element={< RegisterPage />} />
+      <Route path="/about_us" element={< AboutUs />} />
       <Route path="/feed" element={< FeedPage />} />
+      <Route path="/demoProfile" element={< DemoProfile />} />
       <Route path="/projectdetails" element={< ProjectDetailPage />} />
       <Route path="/notifications" element={< NotificationsPage />} />
+      <Route path="/profile" element={< DesktopProfilePage />} />
       <Route path="/editprofile" element={< EditProfilePage />} />
       <Route path="/newcontribution" element={< NewContributionPage />} />
       <Route path="/addtrack" element={< AddExistingTrackPage />} />
