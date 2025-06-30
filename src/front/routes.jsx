@@ -14,6 +14,8 @@ import { NewContributionPage } from "./pages/Desktop_New_Contribution_Page";
 import { AddExistingTrackPage } from "./pages/Desktop_Add_existing_track_page";
 import { ExploreProjectsPage } from "./pages/Desktop_Explore_Projects_Page";
 import { CommentsPage } from "./pages/Desktop_Comments_Page";
+// import { AudioUploadAndPlayback } from "./pages/AudioAndUploadPlayback";
+import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +41,8 @@ export const router = createBrowserRouter(
       <Route path="/addtrack" element={< AddExistingTrackPage />} />
       <Route path="/explore" element={< ExploreProjectsPage />} />
       <Route path="/comments" element={< CommentsPage />} />
+      {/* <Route path="/upload-audio" element={<AudioUploadAndPlayback />} /> */}
+      <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />
     </Route>
   )
 );
