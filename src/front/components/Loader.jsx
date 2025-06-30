@@ -5,7 +5,7 @@ export const Loader = () => {
 	
     return (
 
-    <div className="loader align-items-center justify-content-between d-flex gap-1 ms-5">
+    <div className="loader align-items-center justify-content-between d-flex gap-1 px-4 h-100">
 
 		<div className="hoveruse d-flex align-items-center"> <div className="line line1"> </div> </div>
 		<div className="hoveruse d-flex align-items-center"> <div className="line line2"> </div> </div>

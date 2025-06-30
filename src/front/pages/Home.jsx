@@ -69,39 +69,50 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="welcome m-0 border-0 p-0">Welcome</h1>
-			<div className="d-flex flex-row mt-4 gap-5">
-				<Loader />
-
-				<form className="form text-light p-2 justify-items-center justify-content-end" onSubmit={handleSubmit}>
-					<div className="my-3 d-flex flex-column w-75">
-						<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
-						<label for="emailInput" className="form-label">Email address</label>
-						<input type="email" className="bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
-						<p className="my-2">We'll never share your email with anyone else.</p>
-					</div>
-
-					<div className="my-3 d-flex flex-column w-75">
-						<label for="PasswordInput" className="form-label">Password</label>
-						<input type="password" className="bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
-					</div>
-					<div className="my-3 form-check">
-						<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
-						<label className="text-start" for="rememberme">Remember me</label>
-					</div>
-					<button type="submit" className="btn mt-3">
-						{isRegisterMode ? "Create Account" : "Login"}
-					</button>
-					<div className="d-flex flex-row gap-4 mt-4 px-1">
-						<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
-							<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
-						</Link>
-						<p>Forgot your password?</p>
-					</div>
-				</form>
+		<div className="container-fluid text-center">
+			<div className="row d-flex justify-content-center w-100">
+			<h1 className="col welcome m-0 display-2 fw-bold"></h1>
 			</div>
-			<h2 className="slogan pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
+
+			<div className="row my-5 gap-5">
+
+				<div className="col-12 col-md-6" style={{ minHeight: '300px' }}>
+					<Loader />
+				</div>	
+
+						<div className="col-12 col-md-5" style={{ minHeight: '300px' }}>
+						<form className="form text-light p-3 justify-items-center" onSubmit={handleSubmit}>
+
+							<div className="my-2 d-flex flex-column">
+								<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
+								<label for="emailInput" className="form-label">Email address</label>
+								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
+								<p className="my-2">We'll never share your email with anyone else.</p>
+							</div>
+
+							<div className="my-3 d-flex flex-column">
+								<label for="PasswordInput" className="form-label">Password</label>
+								<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
+							</div>
+							<div className="my-3 form-check">
+								<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
+								<label className="text-start" for="rememberme">Remember me</label>
+							</div>
+							<button type="submit" className="btn mt-3">
+								{isRegisterMode ? "Create Account" : "Login"}
+							</button>
+							<div className="d-flex flex-row gap-4 mt-4 px-1">
+								<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
+									<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
+								</Link>
+								<p>Forgot your password?</p>
+							</div>
+						</form>
+						</div>
+			</div>
+			<div className="row">
+			<h2 className="col slogan px-5 text-end justify-content-end align-content-end d-flex fw-bold">Let's make some waves together...</h2>
+			</div>
 		</div>
 	);
 }; 
