@@ -52,7 +52,6 @@ export const DemoProfile = () => {
                 <li className="list-group-item bg-dark text-white">ID: {user.id}</li>
                 <li className="list-group-item bg-dark text-white">Username: {user.username}</li>
                 <li className="list-group-item bg-dark text-white">Email: {user.email}</li>
-                <li className="list-group-item bg-dark text-white">Nombre completo: {user.full_name || 'N/A'}</li>
                 <li className="list-group-item bg-dark text-white">Bio: {user.bio || 'N/A'}</li>
                 <li className="list-group-item bg-dark text-white">
                     Registrado el: {new Date(user.created_at).toLocaleString()}

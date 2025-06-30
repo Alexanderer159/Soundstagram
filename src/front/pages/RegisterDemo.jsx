@@ -13,7 +13,6 @@ export const RegisterDemo = () => {
         password: '',
         confirmPassword: '',
         username: '',
-        full_name: '',
         bio: '',
         roles: '',
         instruments: '',
