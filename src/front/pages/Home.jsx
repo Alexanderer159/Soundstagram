@@ -90,18 +90,18 @@ export const Home = () => {
 						<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
 						<label className="text-start" for="rememberme">Remember me</label>
 					</div>
-					<button type="submit" className="btn">
+					<button type="submit" className="btn mt-3">
 						{isRegisterMode ? "Create Account" : "Login"}
 					</button>
-					<div className="d-flex flex-row gap-4 my-5">
+					<div className="d-flex flex-row gap-4 mt-4 px-1">
 						<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
-							<p>{isRegisterMode ? "Already have an account? Log in" : "Create New Account"}</p>
+							<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
 						</Link>
 						<p>Forgot your password?</p>
 					</div>
 				</form>
 			</div>
-			<h2 className="slogan display-4 pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
+			<h2 className="slogan pt-5 px-5 pb-0 text-end"><strong>Let's make some waves together...</strong></h2>
 		</div>
 	);
 }; 
