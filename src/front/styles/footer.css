@@ -9,7 +9,7 @@
 }
 
 .footer p {
-background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
 background-clip: text;
 background-size: 200%, 200%;
 transition: 1s ease;
@@ -17,7 +17,7 @@ color: transparent;
 animation: gradient-shift 5s infinite linear;
 margin-bottom: 0;
 &:hover{
-background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
+background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240), rgb(0, 255, 136));
 transition: 1s ease;
 background-clip: text;
 background-size: 200%, 200%;
@@ -27,28 +27,15 @@ font-size: x-large;
 }
 }
 
-.footer h3 {
-background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240));
+.footer .team {
+background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
 background-clip: text;
 background-size: 200%, 200%;
 transition: 1s ease;
 color: transparent;
 animation: gradient-shift 5s infinite linear;
-}
-
-.footer svg{
-background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136));
-color: rgb(33, 37, 41);
-background-size: 200%, 200%;
-font-size: 25px;
-transition: 1s;
-animation: gradient-shift 5s infinite linear;
-}
-.footer svg:hover{
-font-size: 35px;
-background-size: 200%, 200%;
-transition: 1s;
-animation: gradient-shift 5s infinite linear;
+pointer-events: none;
+user-select: none;
 }
 
 /* Keyframes */

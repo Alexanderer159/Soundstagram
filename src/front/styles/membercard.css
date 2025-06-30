@@ -1,0 +1,48 @@
+.memcard {
+    animation: glow 5s ease alternate infinite;
+    border-radius: 15px;
+}
+
+.memberpic {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.teamname{
+    animation: gradient-shift 5s infinite, fadeIn 2s forwards;
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    user-select: none;
+    transition: 1s ease;
+}
+.teamname:hover{
+    font-size: xx-large;
+    transition: 1s ease;
+}
+
+.linksteam svg{
+background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+color: rgb(33, 37, 41);
+background-size: 200%, 200%;
+font-size: 25px;
+transition: 1s ease;
+animation: gradient-shift 5s infinite linear;
+}
+.linksteam svg:hover{
+font-size: 35px;
+background-size: 200%, 200%;
+transition: 1s ease;
+animation: gradient-shift 5s infinite linear;
+}
+
+/* Keyframes */
+
+@keyframes glow {
+    0% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+    25% { box-shadow: -10px -10px 35px rgb(0, 255, 191);}
+    50% { box-shadow: -10px 10px 35px rgb(0, 255, 136);}
+    75% { box-shadow: 10px 10px 35px rgb(0, 255, 191);}
+    100% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+        }

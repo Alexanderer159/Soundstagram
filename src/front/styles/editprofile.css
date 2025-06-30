@@ -10,7 +10,7 @@
 
 .change{
     font-size: 7rem;
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
