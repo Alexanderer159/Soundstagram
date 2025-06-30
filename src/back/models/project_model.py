@@ -28,6 +28,10 @@ class Project(db.Model):
 
     owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
     owner: Mapped["User"] = relationship("User", back_populates="projects")
+    
+    tracks: Mapped[list["Track"]] = relationship("Track", back_populates="project")
+
+    
 
     def serialize(self):
         return {

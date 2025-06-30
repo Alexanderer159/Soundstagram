@@ -17,8 +17,9 @@ class User(db.Model):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
-    # Relaciones con otros modelos (si las defines en otros lados con back_populates)
     projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
+    uploaded_tracks: Mapped[list["Track"]] = relationship("Track", back_populates="uploader")
+
 
     def serialize(self):
         return {
