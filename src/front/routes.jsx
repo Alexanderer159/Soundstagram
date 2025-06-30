@@ -19,9 +19,6 @@ import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
 import { DemoProfile } from "./pages/DemoProfile";
 import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 import { AboutUs } from "./pages/About_Us";
-
-import { RegisterDemo } from "./pages/RegisterDemo";
-import { RegisterDemo } from "./pages/RegisterDemo";
 import { RegisterDemo } from "./pages/RegisterDemo";
 
 export const router = createBrowserRouter(
@@ -37,10 +34,8 @@ export const router = createBrowserRouter(
 
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
-      <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
+      <Route path="/single/:theId" element={<Single />} />
       <Route path="/demo" element={<Demo />} />
-      <Route path="/registerdemo" element={<RegisterDemo />} />
-      <Route path="/registerdemo" element={<RegisterDemo />} />
       <Route path="/registerdemo" element={<RegisterDemo />} />
       <Route path="/register" element={< RegisterPage />} />
       <Route path="/about_us" element={< AboutUs />} />

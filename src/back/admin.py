@@ -4,6 +4,8 @@ from back.extensions import db
 from .models.user_model import User
 from .models.project_model import Project
 from .models.track_model import Track
+from .models.role_model import Role
+from .models.instrument_model import Instrument
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -16,5 +18,7 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Project, db.session))
     admin.add_view(ModelView(Track, db.session))
+    admin.add_view(ModelView(Role, db.session))
+    admin.add_view(ModelView(Instrument, db.session))
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))

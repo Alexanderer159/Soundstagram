@@ -3,7 +3,6 @@ from flask_jwt_extended import create_access_token
 from flask_cors import CORS
 from datetime import datetime
 import re
-
 from back.extensions import db, bcrypt
 from back.models.user_model import User
 from sqlalchemy.exc import IntegrityError
