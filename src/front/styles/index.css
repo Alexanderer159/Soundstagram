@@ -10,6 +10,36 @@
 --bs-body-font-family: "Rubik", sans-serif;
 }
 
+html, body {
+height: 100vh;
+margin: 0;
+overflow: hidden;
+}
+
+.vh-10{
+    height: 10vh;
+}
+
+.vh-25 {
+    height: 25vh;
+}
+
+.vh-40{
+    height: 40vh;
+}
+
+.vh-50 {
+    height: 50vh;
+}
+
+.vh-75 {
+    height: 75vh;
+}
+
+.vh-100 {
+    height: 100vh;
+}
+
 body {
     background-color: rgb(33, 37, 41);
     font-family: "Rubik", sans-serif;
