@@ -18,7 +18,6 @@ class Track(db.Model):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
-    # Relaciones
     project: Mapped["Project"] = relationship("Project", back_populates="tracks")
     uploader: Mapped["User"] = relationship("User", back_populates="uploaded_tracks")
 
