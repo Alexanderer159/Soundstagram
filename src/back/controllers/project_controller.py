@@ -1,6 +1,5 @@
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_cors import CORS
 from datetime import datetime
 
 from back.extensions import db
@@ -8,7 +7,6 @@ from back.models.project_model import Project, VisibilityEnum, StatusEnum
 from back.models.user_model import User
 
 project_api = Blueprint('project_api', __name__)
-CORS(project_api)
 
 @project_api.route('/projects', methods=['POST'])
 @jwt_required()

@@ -1,14 +1,14 @@
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import create_access_token
-from flask_cors import CORS
 from datetime import datetime
 import re
 from back.extensions import db, bcrypt
 from back.models.user_model import User
 from sqlalchemy.exc import IntegrityError
+from back.models.role_model import Role
+from back.models.instrument_model import Instrument
 
 auth_api = Blueprint('auth_api', __name__)
-CORS(auth_api)
 
 @auth_api.route('/register', methods=['POST'])
 def register():
@@ -16,17 +16,13 @@ def register():
 
     email = data.get('email')
     password = data.get('password')
-    confirm_password = data.get('confirmPassword')
     username = data.get('username')
 
-    if not email or not password or not confirm_password:
+    if not email or not password:
         return jsonify({'msg': 'Faltan campos obligatorios'}), 400
 
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return jsonify({'msg': 'Correo electrónico inválido'}), 400
-
-    if password != confirm_password:
-        return jsonify({'msg': 'Las contraseñas no coinciden'}), 400
 
     if len(password) < 8 or not re.search(r"[A-Za-z]", password) or not re.search(r"\d", password):
         return jsonify({'msg': 'La contraseña debe tener al menos 8 caracteres e incluir letras y números'}), 400
@@ -38,18 +34,22 @@ def register():
         return jsonify({'msg': 'El nombre de usuario ya está en uso'}), 400
 
     bio = data.get('bio')
-    roles = data.get('roles', [])
-    instruments = data.get('instruments', [])
+    role_ids = data.get('roles', [])
+    instrument_ids = data.get('instruments', [])
     profile_pic_url = data.get('profile_pic_url')
     spotify_playlist = data.get('spotify_playlist')
 
-    if not isinstance(roles, list) or not all(isinstance(r, str) for r in roles):
-        return jsonify({'msg': 'El campo roles debe ser una lista de strings'}), 400
-    if not isinstance(instruments, list) or not all(isinstance(i, str) for i in instruments):
-        return jsonify({'msg': 'El campo instruments debe ser una lista de strings'}), 400
+    if not isinstance(role_ids, list) or not all(isinstance(r, (int, str)) for r in role_ids):
+        return jsonify({'msg': 'El campo roles debe ser una lista de enteros o strings'}), 400
+
+    if not isinstance(instrument_ids, list) or not all(isinstance(i, (int, str)) for i in instrument_ids):
+        return jsonify({'msg': 'El campo instruments debe ser una lista de enteros o strings'}), 400
 
     if spotify_playlist and not spotify_playlist.startswith("https://open.spotify.com/"):
         return jsonify({'msg': 'Enlace de playlist no válido'}), 400
+
+    roles = Role.query.filter(Role.id.in_(role_ids)).all() if role_ids else []
+    instruments = Instrument.query.filter(Instrument.id.in_(instrument_ids)).all() if instrument_ids else []
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     new_user = User(
@@ -61,7 +61,6 @@ def register():
         instruments=instruments,
         profile_pic_url=profile_pic_url,
         spotify_playlist=spotify_playlist,
-        is_active=True,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
@@ -89,8 +88,6 @@ def login():
     if not user or not bcrypt.check_password_hash(user.password_hash, password):
         return jsonify({'msg': 'Credenciales inválidas'}), 401
 
-    if not user.is_active:
-        return jsonify({'msg': 'Cuenta desactivada'}), 403
 
     token = create_access_token(identity=str(user.id))
     return jsonify({
