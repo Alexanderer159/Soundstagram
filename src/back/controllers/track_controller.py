@@ -1,15 +1,12 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_cors import CORS
 from datetime import datetime
-
 from back.extensions import db
 from back.models.track_model import Track
 from back.models.project_model import Project
 from back.models.user_model import User
 
 track_api = Blueprint("track_api", __name__)
-CORS(track_api)
 
 @track_api.route("/tracks", methods=["POST"])
 @jwt_required()

@@ -17,6 +17,7 @@ from back.admin import setup_admin
 from back.commands import setup_commands
 
 app = Flask(__name__)
+CORS(app)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 bcrypt.init_app(app)
 jwt.init_app(app)
