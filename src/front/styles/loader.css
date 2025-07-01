@@ -1,3 +1,4 @@
+
     .loader {
         height: 100%;
         animation: slideloader 4s forwards, fadeIn 2s forwards;
@@ -36,133 +37,133 @@
     }
     .line3 {
         opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.17, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
-    height: 30%;
+        animation: line-grow 1s 0.4s ease alternate 10.265, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+    height: 40%;
     }
     .line4 {
         opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.265, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
-    height: 40%;
+        animation: line-grow 1s 0.6s ease alternate 10.4, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line5 {
         opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.32, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
-    height: 50%;
+        animation: line-grow 1s 0.8s ease alternate 10.54, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line6 {
         opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.4, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
-    height: 60%;
+        animation: line-grow 1s 1s ease alternate 10.54, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line7 {
         opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.47, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
-    height: 70%;
+        animation: line-grow 1s 1.2s ease alternate 10.4, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line8 {
         opacity: 0;
-        animation: line-grow 1s 1.4s ease alternate 10.54, fadeIn 1s 1.4s forwards, lineGradient 5s alternate infinite;
-    height: 80%;
+        animation: line-grow 1s 1.4s ease alternate 10.265, fadeIn 1s 1.4s forwards, lineGradient 5s alternate infinite;
+    height: 40%;
     }
     .line9 {
         opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.47, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
-    height: 70%;
+        animation: line-grow 1s 1.2s ease alternate 10.139, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
+    height: 20%;
     }
     .line10 {
         opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.4, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
-    height: 60%;
+        animation: line-grow 1s 1s ease alternate 10, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+    height: 10%;
     }
     .line11 {
         opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.32, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
-    height: 50%;
+        animation: line-grow 1s 0.8s ease alternate 10, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+    height: 10%;
     }
     .line12 {
         opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.265, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
-    height: 40%;
+        animation: line-grow 1s 0.6s ease alternate 10.2, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+    height: 30%;
     }
     .line13 {
         opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.17, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
-    height: 30%;
+        animation: line-grow 1s 0.4s ease alternate 10.4, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line14 {
         opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.139, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
-    height: 20%;
+        animation: line-grow 1s 0.2s ease alternate 10.54, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line15 {
         opacity: 0;
-        animation: line-grow 1s ease alternate 10, fadeIn 1s forwards, lineGradient 5s alternate infinite;
-    height: 10%;
+        animation: line-grow 1s ease alternate 10.7, fadeIn 1s forwards, lineGradient 5s alternate infinite;
+    height: 90%;
     }
     .line16 {
         opacity: 0;
-        animation: line-grow 1s ease alternate 10, fadeIn 1s forwards, lineGradient 5s alternate infinite;
-    height: 10%;
+        animation: line-grow 1s ease alternate 10.7, fadeIn 1s forwards, lineGradient 5s alternate infinite;
+    height: 90%;
     }
     .line17 {
         opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.139, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
-    height: 20%;
+        animation: line-grow 1s 0.2s ease alternate 10.54, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line18 {
         opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.17, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
-    height: 30%;
+        animation: line-grow 1s 0.4s ease alternate 10.4, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line19 {
         opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.265, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
-    height: 40%
+        animation: line-grow 1s 0.6s ease alternate 10.2, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+    height: 30%
     }
     .line20 {
         opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.32, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
-    height: 50%;
+        animation: line-grow 1s 0.8s ease alternate 10, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+    height: 10%;
     }
     .line21 {
         opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.4, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
-    height: 60%;
+        animation: line-grow 1s 1s ease alternate 10, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+    height: 10%;
     }
     .line22 {
         opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.47, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
-    height: 70%;
+        animation: line-grow 1s 1.2s ease alternate 10.139, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
+    height: 20%;
     }
     .line23 {
         opacity: 0;
-        animation: line-grow 1s 1.4s ease alternate 10.54, fadeIn 1s  1.4s forwards, lineGradient 5s alternate infinite;
-    height: 80%;
+        animation: line-grow 1s 1.4s ease alternate 10.265, fadeIn 1s  1.4s forwards, lineGradient 5s alternate infinite;
+    height: 40%;
     }
     .line24 {
         opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.47, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
-    height: 70%;
+        animation: line-grow 1s 1.2s ease alternate 10.4, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line25 {
         opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.4, fadeIn 1s  1s forwards, lineGradient 5s alternate infinite;
-    height: 60%;
+        animation: line-grow 1s 1s ease alternate 10.54, fadeIn 1s  1s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line26 {
         opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.32, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
-    height: 50%;
+        animation: line-grow 1s 0.8s ease alternate 10.54, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+    height: 80%;
     }
     .line27 {
         opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.265, fadeIn 1s  0.6s forwards, lineGradient 5s alternate infinite;
-    height: 40%;
+        animation: line-grow 1s 0.6s ease alternate 10.4, fadeIn 1s  0.6s forwards, lineGradient 5s alternate infinite;
+    height: 60%;
     }
     .line28 {
         opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.17, fadeIn 1s  0.4s forwards, lineGradient 5s alternate infinite;
-    height: 30%;
+        animation: line-grow 1s 0.4s ease alternate 10.265, fadeIn 1s  0.4s forwards, lineGradient 5s alternate infinite;
+    height: 40%;
     }
     .line29 {
         opacity: 0;

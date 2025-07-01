@@ -100,6 +100,19 @@ transition: 1s ease;
 font-size: x-large;
 }
 
+.newuser {
+    font-size: 2.5rem;
+    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.newuser:hover{
+    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background-size: 200%, 200%;
+    color:rgb(33, 37, 41) ;
+}
+
 /* Keyframes */
 
 @keyframes glow {
