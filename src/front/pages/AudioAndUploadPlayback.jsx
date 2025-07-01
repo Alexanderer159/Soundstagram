@@ -220,7 +220,34 @@ export const AudioUploaderAndPoster = () => {
                 </Stack>
             </Box>
 
-            <Box ref={containerRef} sx={{ width: "100%", minHeight: 300, backgroundColor: "#2D2D2D", borderRadius: 2 }} />
+            <Box ref={containerRef} sx={{ width: "100%", minHeight: 300, backgroundColor: "#2D2D2D", borderRadius: 2 }}>
+                {audioFiles.map((track, idx) => (
+                    <Box key={idx} mt={2} mb={2} p={2} sx={{ backgroundColor: "#2C474C", borderRadius: 2 }}>
+                        <Stack direction="row" spacing={2} mt={2}>
+                            <TextField
+                                label="Título de la pista"
+                                value={track.title}
+                                onChange={e => updateTrackMeta(idx, "title", e.target.value)}
+                                fullWidth
+                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
+                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
+                            />
+                            <TextField
+                                label="Instrumento"
+                                value={track.instrument}
+                                onChange={e => updateTrackMeta(idx, "instrument", e.target.value)}
+                                fullWidth
+                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
+                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
+                            />
+                        </Stack>
+                        <Typography color="#859193" fontSize="0.8rem" mt={1}>
+                            Subido por: {track.user}
+                        </Typography>
+                    </Box>
+                ))}
+            </Box>
+
         </Box>
     );
 };
