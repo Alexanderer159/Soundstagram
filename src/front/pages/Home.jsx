@@ -83,14 +83,14 @@ export const Home = () => {
 						<div className="col-12 col-md-5" style={{ minHeight: '300px' }}>
 						<form className="form text-light p-3 justify-items-center" onSubmit={handleSubmit}>
 
-							<div className="my-2 d-flex flex-column">
+							<div className="my-2">
 								<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
 								<label for="emailInput" className="form-label">Email address</label>
 								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
 								<p className="my-2">We'll never share your email with anyone else.</p>
 							</div>
 
-							<div className="my-3 d-flex flex-column">
+							<div className="my-3">
 								<label for="PasswordInput" className="form-label">Password</label>
 								<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
 							</div>
@@ -101,7 +101,7 @@ export const Home = () => {
 							<button type="submit" className="btn mt-3">
 								{isRegisterMode ? "Create Account" : "Login"}
 							</button>
-							<div className="d-flex flex-row gap-4 mt-4 px-1">
+							<div className="d-flex flex-row gap-3 mt-4 px-1">
 								<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
 									<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
 								</Link>
