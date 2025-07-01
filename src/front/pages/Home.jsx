@@ -63,26 +63,23 @@ export const Home = () => {
 		}
 	};
 
-	const toggleMode = () => {
-		setIsRegisterMode((prev) => !prev);
-		setError(null);
-	};
-
 	return (
-		<div className="container-fluid h-100">
+		<div className="container-fluid d-flex flex-column">
 
-			<div className="row vh-10">
-			<h1 className="col welcome display-2 text-center fw-bold"></h1>
+			<div className="row" style={{ height: '10vh' }}>
+				<div className="col-12 text-center">
+			<h1 className="welcome fw-bold display-5 display-md-1"></h1>
+				</div>
 			</div>
 
-			<div className="row my-5 vh-50">
+			<div className="row my-5">
 
-				<div className="col-12 col-md-6 z-2 position-relative px-4" style={{ minHeight: '300px' }}>
+				<div className="col-12 col-md-6 mb-3" style={{minHeight: "300px"}} >
 					<Loader />
 				</div>	
 
-						<div className="col-12 col-md-3 z-1 position-relative d-flex justify-content-center" style={{ minHeight: '300px' }}>
-						<form className="form text-light text-center p-3" onSubmit={handleSubmit}>
+						<div className="col-12 col-md-3 d-flex justify-content-center mb-5" >
+						<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
 
 							<div className="my-2">
 								<p className="fs-4">Log In</p>
@@ -107,14 +104,21 @@ export const Home = () => {
 							</div>
 						</form>
 						</div>
-						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center">
-							<button className="newuser btn fw-bold shadow-lg">New user? <br></br> Create an account!</button>
+
+
+						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center mb-3">
+							<Link to="/register" style={{ textDecoration: "none" }}>
+							<button className="newuser btn fw-bold shadow-lg">New user? <br/> Create an account!</button>
+							</Link>
 						</div>
 			</div>
 
 
-			<div className="row vh-10">
-			<h2 className="col slogan px-5 text-end justify-content-end d-flex fw-bold">Let's make some waves together...</h2>
+			<div className="row" >
+				<div className="col-12 d-flex align-items-end justify-content-end pe-5">
+					<p className="slogan px-5 text-end fw-bold">Let's make some waves together...</p>
+					</div>
+			
 			</div>
 		</div>
 	);
