@@ -13,6 +13,7 @@ from back.controllers.track_controller import track_api
 from back.controllers.user_controller import user_api
 from back.controllers.role_controller import role_api
 from back.controllers.instrument_controller import instrument_api
+from back.controllers.genre_controller import genre_api
 from back.admin import setup_admin
 from back.commands import setup_commands
 
@@ -54,6 +55,7 @@ app.register_blueprint(auth_api, url_prefix='/api')
 app.register_blueprint(track_api, url_prefix='/api')
 app.register_blueprint(role_api, url_prefix='/api')
 app.register_blueprint(instrument_api, url_prefix='/api')
+app.register_blueprint(genre_api, url_prefix='/api')
 # Handle/serialize errors like a JSON object
 
 

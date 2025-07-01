@@ -1,9 +1,9 @@
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-
+from back.models.genre_model import Genre
 from back.extensions import db
-from back.models.project_model import Project, VisibilityEnum, StatusEnum
+from back.models.project_model import Project, VisibilityEnum, StatusEnum, KeyEnum, MeterEnum
 from back.models.user_model import User
 
 project_api = Blueprint('project_api', __name__)
@@ -17,17 +17,25 @@ def create_project():
     try:
         visibility = VisibilityEnum(data.get('visibility', 'public'))
         status = StatusEnum(data.get('status', 'active'))
-    except ValueError:
-        return jsonify({'msg': 'Valores de visibility o status no válidos'}), 400
+        key = KeyEnum(data.get('key')) if data.get('key') else None
+        meter = MeterEnum(data.get('meter')) if data.get('meter') else None
+        bpm = int(data.get('bpm')) if data.get('bpm') is not None else None
+        genre_ids = data.get('genres', [])
+        genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
+    except (ValueError, KeyError):
+        return jsonify({'msg': 'Valores inválidos en visibility, status, key, meter o bpm'}), 400
 
     new_project = Project(
         title=data.get('title'),
         description=data.get('description'),
-        genre=data.get('genre'),
         tags=data.get('tags'),
         visibility=visibility,
         status=status,
-        owner_id=user_id
+        key=key,
+        meter=meter,
+        bpm=bpm,
+        owner_id=user_id,
+        genres=genres
     )
 
     db.session.add(new_project)
@@ -80,8 +88,30 @@ def update_project(project_id):
 
     project.title = data.get('title', project.title)
     project.description = data.get('description', project.description)
-    project.genre = data.get('genre', project.genre)
     project.tags = data.get('tags', project.tags)
+
+    if 'key' in data:
+        try:
+            project.key = KeyEnum(data['key']) if data['key'] else None
+        except ValueError:
+            return jsonify({'msg': 'Key inválido'}), 400
+
+    if 'meter' in data:
+        try:
+            project.meter = MeterEnum(data['meter']) if data['meter'] else None
+        except ValueError:
+            return jsonify({'msg': 'Meter inválido'}), 400
+
+    if 'bpm' in data:
+        try:
+            project.bpm = int(data['bpm']) if data['bpm'] is not None else None
+        except ValueError:
+            return jsonify({'msg': 'BPM debe ser un número'}), 400
+
+    genre_ids = data.get('genres')
+    if genre_ids is not None:
+        genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
+        project.genres = genres
 
     project.updated_at = datetime.utcnow()
     db.session.commit()
