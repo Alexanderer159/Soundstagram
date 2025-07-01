@@ -116,7 +116,7 @@ export const Home = () => {
 
 			<div className="row" >
 				<div className="col-12 d-flex align-items-end justify-content-end pe-5">
-					<p className="slogan px-5 text-end fw-bold">Let's make some waves together...</p>
+					<p className="slogan px-5 text-end fw-bold ">Let's make some waves together...</p>
 					</div>
 			
 			</div>
