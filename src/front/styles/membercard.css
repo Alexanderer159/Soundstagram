@@ -1,11 +1,26 @@
 .memcard {
     animation: glow 5s ease alternate infinite;
     border-radius: 15px;
+    max-height: 570px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .memberpic {
     max-height: 200px;
     max-width: 200px;
+    overflow-clip-margin: unset;
+    transition: 1s ease;
+}
+.memberpic:hover{
+    max-height: 500px;
+    max-width: 500px;
+}
+
+.memberpic:hover, .memcard{
+height: 120%;
+width: 120%;
+transition: 1s ease;
 }
 
 .teamname{

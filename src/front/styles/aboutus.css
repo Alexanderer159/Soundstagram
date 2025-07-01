@@ -1,5 +1,5 @@
 .meet {
-        font-size: 7rem;
+    font-size: 5vw;
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
     background-clip: text;
@@ -11,21 +11,33 @@
     animation: gradient-shift 5s infinite, fadeIn 4s 3s forwards, slidebackwards 2s 2s forwards;
 }
 
+.member{
+    margin-bottom: 25px;
+}
+
 .team1{
     opacity: 0;
 animation: fadeIn 2s 1s forwards, slidemember ease-in-out 1s 1s forwards;
+min-width: 450px;
+max-width: 450px;
 }
 .team2{
     opacity: 0;
 animation: fadeIn 2s 1.2s forwards, slidemember ease-in-out 1s 1.2s forwards;
+min-width: 450px;
+max-width: 450px;
 }
 .team3{
     opacity: 0;
 animation: fadeIn 2s 1.4s forwards, slidemember ease-in-out 1s 1.4s forwards;
+min-width: 450px;
+max-width: 450px;
 }
 .team4{
     opacity: 0;
 animation: fadeIn 2s 1.6s forwards, slidemember ease-in-out 1s 1.6s forwards;
+min-width: 450px;
+max-width: 450px;
 }
 
 @keyframes slidemember{

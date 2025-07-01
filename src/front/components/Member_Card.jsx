@@ -5,24 +5,24 @@ import { Link } from "react-router-dom";
 import '../styles/index.css'
 import '../styles/membercard.css'
 
-export const Membercard = () => {
+export const Membercard = (member) => {
 
 
     return(
 <>
-<div className="memcard d-flex flex-column">
+<div className="memcard p-4">
     <div className="d-flex justify-content-center py-3">
-    <img src="/avatars/usuaria_luna.png" className="memberpic rounded-circle" />
+    <img src={member.pic} className="memberpic rounded-circle object-fit-cover" />
     </div>
-    <h1 className="teamname d-flex justify-content-center mt-2">NAME</h1>
-    <p className="role text-light d-flex justify-content-center">Role</p>
-    <p className="teambio d-flex justify-content-center text-light my-3">Bio</p>
+
+    <h1 className="teamname d-flex justify-content-center mt-2">{member.name}</h1>
+    <p className="role text-light d-flex justify-content-center">{member.role}</p>
+    <p className="teambio d-flex justify-content-center text-light my-3 text-center">{member.bio}</p>
     <div className="linksteam d-flex justify-content-center text-light gap-5 my-4">
-    <Link to="/" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faGithub} mask={faSquareFull} /></Link>
-      <Link to="/" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faLinkedin} mask={faSquareFull} /></Link>
+    <Link to={member.url1} style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faGithub} mask={faSquareFull} /></Link>
+      <Link to={member.url2} style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faLinkedin} mask={faSquareFull} /></Link>
     </div>
 </div>
-
 </>
 )
 }
