@@ -63,25 +63,23 @@ export const Home = () => {
 		}
 	};
 
-	const toggleMode = () => {
-		setIsRegisterMode((prev) => !prev);
-		setError(null);
-	};
-
 	return (
-		<div className="container-fluid text-center">
-			<div className="row d-flex justify-content-center w-100">
-			<h1 className="col welcome m-0 display-2 fw-bold"></h1>
+		<div className="container-fluid d-flex flex-column">
+
+			<div className="row" style={{ height: '10vh' }}>
+				<div className="col-12 text-center">
+			<h1 className="welcome fw-bold display-5 display-md-1"></h1>
+				</div>
 			</div>
 
-			<div className="row my-5 gap-5">
+			<div className="row my-5">
 
-				<div className="col-12 col-md-6 z-2 position-relative" style={{ minHeight: '300px' }}>
+				<div className="col-12 col-md-6 mb-3" style={{minHeight: "300px"}} >
 					<Loader />
 				</div>	
 
-						<div className="col-12 col-md-4 z-1 position-relative d-flex" style={{ minHeight: '300px' }}>
-						<form className="form text-light p-3 justify-items-center" onSubmit={handleSubmit}>
+						<div className="col-12 col-md-3 d-flex justify-content-center mb-5" >
+						<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
 
 							<div className="my-2">
 								<p className="fs-4">Log In</p>
@@ -94,27 +92,33 @@ export const Home = () => {
 								<label for="PasswordInput" className="form-label">Password</label>
 								<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
 							</div>
-							<div className="my-3 form-check">
+							<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
 								<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
 								<label className="text-start" for="rememberme">Remember me</label>
 							</div>
 							<button type="submit" className="btn mt-3">Login</button>
-							<div className="d-flex flex-row gap-3 mt-4 px-1">
-								<Link to="/register" style={{ textDecoration: "none" }}>
-									<p>Create New Account</p>
-								</Link>
+							<div className="mt-4 px-1">
 								<Link to="/register" style={{ textDecoration: "none" }}>
 									<p>Forgot your password?</p>
 								</Link>
 							</div>
 						</form>
-						<div className="col-12 col-md-2 d-flex justify-content-center align-items-center mx-5">
-							<button className="newuser btn h-25 d-flex align-items-center">New user? Create an account!</button>
 						</div>
+
+
+						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center mb-3">
+							<Link to="/register" style={{ textDecoration: "none" }}>
+							<button className="newuser btn fw-bold shadow-lg">New user? <br/> Create an account!</button>
+							</Link>
 						</div>
 			</div>
-			<div className="row">
-			<h2 className="col slogan px-5 text-end justify-content-end d-flex fw-bold">Let's make some waves together...</h2>
+
+
+			<div className="row" >
+				<div className="col-12 d-flex align-items-end justify-content-end pe-5">
+					<p className="slogan px-5 text-end fw-bold">Let's make some waves together...</p>
+					</div>
+			
 			</div>
 		</div>
 	);

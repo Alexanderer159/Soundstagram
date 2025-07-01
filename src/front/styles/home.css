@@ -1,12 +1,11 @@
 
 .welcome::before{
 content:"Welcome";
-    animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, hiding 1s 8s forwards;
+   animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards  , fadeOut 2s 6s forwards, hiding 1s 8s forwards; 
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
-    z-index: -1 !important;
     pointer-events: none;
     user-select: none;
 }
@@ -18,12 +17,10 @@ content:"Welcome";
     background-clip: text;
     color: transparent;
     width: 100%;
-    z-index: -1 !important;
   display: block;
-  top: 8%;
-  position: absolute;
+  position: relative;
   opacity: 0;
-  animation: fadeIn 4s 10s forwards, slidein 2s 9s forwards, gradient-shift 5s infinite;
+  animation: fadeIn 4s 10s forwards, gradient-shift 5s infinite, slidein 2s 9s forwards;
 }
 
 .slogan {
@@ -41,12 +38,12 @@ content:"Welcome";
     content:"";
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
-    height: 3%;
-    width: 50%;
+    height: 5%;
+    width: 90%;
     display: block;
     position: absolute;
-    bottom: -3%;
     animation: slideline 4s 9s forwards, gradient-shift 5s infinite;
+    visibility: hidden;
 }
 
 /* Form */
@@ -55,8 +52,6 @@ content:"Welcome";
     border-radius: 10px;
     animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease-in-out 2s 6s forwards;
     opacity: 0;
-    max-width: 400px;
-    width: 100%;
 }
 
 .form p{
@@ -68,14 +63,14 @@ animation: gradient-shift 5s infinite;
 }
 
 .form .textinput{
-    border: 1px solid rgb(0, 247, 255);
+    border: 1px solid rgb(0, 255, 191);
     border-radius: 5px;
     height: 2.5rem;
     padding: 3%;
 }
 
 .form-check-input{
-    border: 1px solid rgb(0, 247, 255);
+    border: 1px solid rgb(0, 255, 191);
 }
 
 .form .btn{
@@ -101,17 +96,25 @@ font-size: x-large;
 }
 
 .newuser {
+    opacity: 0;
     font-size: 2.5rem;
     background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
+    transition: 1s ease-in-out;
+    animation: gradient-shift 3s ease infinite, fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
 }
 .newuser:hover{
+    font-size: 2.8rem;
+    transition: 1s ease-in-out;
     background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background-clip: text;
     background-size: 200%, 200%;
-    color:rgb(33, 37, 41) ;
+    color: transparent;
+    border: 1px solid rgb(0, 255, 191);
 }
+
 
 /* Keyframes */
 
@@ -131,10 +134,10 @@ font-size: x-large;
 
 @keyframes slideline {
   0%{ transform: translateX(150%);}
-  25%{transform: translateX(-450%); visibility: hidden;}
+  25%{transform: translateX(-450%); visibility: visible;}
   50%{transform: translateX(150%); visibility: hidden;}
   75%{transform: translateY(15%); visibility: visible;}
-  100%{transform: translateX(0%);}
+  100%{transform: translateX(0%); visibility: visible;}
 }
 
 @keyframes slideform {
@@ -144,9 +147,9 @@ font-size: x-large;
 }
 
 @keyframes presentation {
-    0%{ transform: translateY(50%);font-size: 200px;}
-    50%{transform: translateY(50%);font-size: 200px;}
-    100% { transform: translateY(0%);}
+    0%{ transform: translateY(50%);font-size: 200%;}
+    50%{transform: translateY(50%);font-size: 200%;}
+    100% { transform: translateY(-27.5%);}
 }
 
 @keyframes hiding {
@@ -156,5 +159,5 @@ font-size: x-large;
 
 @keyframes slidein {
     from{transform: translateY(-150%);}
-    to{transform: translateY(0%)}
+    to{transform: translateY(-27.5%)}
 }
