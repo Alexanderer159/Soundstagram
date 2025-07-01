@@ -57,7 +57,7 @@ export const Home = () => {
 
 			const { token, user } = await loginUser(formData.email, formData.password);
 			dispatch({ type: "login_success", payload: { token, user } });
-			navigate("/demoProfile");
+			navigate("/profile");
 		} catch (err) {
 			setError(err);
 		}
@@ -76,15 +76,15 @@ export const Home = () => {
 
 			<div className="row my-5 gap-5">
 
-				<div className="col-12 col-md-6" style={{ minHeight: '300px' }}>
+				<div className="col-12 col-md-6 z-2 position-relative" style={{ minHeight: '300px' }}>
 					<Loader />
 				</div>	
 
-						<div className="col-12 col-md-5" style={{ minHeight: '300px' }}>
+						<div className="col-12 col-md-4 z-1 position-relative d-flex" style={{ minHeight: '300px' }}>
 						<form className="form text-light p-3 justify-items-center" onSubmit={handleSubmit}>
 
 							<div className="my-2">
-								<p className="fs-4">{isRegisterMode ? "Register" : "Log In"}</p>
+								<p className="fs-4">Log In</p>
 								<label for="emailInput" className="form-label">Email address</label>
 								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
 								<p className="my-2">We'll never share your email with anyone else.</p>
@@ -98,20 +98,23 @@ export const Home = () => {
 								<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
 								<label className="text-start" for="rememberme">Remember me</label>
 							</div>
-							<button type="submit" className="btn mt-3">
-								{isRegisterMode ? "Create Account" : "Login"}
-							</button>
+							<button type="submit" className="btn mt-3">Login</button>
 							<div className="d-flex flex-row gap-3 mt-4 px-1">
-								<Link to="#" onClick={toggleMode} style={{ textDecoration: "none" }}>
-									<p>{isRegisterMode ? "Got an account? Log in" : "Create New Account"}</p>
+								<Link to="/register" style={{ textDecoration: "none" }}>
+									<p>Create New Account</p>
 								</Link>
-								<p>Forgot your password?</p>
+								<Link to="/register" style={{ textDecoration: "none" }}>
+									<p>Forgot your password?</p>
+								</Link>
 							</div>
 						</form>
+						<div className="col-12 col-md-2 d-flex justify-content-center align-items-center mx-5">
+							<button className="newuser btn h-25 d-flex align-items-center">New user? Create an account!</button>
+						</div>
 						</div>
 			</div>
 			<div className="row">
-			<h2 className="col slogan px-5 text-end justify-content-end align-content-end d-flex fw-bold">Let's make some waves together...</h2>
+			<h2 className="col slogan px-5 text-end justify-content-end d-flex fw-bold">Let's make some waves together...</h2>
 			</div>
 		</div>
 	);
