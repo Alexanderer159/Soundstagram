@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import WaveSurfer from "wavesurfer.js";
 import {
     Box, Button, Typography, Stack, IconButton,
-    TextField
+    TextField, Slider
 } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
@@ -20,7 +20,7 @@ const waveformOptions = container => ({
     normalize: true,
 });
 
-const currentUser = "Adrian Ferrer Torres"; // Simulación, usa tu auth real luego
+const currentUser = "Ja Jaja";
 
 export const AudioUploaderAndPoster = () => {
     const [projectTags, setProjectTags] = useState("");
@@ -30,12 +30,16 @@ export const AudioUploaderAndPoster = () => {
     const [bpm, setBpm] = useState(120);
     const [audioFiles, setAudioFiles] = useState([]);
     const [playingStates, setPlayingStates] = useState([]);
+    const [multitrackInstance, setMultitrackInstance] = useState(null);
+    const [zoomLevel, setZoomLevel] = useState(30);
     const waveformRefs = useRef([]);
     const waveSurfers = useRef([]);
+    const containerRef = useRef();
 
     const handleFileChange = e => {
         const files = Array.from(e.target.files);
-        const withMeta = files.map(file => ({
+        const withMeta = files.map((file, index) => ({
+            id: index,
             file,
             url: URL.createObjectURL(file),
             name: file.name,
@@ -47,49 +51,103 @@ export const AudioUploaderAndPoster = () => {
     };
 
     useEffect(() => {
-        waveSurfers.current = [];
-        const newPlayingStates = [];
+        if (audioFiles.length === 0 || !containerRef.current) return;
 
-        audioFiles.forEach((track, idx) => {
-            if (!waveformRefs.current[idx]) return;
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js";
+        script.onload = () => {
+            const Multitrack = window.Multitrack;
+            const tracks = audioFiles.map((track, idx) => ({
+                id: idx,
+                url: track.url,
+                draggable: true,
+                envelope: true,
+                startCue: 0,
+                endCue: undefined,
+                fadeInEnd: 1,
+                fadeOutStart: undefined,
+                volume: 0.8,
+                options: {
+                    waveColor: 'hsl(200, 87%, 49%)',
+                    progressColor: 'hsl(200, 87%, 20%)',
+                },
+            }));
 
-            const wave = WaveSurfer.create(waveformOptions(waveformRefs.current[idx]));
-            wave.load(track.url);
-
-            wave.on("finish", () => {
-                setPlayingStates(prev => {
-                    const updated = [...prev];
-                    updated[idx] = false;
-                    return updated;
-                });
+            const multitrack = Multitrack.create(tracks, {
+                container: containerRef.current,
+                minPxPerSec: zoomLevel,
+                cursorWidth: 2,
+                cursorColor: '#D72F21',
+                trackBackground: '#2D2D2D',
+                trackBorderColor: '#7C7C7C',
+                dragBounds: true,
+                envelopeOptions: {
+                    lineColor: 'rgba(255, 0, 0, 0.7)',
+                    lineWidth: 4,
+                    dragPointSize: 10,
+                    dragPointFill: 'rgba(255, 255, 255, 0.8)',
+                    dragPointStroke: 'rgba(255, 255, 255, 0.3)',
+                },
             });
 
-            waveSurfers.current.push(wave);
-            newPlayingStates.push(false);
-        });
+            multitrack.once('canplay', async () => {
+                await multitrack.setSinkId('default');
+            });
 
-        setPlayingStates(newPlayingStates);
+            multitrack.on('volume-change', ({ id, volume }) => {
+                console.log(`Track ${id} volume updated to ${volume}`);
+            });
 
-        return () => {
-            waveSurfers.current.forEach(w => w.destroy());
+            multitrack.on('start-position-change', ({ id, startPosition }) => {
+                console.log(`Track ${id} start position updated to ${startPosition}`);
+            });
+
+            multitrack.on('start-cue-change', ({ id, startCue }) => {
+                console.log(`Track ${id} start cue updated to ${startCue}`);
+            });
+
+            multitrack.on('end-cue-change', ({ id, endCue }) => {
+                console.log(`Track ${id} end cue updated to ${endCue}`);
+            });
+
+            multitrack.on('fade-in-change', ({ id, fadeInEnd }) => {
+                console.log(`Track ${id} fade-in updated to ${fadeInEnd}`);
+            });
+
+            multitrack.on('fade-out-change', ({ id, fadeOutStart }) => {
+                console.log(`Track ${id} fade-out updated to ${fadeOutStart}`);
+            });
+
+            setMultitrackInstance(multitrack);
         };
-    }, [audioFiles]);
 
-    const toggleTrackPlay = index => {
-        const wave = waveSurfers.current[index];
-        if (!wave) return;
+        document.body.appendChild(script);
+        return () => {
+            if (multitrackInstance) multitrackInstance.destroy();
+        };
+    }, [audioFiles, zoomLevel]);
 
-        if (playingStates[index]) {
-            wave.pause();
-        } else {
-            wave.play();
+    const handleZoomChange = (e, value) => {
+        setZoomLevel(value);
+        if (multitrackInstance) {
+            multitrackInstance.zoom(value);
         }
+    };
 
-        setPlayingStates(prev => {
-            const updated = [...prev];
-            updated[index] = !prev[index];
-            return updated;
-        });
+    const handlePlayPause = () => {
+        if (!multitrackInstance) return;
+        if (multitrackInstance.isPlaying()) {
+            multitrackInstance.pause();
+        } else {
+            multitrackInstance.play();
+        }
+    };
+
+    const handleSeek = seconds => {
+        if (multitrackInstance) {
+            const current = multitrackInstance.getCurrentTime();
+            multitrackInstance.setTime(current + seconds);
+        }
     };
 
     const updateTrackMeta = (index, key, value) => {
@@ -121,66 +179,22 @@ export const AudioUploaderAndPoster = () => {
             </Typography>
 
             <Stack direction="row" spacing={2} mt={2} mb={2}>
-                <TextField
-                    select
-                    label="Clave musical"
-                    value={keySignature}
-                    onChange={e => setKeySignature(e.target.value)}
-                    SelectProps={{ native: true }}
-                    sx={{ label: { color: "#859193" } }}
-                    InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}
-                >
+                <TextField select label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
                     {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (
                         <option key={key} value={key}>{key}</option>
                     ))}
                 </TextField>
-
-                <TextField
-                    select
-                    label="Compás"
-                    value={timeSignature}
-                    onChange={e => setTimeSignature(e.target.value)}
-                    SelectProps={{ native: true }}
-                    sx={{ label: { color: "#859193" } }}
-                    InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}
-                >
+                <TextField select label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
                     {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (
                         <option key={ts} value={ts}>{ts}</option>
                     ))}
                 </TextField>
-
-                <TextField
-                    label="BPM"
-                    type="number"
-                    value={bpm}
-                    onChange={e => setBpm(Number(e.target.value))}
-                    inputProps={{ min: 40, max: 240 }}
-                    sx={{ label: { color: "#859193" } }}
-                    InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}
-                />
+                <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
             </Stack>
 
             <Stack spacing={2} mb={4}>
-                <TextField
-                    label="Tags (separados por coma)"
-                    variant="outlined"
-                    fullWidth
-                    value={projectTags}
-                    onChange={e => setProjectTags(e.target.value)}
-                    sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                    InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                />
-
-                <TextField
-                    label="Descripción breve"
-                    multiline
-                    rows={2}
-                    fullWidth
-                    value={projectDescription}
-                    onChange={e => setProjectDescription(e.target.value)}
-                    sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                    InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                />
+                <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
             </Stack>
 
             <Stack direction="row" spacing={2} alignItems="center">
@@ -188,51 +202,25 @@ export const AudioUploaderAndPoster = () => {
                     Subir pistas
                     <input hidden type="file" accept="audio/*" multiple onChange={handleFileChange} />
                 </Button>
-
                 <Button variant="contained" startIcon={<SendIcon />} onClick={handlePost} sx={{ backgroundColor: "#37555B" }}>
                     Publicar proyecto
                 </Button>
             </Stack>
 
-            <Box mt={4}>
-                {audioFiles.map((track, idx) => (
-                    <Box key={idx} sx={{ mb: 6, p: 2, borderRadius: 3, backgroundColor: "#1F3438", border: "1px solid #4F686D" }}>
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                            <Typography color="#C0C1C2" fontSize="0.9rem" sx={{ flexGrow: 1 }}>
-                                🎵 Archivo: {track.name}
-                            </Typography>
-                            <IconButton onClick={() => toggleTrackPlay(idx)} sx={{ color: "#C0C1C2" }}>
-                                {playingStates[idx] ? <PauseIcon /> : <PlayArrowIcon />}
-                            </IconButton>
-                        </Stack>
-
-                        <Box ref={el => (waveformRefs.current[idx] = el)} sx={{ mt: 1, backgroundColor: "#2C474C", borderRadius: 2 }} />
-
-                        <Stack direction="row" spacing={2} mt={2}>
-                            <TextField
-                                label="Título de la pista"
-                                value={track.title}
-                                onChange={e => updateTrackMeta(idx, "title", e.target.value)}
-                                fullWidth
-                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                            />
-                            <TextField
-                                label="Instrumento"
-                                value={track.instrument}
-                                onChange={e => updateTrackMeta(idx, "instrument", e.target.value)}
-                                fullWidth
-                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                            />
-                        </Stack>
-
-                        <Typography color="#859193" fontSize="0.8rem" mt={1}>
-                            Subido por: {track.user}
-                        </Typography>
+            <Box mt={6} mb={2}>
+                <Typography color="#C0C1C2" fontSize={18} fontWeight={600} mb={1}>Controles de mezcla</Typography>
+                <Stack direction="row" spacing={2} alignItems="center">
+                    <Button variant="outlined" onClick={handlePlayPause} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>Play / Pause</Button>
+                    <Button variant="outlined" onClick={() => handleSeek(-10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>◀ Retroceder</Button>
+                    <Button variant="outlined" onClick={() => handleSeek(10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>Avanzar ▶</Button>
+                    <Box sx={{ width: 200 }}>
+                        <Typography color="#C0C1C2" fontSize={12}>Zoom</Typography>
+                        <Slider min={10} max={100} value={zoomLevel} onChange={handleZoomChange} sx={{ color: "#37555B" }} />
                     </Box>
-                ))}
+                </Stack>
             </Box>
+
+            <Box ref={containerRef} sx={{ width: "100%", minHeight: 300, backgroundColor: "#2D2D2D", borderRadius: 2 }} />
         </Box>
     );
 };
