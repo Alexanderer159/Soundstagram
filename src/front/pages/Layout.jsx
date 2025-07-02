@@ -11,7 +11,6 @@ export const Layout = () => {
         <div className="pt-5">
 <Outlet />
         </div>
-                
             <Footer />
             <ToastContainer />
         </>

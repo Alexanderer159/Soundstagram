@@ -81,10 +81,10 @@ export const Home = () => {
 						<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
 
 							<div className="my-2">
-								<p className="fs-4">Log In</p>
+								<p className="form-text fs-4">Log In</p>
 								<label for="emailInput" className="form-label">Email address</label>
 								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
-								<p className="my-2">We'll never share your email with anyone else.</p>
+								<p className="form-text my-2">We'll never share your email with anyone else.</p>
 							</div>
 
 							<div className="my-3">
@@ -98,7 +98,7 @@ export const Home = () => {
 							<button type="submit" className="btn mt-3">Login</button>
 							<div className="mt-4 px-1">
 								<Link to="/register" style={{ textDecoration: "none" }}>
-									<p>Forgot your password?</p>
+									<p className="form-text">Forgot your password?</p>
 								</Link>
 							</div>
 						</form>

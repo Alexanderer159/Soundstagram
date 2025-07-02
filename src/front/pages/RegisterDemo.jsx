@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { registerUser, getRoles, getInstruments } from '../service/services';
 import defaultPic from '../assets/default-profile.png';
 import { uploadToCloudinary } from '../service/cloudinaryService';
+import "../styles/register.css"
+import "../styles/index.css"
 
 export const RegisterDemo = () => {
     const navigate = useNavigate();
@@ -101,48 +103,37 @@ export const RegisterDemo = () => {
         : defaultPic;
 
     return (
-        <div className="min-h-screen flex items-start justify-center bg-gray-900 text-white py-10 px-10">
-            <div className="bg-gray-800 rounded-xl shadow-lg p-8 flex gap-10 w-full max-w-5xl">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="relative w-32 h-32">
-                        <img
-                            src={profilePicPreview}
-                            alt="Foto de perfil"
-                            className="w-full h-full object-cover rounded-full border-2 border-white cursor-pointer hover:opacity-80 transition"
-                            onClick={() => fileInputRef.current.click()}
-                        />
-                        <input
-                            type="file"
-                            name="profile_pic_file"
-                            accept="image/*"
-                            onChange={handleChange}
-                            ref={fileInputRef}
-                            className="hidden"
-                        />
-                    </div>
-                </div>
+        <div className="container-fluid pt-5">
 
-                <form onSubmit={handleSubmit} className="flex-1 grid grid-cols-2 gap-4">
-                    <input name="email" type="email" placeholder="Correo electrónico" onChange={handleChange} required className="input-style" />
-                    <input name="username" type="text" placeholder="Nombre de usuario" onChange={handleChange} required className="input-style" />
-                    <input name="password" type="password" placeholder="Contraseña" onChange={handleChange} required className="input-style" />
-                    <input name="confirmPassword" type="password" placeholder="Confirmar contraseña" onChange={handleChange} required className="input-style" />
-                    <textarea name="bio" placeholder="Bio" onChange={handleChange} className="input-style col-span-2 h-20 resize-none" />
+                <div className="row justify-content-between">
+
+                    <div className="col imacombo object-fit-cover">
+
+                        <img src={profilePicPreview} className="reguserim rounded-circle" onClick={() => fileInputRef.current.click()}/>
+                        <input type="file" name="profile_pic_file" accept="image/*" onChange={handleChange} ref={fileInputRef} className="d-none"/>
+
+                    </div>
+
+                    <div classname="col">
+
+                        <form onSubmit={handleSubmit} className="">
+                            <input name="email" type="email" placeholder="Correo electrónico" onChange={handleChange} required className="" />
+                            <input name="username" type="text" placeholder="Nombre de usuario" onChange={handleChange} required className="" />
+                            <input name="password" type="password" placeholder="Contraseña" onChange={handleChange} required className="" />
+                            <input name="confirmPassword" type="password" placeholder="Confirmar contraseña" onChange={handleChange} required className="" />
+                            <textarea name="bio" placeholder="Bio" onChange={handleChange} className="" />
 
                     {/* ROLES */}
-                    <div className="col-span-1">
-                        <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="">
+                        <div className="">
                             {formData.roles.map(roleId => {
                                 const role = rolesList.find(r => r.id === roleId);
                                 return (
-                                    <button key={role.id} type="button" className="bg-blue-600 px-2 py-1 rounded-full text-sm flex items-center gap-2"
-                                        onClick={() => removeSelected(roleId, 'roles')}>
-                                        {role?.name}
-                                    </button>
+                                    <button key={role.id} type="button" className="" onClick={() => removeSelected(roleId, 'roles')}> {role?.name} </button>
                                 );
                             })}
                         </div>
-                        <select onChange={(e) => handleSelect(e, 'roles')} className="input-style">
+                        <select onChange={(e) => handleSelect(e, 'roles')} className="">
                             <option value="">Selecciona un rol</option>
                             {rolesList.map(role => (
                                 <option key={role.id} value={role.id}>{role.name}</option>
@@ -177,7 +168,8 @@ export const RegisterDemo = () => {
                         Registrarse
                     </button>
                 </form>
-            </div>
+                </div>
+                </div>
         </div>
     );
 };
