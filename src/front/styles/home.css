@@ -127,7 +127,7 @@ font-size: x-large;
 @keyframes slideline {
   0%{ transform: translateX(150%);}
   25%{transform: translateX(-450%); visibility: visible;}
-  50%{transform: translateX(150%); visibility: hidden;}
+  50%{transform: translateX(150%); visibility: visible;}
   75%{transform: translateY(15%); visibility: visible;}
   100%{transform: translateX(0%); visibility: visible;}
 }
