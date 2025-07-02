@@ -1,9 +1,9 @@
 .navbar{
     animation: moveintop 2.5s 3s forwards;
     transform: translate(0px, -500px);
-    position: sticky;
+    position: fixed;
     top: 0;
-    width: 100%;
+    width: 100vw;
     z-index: 1030;
     background-color: rgb(33, 37, 41);
 }

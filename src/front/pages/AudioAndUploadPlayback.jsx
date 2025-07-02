@@ -173,7 +173,7 @@ export const AudioUploaderAndPoster = () => {
     };
 
     return (
-        <Box sx={{ p: 4, backgroundColor: "#1F3438", borderRadius: 4 }}>
+        <Box sx={{ p: 4, borderRadius: 4 }}>
             <Typography variant="h5" color="#C0C1C2" gutterBottom>
                 Subir y publicar proyecto musical
             </Typography>
@@ -190,11 +190,10 @@ export const AudioUploaderAndPoster = () => {
                     ))}
                 </TextField>
                 <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
-            </Stack>
-
-            <Stack spacing={2} mb={4}>
+                   <Stack spacing={2} mb={4}>
                 <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
                 <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+            </Stack>
             </Stack>
 
             <Stack direction="row" spacing={2} alignItems="center">
