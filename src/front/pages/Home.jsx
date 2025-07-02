@@ -64,21 +64,21 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="container-fluid d-flex flex-column">
+		<div className="container-fluid">
 
-			<div className="row" style={{ height: '10vh' }}>
+			<div className="row" >
 				<div className="col-12 text-center">
-			<h1 className="welcome fw-bold display-5 display-md-1"></h1>
+			<p className="welcome fw-bold m-0"></p>
 				</div>
 			</div>
 
-			<div className="row my-5">
+			<div className="row">
 
-				<div className="col-12 col-md-6 mb-3" style={{minHeight: "300px"}} >
+				<div className="col-12 col-md-6 my-2" style={{minHeight: "300px"}} >
 					<Loader />
 				</div>	
 
-						<div className="col-12 col-md-3 d-flex justify-content-center mb-5" >
+						<div className="col-12 col-md-3 d-flex justify-content-center my-2" >
 						<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
 
 							<div className="my-2">
@@ -106,7 +106,7 @@ export const Home = () => {
 						</div>
 
 
-						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center mb-3">
+						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
 							<Link to="/register" style={{ textDecoration: "none" }}>
 							<button className="newuser btn fw-bold shadow-lg">New user? <br/> Create an account!</button>
 							</Link>
@@ -115,7 +115,7 @@ export const Home = () => {
 
 
 			<div className="row" >
-				<div className="col-12 d-flex align-items-end justify-content-end pe-5">
+				<div className="col-12 d-flex align-items-end justify-content-end pe-5 mt-3">
 					<p className="slogan px-5 text-end fw-bold ">Let's make some waves together...</p>
 					</div>
 			

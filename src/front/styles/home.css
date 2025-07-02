@@ -1,7 +1,7 @@
 
 .welcome::before{
 content:"Welcome";
-   animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards  , fadeOut 2s 6s forwards, hiding 1s 8s forwards; 
+   animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, refadein 2s 9s forwards; 
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
     background-clip: text;
@@ -10,17 +10,8 @@ content:"Welcome";
     user-select: none;
 }
 
-.welcome::after {
-    content:'What are we doing today?';
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
-    background-size: 200%, 200%;
-    background-clip: text;
-    color: transparent;
-    width: 100%;
-  display: block;
-  position: relative;
-  opacity: 0;
-  animation: fadeIn 4s 10s forwards, gradient-shift 5s infinite, slidein 2s 9s forwards;
+.welcome{
+    font-size: clamp(3em, 5vw, 5vw);
 }
 
 .slogan {
@@ -28,9 +19,10 @@ content:"Welcome";
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
     background-clip: text;
+    height: clamp(300px, 3.25rem, 3.25vw);
     color: transparent;
     opacity: 0;
-    font-size: 3.25rem;
+    font-size: clamp(2.5rem, 3.25rem, 3.25vw);
     pointer-events: none;
     user-select: none;
 }
@@ -38,7 +30,7 @@ content:"Welcome";
     content:"";
     background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
     background-size: 200%, 200%;
-    height: 5%;
+    height: 1%;
     width: 90%;
     display: block;
     position: absolute;
@@ -97,7 +89,7 @@ font-size: x-large;
 
 .newuser {
     opacity: 0;
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 2.5rem, 2.5rem);
     background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
     background-clip: text;
     background-size: 200%, 200%;
@@ -105,8 +97,8 @@ font-size: x-large;
     transition: 1s ease-in-out;
     animation: gradient-shift 3s ease infinite, fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
 }
-.newuser:hover{
-    font-size: 2.8rem;
+.newuser:hover, .newuser:active{
+    font-size: clamp(1.8rem, 2.8rem, 2.8rem);
     transition: 1s ease-in-out;
     background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
     background-clip: text;
@@ -152,12 +144,7 @@ font-size: x-large;
     100% { transform: translateY(-27.5%);}
 }
 
-@keyframes hiding {
-    from{visibility: visible;}
-    to{visibility: hidden;}
-}
-
-@keyframes slidein {
-    from{transform: translateY(-150%);}
-    to{transform: translateY(-27.5%)}
+@keyframes refadein {
+    from{opacity: 0; content:'What are we doing today?';}
+    to{opacity:1;content:'What are we doing today?';}
 }

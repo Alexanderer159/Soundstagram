@@ -1,9 +1,7 @@
 import React from "react";
 import "../styles/aboutus.css";
 import "../styles/index.css";
-import { Link } from "react-router-dom";
 import { Membercard } from "../components/Member_Card.jsx";
-import { useParams } from 'react-router-dom';
 
 export const AboutUs = () => {
   return (
