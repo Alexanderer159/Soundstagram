@@ -21,7 +21,7 @@ export const EditProfilePage = () => {
                 <form className="proform text-light w-75">
                     <div className="mb-3">
                         <label for="NameInput" className="form-label fs-3">Name</label>
-				<input type="name" className="form-control bg-dark text-white" id="NameInput"/>
+				<input type="name" className="inp-edi-prof form-control bg-dark text-white" id="NameInput"/>
                     </div>
 
                 <div class="mb-3">

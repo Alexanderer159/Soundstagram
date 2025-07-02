@@ -50,7 +50,7 @@ export const DesktopProfilePage = () => {
         <div className="row vh-25">
 
           <div className="col-12 col-md-2 d-flex flex-column justify-content-center">
-            <img src={profile_pic_default} className="rounded-circle" />
+            <img src={profile_pic_default} className="propicuser rounded-circle" />
             <div className="text-center mt-3 d-flex gap-3">
               <p className="text-light">1.2k Followers</p>
               <p className="text-light">350 Following</p>

@@ -46,7 +46,7 @@ content:"Welcome";
     opacity: 0;
 }
 
-.form p{
+.form .form-text{
 background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
 background-clip: text;
 background-size: 200%, 200%;
