@@ -156,8 +156,9 @@ export const RegisterDemo = () => {
 
                     <input name="spotify_playlist" type="url" placeholder="Spotify Playlist Link" onChange={handleChange} className="register-input" />
 
-                    <button type="submit" className="register-btn" >Create Account!</button>
-
+                    <div className="d-flex justify-content-center text-center align-items-center">
+                        <button type="submit" className="register-btn" >Create Account!</button>
+                    </div>
                 </form>
             </div>
         </div>
