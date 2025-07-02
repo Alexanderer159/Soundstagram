@@ -96,6 +96,7 @@ font-size: x-large;
     color: transparent;
     transition: 1s ease-in-out;
     animation: gradient-shift 3s ease infinite, fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
+    border:1px solid rgb(34, 36, 37);
 }
 .newuser:hover, .newuser:active{
     font-size: clamp(1.8rem, 2.8rem, 2.8rem);
@@ -148,3 +149,8 @@ font-size: x-large;
     from{opacity: 0; content:'What are we doing today?';}
     to{opacity:1;content:'What are we doing today?';}
 }
+
+@keyframes fadeOut {
+    0%{opacity: 1;}
+    100%{opacity: 0;}
+    }

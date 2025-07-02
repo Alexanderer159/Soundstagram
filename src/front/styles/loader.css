@@ -19,169 +19,162 @@
         border-radius: 10px;
         background: linear-gradient(130deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
         background-size: 500%, 500%;
-    }
-   
-    .line:hover {
-    animation: fadeOut 0.2 ease forwards;
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        animation: lineGradient 5s alternate infinite;
     }
 
     .line1 {
-        opacity: 0;
-        animation: line-grow 1s ease alternate 10, fadeIn 1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s ease alternate 10 forwards;
         height: 10%;
     }
+
     .line2 {
-        opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.139, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.2s ease alternate 10.139 forwards;
     height: 20%;
     }
+
     .line3 {
-        opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.265, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.4s ease alternate 10.265 forwards;
     height: 40%;
     }
-    .line4 {
-        opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.4, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+
+    .line4 { 
+        animation: line-grow 1s 0.6s ease alternate 10.4 forwards;
     height: 60%;
     }
-    .line5 {
-        opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.54, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+
+    .line5 {  
+        animation: line-grow 1s 0.8s ease alternate 10.54 forwards;
     height: 80%;
     }
+
     .line6 {
-        opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.54, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1s ease alternate 10.54 forwards;
     height: 80%;
     }
+
     .line7 {
-        opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.4, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
+     animation: line-grow 1s 1.2s ease alternate 10.4 forwards;
     height: 60%;
     }
+
     .line8 {
-        opacity: 0;
-        animation: line-grow 1s 1.4s ease alternate 10.265, fadeIn 1s 1.4s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1.4s ease alternate 10.265 forwards;
     height: 40%;
     }
-    .line9 {
-        opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.139, fadeIn 1s 1.2s forwards, lineGradient 5s alternate infinite;
+
+    .line9 { 
+        animation: line-grow 1s 1.2s ease alternate 10.139 forwards;
     height: 20%;
     }
+
     .line10 {
-        opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1s ease alternate 10 forwards;
     height: 10%;
     }
+
     .line11 {
-        opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.8s ease alternate 10 forwards;
     height: 10%;
     }
-    .line12 {
-        opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.2, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+
+    .line12 {  
+        animation: line-grow 1s 0.6s ease alternate 10.2 forwards;
     height: 30%;
     }
-    .line13 {
-        opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.4, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+
+    .line13 {  
+        animation: line-grow 1s 0.4s ease alternate 10.4 forwards;
     height: 60%;
     }
+
     .line14 {
-        opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.54, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.2s ease alternate 10.54 forwards;
     height: 80%;
     }
+
     .line15 {
-        opacity: 0;
-        animation: line-grow 1s ease alternate 10.7, fadeIn 1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s ease alternate 10.7 forwards;
     height: 90%;
     }
-    .line16 {
-        opacity: 0;
-        animation: line-grow 1s ease alternate 10.7, fadeIn 1s forwards, lineGradient 5s alternate infinite;
+
+    .line16 {  
+        animation: line-grow 1s ease alternate 10.7 forwards;
     height: 90%;
     }
+
     .line17 {
-        opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.54, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.2s ease alternate 10.54 forwards;
     height: 80%;
     }
-    .line18 {
-        opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.4, fadeIn 1s 0.4s forwards, lineGradient 5s alternate infinite;
+
+    .line18 { 
+        animation: line-grow 1s 0.4s ease alternate 10.4 forwards;
     height: 60%;
     }
+
     .line19 {
-        opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.2, fadeIn 1s 0.6s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.6s ease alternate 10.2 forwards;
     height: 30%
     }
-    .line20 {
-        opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+
+    .line20 { 
+        animation: line-grow 1s 0.8s ease alternate 10 forwards;
     height: 10%;
     }
+
     .line21 {
-        opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10, fadeIn 1s 1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1s ease alternate 10 forwards;
     height: 10%;
     }
+
     .line22 {
-        opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.139, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1.2s ease alternate 10.139 forwards;
     height: 20%;
     }
+
     .line23 {
-        opacity: 0;
-        animation: line-grow 1s 1.4s ease alternate 10.265, fadeIn 1s  1.4s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1.4s ease alternate 10.265 forwards;
     height: 40%;
     }
+
     .line24 {
-        opacity: 0;
-        animation: line-grow 1s 1.2s ease alternate 10.4, fadeIn 1s  1.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1.2s ease alternate 10.4 forwards;
     height: 60%;
     }
+
     .line25 {
-        opacity: 0;
-        animation: line-grow 1s 1s ease alternate 10.54, fadeIn 1s  1s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 1s ease alternate 10.54 forwards;
     height: 80%;
     }
-    .line26 {
-        opacity: 0;
-        animation: line-grow 1s 0.8s ease alternate 10.54, fadeIn 1s 0.8s forwards, lineGradient 5s alternate infinite;
+
+    .line26 {  
+        animation: line-grow 1s 0.8s ease alternate 10.54 forwards;
     height: 80%;
     }
+
     .line27 {
-        opacity: 0;
-        animation: line-grow 1s 0.6s ease alternate 10.4, fadeIn 1s  0.6s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.6s ease alternate 10.4 forwards;
     height: 60%;
     }
+
     .line28 {
-        opacity: 0;
-        animation: line-grow 1s 0.4s ease alternate 10.265, fadeIn 1s  0.4s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.4s ease alternate 10.265 forwards;
     height: 40%;
     }
+
     .line29 {
-        opacity: 0;
-        animation: line-grow 1s 0.2s ease alternate 10.139, fadeIn 1s 0.2s forwards, lineGradient 5s alternate infinite;
+        animation: line-grow 1s 0.2s ease alternate 10.139 forwards;
     height: 20%;
     }
+
     .line30 {
-        opacity: 0;
-        animation: line-grow 1s ease alternate 10, fadeIn 1s  forwards, lineGradient 5s alternate infinite;;
+        animation: line-grow 1s ease alternate 10 forwards;
     height: 10%;
     }
 
     /* Keyframes */
-
-    @keyframes fadeOut {
-        0%{opacity: 1;}
-        100%{opacity: 0;}
-    }
 
     @keyframes lineGradient{
     0%{background-position:10% 0%}
@@ -190,17 +183,12 @@
     }
 
     @keyframes line-grow {
-    0% { height: 10%;}
-    100% { height: 90%;}
+    0% { height: 10%; opacity: 0.2; backdrop-filter: blur(5px);}
+    100% { height: 90%; opacity:0.9; backdrop-filter: blur(5px);}
     }
 
     @keyframes slideloader {
   0%{ transform: translateX(50%);}
   50%{ transform: translateX(50%);}
   100% { transform: translateX(0%);}
-}
-
-    @keyframes shrink-line {
-  0%{ height: 0%;}
-  100%{ height: 100%;}
 }

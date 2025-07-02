@@ -65,7 +65,6 @@ export const Home = () => {
 
 	return (
 		<div className="container-fluid">
-
 			<div className="row" >
 				<div className="col-12 text-center">
 			<p className="welcome fw-bold m-0"></p>
@@ -107,7 +106,7 @@ export const Home = () => {
 
 
 						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
-							<Link to="/register" style={{ textDecoration: "none" }}>
+							<Link to="/register">
 							<button className="newuser btn fw-bold shadow-lg">New user? <br/> Create an account!</button>
 							</Link>
 						</div>
@@ -120,6 +119,6 @@ export const Home = () => {
 					</div>
 			
 			</div>
-		</div>
+			</div>
 	);
 }; 

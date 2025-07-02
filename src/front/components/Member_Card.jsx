@@ -10,8 +10,8 @@ export const Membercard = (member) => {
 
     return(
 <>
-<div className="memcard p-4">
-    <div className="d-flex justify-content-center py-3">
+<div className="memcard p-2">
+    <div className="d-flex justify-content-center pt-3">
     <img src={member.pic} className="memberpic rounded-circle object-fit-cover" />
     </div>
 

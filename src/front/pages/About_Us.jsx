@@ -14,7 +14,7 @@ export const AboutUs = () => {
                         <div className="banner"></div>
                     </div>
                 </div>
-                <div className="row mt-5 d-flex justify-content-center">
+                <div className="row mt-5 d-flex justify-content-between">
                     <div className="col">
                         <div className="member team1">
                             <Membercard pic='/Pictures/Team_Members/Adrian.png' name='Adrian' role='The Creative Guitarist (Frontend & Audio Engine)' 

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export const EditProfilePage = () => {
     return (
         <>
-            <div className="container-fluid d-flex flex-column m-5 px-5 z-n1 position-absolute">
+            <div className="container-fluid d-flex flex-column m-5 px-5">
                 <div className="pb-5">
                 <h1 className="header text-start">Edit Profile</h1>
                 <div className="d-flex flex-row justify-content-between">
