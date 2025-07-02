@@ -35,6 +35,8 @@ export const AudioUploaderAndPoster = () => {
     const waveformRefs = useRef([]);
     const waveSurfers = useRef([]);
     const containerRef = useRef();
+    const [isPlaying, setIsPlaying] = useState(false);
+
 
     const handleFileChange = e => {
         const files = Array.from(e.target.files);
@@ -50,8 +52,17 @@ export const AudioUploaderAndPoster = () => {
         setAudioFiles(prev => [...prev, ...withMeta]);
     };
 
+
+
     useEffect(() => {
         if (audioFiles.length === 0 || !containerRef.current) return;
+
+        // 💥 Destruir la instancia previa antes de crear una nueva
+        if (multitrackInstance) {
+            multitrackInstance.destroy();
+            setMultitrackInstance(null);
+            containerRef.current.innerHTML = ""; // limpiar DOM
+        }
 
         const script = document.createElement("script");
         script.src = "https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js";
@@ -94,54 +105,41 @@ export const AudioUploaderAndPoster = () => {
                 await multitrack.setSinkId('default');
             });
 
-            multitrack.on('volume-change', ({ id, volume }) => {
-                console.log(`Track ${id} volume updated to ${volume}`);
-            });
-
-            multitrack.on('start-position-change', ({ id, startPosition }) => {
-                console.log(`Track ${id} start position updated to ${startPosition}`);
-            });
-
-            multitrack.on('start-cue-change', ({ id, startCue }) => {
-                console.log(`Track ${id} start cue updated to ${startCue}`);
-            });
-
-            multitrack.on('end-cue-change', ({ id, endCue }) => {
-                console.log(`Track ${id} end cue updated to ${endCue}`);
-            });
-
-            multitrack.on('fade-in-change', ({ id, fadeInEnd }) => {
-                console.log(`Track ${id} fade-in updated to ${fadeInEnd}`);
-            });
-
-            multitrack.on('fade-out-change', ({ id, fadeOutStart }) => {
-                console.log(`Track ${id} fade-out updated to ${fadeOutStart}`);
-            });
-
             setMultitrackInstance(multitrack);
         };
 
         document.body.appendChild(script);
+
         return () => {
-            if (multitrackInstance) multitrackInstance.destroy();
+            if (multitrackInstance) {
+                multitrackInstance.destroy();
+                containerRef.current.innerHTML = "";
+            }
         };
-    }, [audioFiles, zoomLevel]);
+    }, [audioFiles]);
+
+    useEffect(() => {
+        if (multitrackInstance) {
+            multitrackInstance.zoom(zoomLevel);
+        }
+    }, [zoomLevel]);
+
 
     const handleZoomChange = (e, value) => {
         setZoomLevel(value);
-        if (multitrackInstance) {
-            multitrackInstance.zoom(value);
-        }
     };
 
     const handlePlayPause = () => {
         if (!multitrackInstance) return;
         if (multitrackInstance.isPlaying()) {
             multitrackInstance.pause();
+            setIsPlaying(false);
         } else {
             multitrackInstance.play();
+            setIsPlaying(true);
         }
     };
+
 
     const handleSeek = seconds => {
         if (multitrackInstance) {
@@ -189,11 +187,13 @@ export const AudioUploaderAndPoster = () => {
                         <option key={ts} value={ts}>{ts}</option>
                     ))}
                 </TextField>
+
                 <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
-                   <Stack spacing={2} mb={4}>
-                <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-            </Stack>
+                <Stack spacing={2} mb={4}>
+                    <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                    <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+
+                </Stack>
             </Stack>
 
             <Stack direction="row" spacing={2} alignItems="center">
@@ -209,9 +209,15 @@ export const AudioUploaderAndPoster = () => {
             <Box mt={6} mb={2}>
                 <Typography color="#C0C1C2" fontSize={18} fontWeight={600} mb={1}>Controles de mezcla</Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
-                    <Button variant="outlined" onClick={handlePlayPause} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>Play / Pause</Button>
-                    <Button variant="outlined" onClick={() => handleSeek(-10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>◀ Retroceder</Button>
-                    <Button variant="outlined" onClick={() => handleSeek(10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>Avanzar ▶</Button>
+                    <Button variant="outlined" onClick={() => handleSeek(-10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>◀◀</Button>
+                    <Button
+                        variant="outlined"
+                        onClick={handlePlayPause}
+                        startIcon={isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                        sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}
+                    >
+                    </Button>
+                    <Button variant="outlined" onClick={() => handleSeek(10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>▶▶</Button>
                     <Box sx={{ width: 200 }}>
                         <Typography color="#C0C1C2" fontSize={12}>Zoom</Typography>
                         <Slider min={10} max={100} value={zoomLevel} onChange={handleZoomChange} sx={{ color: "#37555B" }} />
