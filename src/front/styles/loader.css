@@ -17,7 +17,7 @@
     .line {
         width: 100%;
         border-radius: 10px;
-        background: linear-gradient(130deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+        background: linear-gradient(130deg, var(--color-1),  var(--color-2), var(--color-1));
         background-size: 500%, 500%;
         backdrop-filter: blur(5px);
         opacity: 0;

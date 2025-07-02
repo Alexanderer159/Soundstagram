@@ -104,11 +104,12 @@ export const Home = () => {
 						</form>
 						</div>
 
-
 						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
-							<Link to="/register">
-							<button className="newuser btn fw-bold shadow-lg">New user? <br/> Create an account!</button>
-							</Link>
+							<div className="newuser btn fw-bold shadow-lg">
+								<Link to="/register">
+									<button className="newuser-btn btn fw-bold">New user? <br/> Create an account!</button>
+								</Link>
+							</div>
 						</div>
 			</div>
 

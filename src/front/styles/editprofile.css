@@ -1,6 +1,6 @@
 .header {
     animation: gradient-shift 5s infinite, fadeIn 4s 1s forwards, slide 2s forwards;
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
@@ -10,7 +10,7 @@
 
 .change{
     font-size: 7rem;
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
@@ -38,15 +38,15 @@
     font-size: 25px;
     border: 0px;
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-2), var(--color-1));
        background-size: 300%, 300%;
     animation: gradient-shift 3s ease infinite;
-    color: rgb(33, 37, 41);
+    color: var(--bg-color);
 }
 .pro-btn:active {
-    border: 1px solid rgb(0, 247, 255);
+    border: 1px solid var(--color-3);
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-2), var(--color-1));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
@@ -56,8 +56,8 @@
 .pro-btn-disc{
     border: 0px;
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(119, 0, 255), rgb(240, 13, 13));
-    color: rgb(33, 37, 41);
+    background: linear-gradient(270deg, var(--color-4), var(--color-5));
+    color: var(--bg-color);
        background-size: 300%, 300%;
     animation: gradient-shift 1s ease infinite;
     font-size: 25px;
@@ -66,7 +66,7 @@
 .pro-btn-disc:active {
         border: 1px solid rgb(255, 0, 13);
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(162, 0, 255), rgb(240, 13, 13));
+    background: linear-gradient(270deg, var(--color-4), var(--color-5));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
@@ -74,7 +74,7 @@
 }
 
 .inp-edi-prof{
-    border: 1px solid rgb(0, 247, 255);
+    border: 1px solid var(--color-3);
     border-radius: 5px;
 }
 

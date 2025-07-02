@@ -1,8 +1,8 @@
 
 .welcome::before{
 content:"Welcome";
-   animation: gradient-shift 5s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, refadein 2s 9s forwards; 
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+   animation: gradient-shift 15s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, refadein 2s 9s forwards; 
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
@@ -16,7 +16,7 @@ content:"Welcome";
 
 .slogan {
     animation: gradient-shift 5s infinite, fadeIn 4s 8s forwards, slidewaves 7s 8s forwards;
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     height: clamp(300px, 3.25rem, 3.25vw);
@@ -28,7 +28,7 @@ content:"Welcome";
 }
 .slogan::after{
     content:"";
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     height: 1%;
     width: 90%;
@@ -42,12 +42,13 @@ content:"Welcome";
 
 .form {
     border-radius: 10px;
-    animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease-in-out 2s 6s forwards;
+    animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease 2s 6s forwards;
     opacity: 0;
+    background: var(--bg-color);
 }
 
 .form .form-text{
-background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
 background-clip: text;
 background-size: 200%, 200%;
 color: transparent;
@@ -55,29 +56,29 @@ animation: gradient-shift 5s infinite;
 }
 
 .form .textinput{
-    border: 1px solid rgb(0, 255, 191);
+    border: 1px solid var(--color-3);
     border-radius: 5px;
     height: 2.5rem;
     padding: 3%;
 }
 
 .form-check-input{
-    border: 1px solid rgb(0, 255, 191);
+    border: 1px solid var(--color-3);
 }
 
 .form .btn{
     border: 0px;
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-size: 300%, 300%;
     animation: gradient-shift 3s ease infinite;
     transition: 1s ease;
-    color: rgb(33, 37, 41);
+    color: var(--bg-color);
 }
 .form .btn:active {
-    border: 1px solid rgb(0, 247, 255);
+    border: 1px solid var(--color-3);
     border-radius: 5px;
-    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
@@ -87,36 +88,58 @@ transition: 1s ease;
 font-size: x-large;
 }
 
-.newuser {
+.newuser{
+    opacity:0;
+    background: var(--bg-color);
+    animation: fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
+}
+.newuser:hover{
+    background: var(--bg-color);
+    border: 1px solid var(--color-3);
+}
+
+.newuser:active{
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: var(--bg-color) ;
+}
+
+.newuser-btn {
     opacity: 0;
     font-size: clamp(1.5rem, 2.5rem, 2.5rem);
-    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
     transition: 1s ease-in-out;
-    animation: gradient-shift 3s ease infinite, fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
-    border:1px solid rgb(34, 36, 37);
+    animation: gradient-shift 10s ease infinite, fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
 }
-.newuser:hover, .newuser:active{
-    font-size: clamp(1.8rem, 2.8rem, 2.8rem);
+.newuser-btn:hover{
+    font-size: clamp(1.8rem, 2.65rem, 2.65rem);
     transition: 1s ease-in-out;
-    background: linear-gradient(270deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
-    border: 1px solid rgb(0, 255, 191);
+}
+.newuser-btn:active{
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
 }
 
 
 /* Keyframes */
 
 @keyframes glow {
-    0% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
-    25% { box-shadow: -10px -10px 35px rgb(0, 255, 191);}
-    50% { box-shadow: -10px 10px 35px rgb(0, 255, 136);}
-    75% { box-shadow: 10px 10px 35px rgb(0, 255, 191);}
-    100% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
+    0% { box-shadow: 10px -10px 35px var(--color-1);}
+    25% { box-shadow: -10px -10px 35px var(--color-3);}
+    50% { box-shadow: -10px 10px 35px var(--color-2);}
+    75% { box-shadow: 10px 10px 35px var(--color-3);}
+    100% { box-shadow: 10px -10px 35px var(--color-1);}
         }
         
 @keyframes slidewaves {
