@@ -3,21 +3,28 @@
 @tailwind utilities;
 
 /* All pages */
+
+
 :root{
 --bs-body-font-family: "Rubik", sans-serif !important;
+--bg-color:rgb(33, 37, 41);
+--color-1:rgb(13, 202, 240);
+--color-2:rgb(0, 255, 136);
+--color-3:rgb(0, 255, 191);
+--color-4:rgb(119, 0, 255);
+--color-5:rgb(240, 13, 13);
 }
 
 body {
-    background-color: rgb(33, 37, 41);
+    background: linear-gradient(60deg, var(--bg-color),  var(--color-3), var(--bg-color));
+    background-size: 3000%;
     font-family: "Rubik", sans-serif;
 }
 
 html, body {
 height: 100%;
 margin: 0;
-overflow: auto;
-  scrollbar-color: rgb(0, 255, 191) transparent;
-  scrollbar-width: thin;
+scrollbar-width: none;
 }
 
 /* ----------------     KEYFRAMES    ----------------- */

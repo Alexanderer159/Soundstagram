@@ -5,19 +5,19 @@
     top: 0;
     width: 100vw;
     z-index: 1030;
-    background-color: rgb(33, 37, 41);
+    background-color: var(--bg-color);
 }
 
 .navbar-text{
 font-size: 1.3rem;
-background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
 background-clip: text;
 background-size: 200%, 200%;
 transition: 1s ease;
 color: transparent;
 animation: gradient-shift 5s infinite linear;
 &:hover{
-background: linear-gradient(90deg, rgb(0, 255, 136), rgb(13, 202, 240), rgb(0, 255, 136));
+background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
 transition: 1.5s ease;
 background-clip: text;
 background-size: 200%, 200%;
@@ -39,8 +39,8 @@ width: 50px;
 }
 
 .icon-navbar{
-background-image: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
-color: rgb(33, 37, 41);
+background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+color: var(--bg-color);
 background-size: 200%, 200%;
 font-size: 25px;
 transition: 1s;
@@ -62,7 +62,7 @@ animation: gradient-shift 5s infinite linear;
   position: absolute;
   z-index: 9999 !important;
   pointer-events: none;
-  background-color: rgb(33, 37, 41);
+  background-color: var(--bg-color);
 }
 
 .dropdown-menu , .profile {
@@ -82,7 +82,7 @@ animation: gradient-shift 5s infinite linear;
 }
 
 .dropdown-menu .dropdown-item{
-background: linear-gradient(90deg, rgb(13, 202, 240), rgb(0, 255, 136), rgb(13, 202, 240));
+background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
 background-clip: text;
 background-size: 200%, 200%;
 transition: 1s ease;
@@ -90,7 +90,7 @@ font-size: large;
 color: transparent;
 animation: gradient-shift 5s infinite linear;
 &:hover{
-background: linear-gradient(90deg,rgb(0, 255, 136), rgb(13, 202, 240), rgb(0, 255, 136));
+background: linear-gradient(90deg,var(--color-2), var(--color-1), var(--color-2));
 transition: 1.5s ease;
 background-clip: text;
 background-size: 200%, 200%;

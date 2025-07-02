@@ -14,7 +14,7 @@
 
 .meet {
     font-size: clamp(3em,5vw,5vw);
-    background: linear-gradient(270deg, rgb(13, 202, 240),  rgb(0, 255, 136), rgb(13, 202, 240));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;

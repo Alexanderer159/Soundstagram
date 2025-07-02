@@ -1,9 +1,61 @@
 .reguserim{
 height: 500px;
 width: 500px;
+cursor: pointer;
+}
+.reguserim:hover{
+
 }
 
-.imacombo{
-height: 500px;
-width: 500px;
+.get-started{
+    animation: gradient-shift 5s infinite, fadeIn 2s forwards;
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
+    user-select: none;
+    font-size: clamp(3em, 5vw, 5vw);
+}
+
+.register-form{
+    width: clamp(500px,50%,50%);
+    border-radius:5px;
+    color: white;
+    background: var(--bg-color);
+}
+
+.register-input {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    color: white;
+    padding: 3%;
+    background: var(--bg-color);
+    background-size: 1500%;
+}
+
+.register-input::placeholder {
+  color: white;
+}
+
+.register-btn{
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: var(--bg-color);
+}
+.register-btn:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.register-btn:hover {
+transition: 1s ease;
+font-size: x-large;
 }
