@@ -1,16 +1,18 @@
 .memcard {
     animation: glow 5s ease alternate infinite;
     border-radius: 15px;
+    min-height: 570px;
     max-height: 570px;
     max-width: 100%;
     overflow: hidden;
+    background: rgba(33, 37, 41,0.95);
 }
 
 .memberpic {
     max-height: 200px;
     max-width: 200px;
     overflow-clip-margin: unset;
-    transition: 1s ease;
+    transition: 1s 1s ease;
 }
 .memberpic:hover{
     max-height: 500px;
@@ -30,11 +32,6 @@ transition: 1s ease;
     background-clip: text;
     color: transparent;
     user-select: none;
-    transition: 1s ease;
-}
-.teamname:hover{
-    font-size: xx-large;
-    transition: 1s ease;
 }
 
 .linksteam svg{
