@@ -3,9 +3,11 @@ height: 500px;
 width: 500px;
 cursor: pointer;
 transition:1s ease;
+opacity: 0;
+animation: fadeIn 3s 0.5s forwards, rotateimg 3s forwards, clickin 0.5s 2.7s 1;
 }
+
 .reguserim:hover{
-opacity: 0.8;
 transition: 1s ease;
 height: 450px;
 width: 450px;
@@ -27,7 +29,8 @@ width: 450px;
     border-radius:5px;
     color: white;
     background: var(--bg-color);
-    animation: regslidein 2s 2s forwards;
+    opacity: 0;
+    animation: regslidein 2s 2s forwards, fadeIn 2s 2s forwards;
 }
 
 .register-input {
@@ -64,4 +67,20 @@ width: 450px;
 .register-btn:hover {
 transition: 1s ease;
 font-size: x-large;
+}
+
+@keyframes regslidein {
+    0%{transform: translateX(150%);}
+    100%{transform: translate(0%);}
+}
+
+@keyframes rotateimg {
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+@keyframes clickin {
+    0%{height: 500px; width: 500px;}
+    50%{height: 490px; width: 490px;}
+    100%{height: 500px; width: 500px;}
 }

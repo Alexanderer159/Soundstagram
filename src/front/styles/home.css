@@ -19,7 +19,7 @@ content:"Welcome";
     background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
-    height: clamp(300px, 3.25rem, 3.25vw);
+    height: clamp(150px, 3.25rem, 3.25vw);
     color: transparent;
     opacity: 0;
     font-size: clamp(2.5rem, 3.25rem, 3.25vw);

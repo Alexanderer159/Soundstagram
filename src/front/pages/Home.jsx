@@ -65,15 +65,20 @@ export const Home = () => {
 
 	return (
 		<div className="container-fluid">
+
 			<div className="row" >
+
 				<div className="col-12 text-center">
-			<p className="welcome fw-bold m-0"></p>
+
+					<p className="welcome fw-bold m-0"></p>
+
 				</div>
+
 			</div>
 
 			<div className="row">
 
-				<div className="col-12 col-md-6 my-2" style={{minHeight: "300px"}} >
+				<div className="col-12 col-md-6 my-2 ps-5" style={{minHeight: "300px"}} >
 					<Loader />
 				</div>	
 
@@ -115,7 +120,7 @@ export const Home = () => {
 
 
 			<div className="row" >
-				<div className="col-12 d-flex align-items-end justify-content-end pe-5 mt-3">
+				<div className="col-12 d-flex justify-content-end pe-5 mt-3">
 					<p className="slogan px-5 text-end fw-bold ">Let's make some waves together...</p>
 					</div>
 			
