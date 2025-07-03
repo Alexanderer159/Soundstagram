@@ -39,5 +39,4 @@ export const EditProfilePage = () => {
                 </form>
             </div>
     </>
-    );
-}
+    );}
