@@ -14,6 +14,14 @@ from back.controllers.user_controller import user_api
 from back.controllers.role_controller import role_api
 from back.controllers.instrument_controller import instrument_api
 from back.controllers.genre_controller import genre_api
+from back.controllers.collaborator_controller import collaborator_api
+from back.controllers.comment_controller import comment_api
+from back.controllers.follow_controller import follow_api
+from back.controllers.like_controller import like_api
+from back.controllers.chat_controller import chat_api
+from back.controllers.search_controller import search_api
+from back.controllers.notification_controller import notification_api
+
 from back.admin import setup_admin
 from back.commands import setup_commands
 
@@ -56,6 +64,13 @@ app.register_blueprint(track_api, url_prefix='/api')
 app.register_blueprint(role_api, url_prefix='/api')
 app.register_blueprint(instrument_api, url_prefix='/api')
 app.register_blueprint(genre_api, url_prefix='/api')
+app.register_blueprint(collaborator_api, url_prefix='/api')
+app.register_blueprint(comment_api, url_prefix='/api')
+app.register_blueprint(follow_api, url_prefix='/api')
+app.register_blueprint(like_api, url_prefix='/api')
+app.register_blueprint(chat_api, url_prefix='/api')
+app.register_blueprint(search_api, url_prefix='/api')
+app.register_blueprint(notification_api, url_prefix='/api')
 # Handle/serialize errors like a JSON object
 
 

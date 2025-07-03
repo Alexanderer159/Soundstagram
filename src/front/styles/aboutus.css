@@ -1,67 +1,75 @@
-.aboutus{
-    background-image: url(../../../public/Pictures/Team_Members/band_banner.png);
-    background-repeat: no-repeat;
-    background-position: top;
-    background-size:100%;
-    height:100vh;
+.aboutus {
+  background-image: url(../../../public/Pictures/Team_Members/band_banner.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100%;
+  height: 100vh;
 }
 
-.filter{
-    backdrop-filter: blur(0px) brightness(70%);
-    animation: blur 3s 3.5s forwards;
-    height:100vh;
+.filter {
+  backdrop-filter: blur(0px) brightness(70%);
+  animation: blur 3s 3.5s forwards;
+  height: 100vh;
 }
 
 .meet {
-    font-size: clamp(3em,5vw,5vw);
-    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
-    background-size: 200%, 200%;
-    background-clip: text;
-    color: transparent;
-    opacity: 0;
-    animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
+  font-size: clamp(3em, 5vw, 5vw);
+  background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+  background-size: 200%, 200%;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
 }
 
-.member{
-    margin-bottom: 25px;
+.member {
+  margin-top: 40%;
 }
 
-.team1{
-    opacity: 0;
-animation: fadeIn 2s 4s forwards, slidemember ease-in-out 1s 4s forwards;
-min-width: 450px;
-max-width: 450px;
+.team1 {
+  opacity: 0;
+  animation: fadeIn 2s 4s forwards, slidemember ease-in-out 1s 4s forwards;
+  min-width: 450px;
+  max-width: 450px;
 }
-.team2{
-    opacity: 0;
-animation: fadeIn 2s 4.2s forwards, slidemember ease-in-out 1s 4.2s forwards;
-min-width: 450px;
-max-width: 450px;
+.team2 {
+  opacity: 0;
+  animation: fadeIn 2s 4.2s forwards, slidemember ease-in-out 1s 4.2s forwards;
+  min-width: 450px;
+  max-width: 450px;
 }
-.team3{
-    opacity: 0;
-animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
-min-width: 450px;
-max-width: 450px;
+.team3 {
+  opacity: 0;
+  animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
+  min-width: 450px;
+  max-width: 450px;
 }
-.team4{
-    opacity: 0;
-animation: fadeIn 2s 4.6s forwards, slidemember ease-in-out 1s 4.6s forwards;
-min-width: 450px;
-max-width: 450px;
+.team4 {
+  opacity: 0;
+  animation: fadeIn 2s 4.6s forwards, slidemember ease-in-out 1s 4.6s forwards;
+  min-width: 450px;
+  max-width: 450px;
 }
 
 /* Keyframes */
 
-@keyframes slidemember{
-  
-  0%{ transform: translateY(50%);}
-  50%{transform: translateY(-10%);}
-  100% { transform: translateY(0%);}
-
+@keyframes slidemember {
+  0% {
+    transform: translateY(50%);
+  }
+  50% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 
-@keyframes blur{
-    0%{backdrop-filter: blur(0px) brightness(70%);}
-    100%{backdrop-filter: blur(7px) brightness(70%);}
+@keyframes blur {
+  0% {
+    backdrop-filter: blur(0px) brightness(70%);
+  }
+  100% {
+    backdrop-filter: blur(7px) brightness(70%);
+  }
 }
