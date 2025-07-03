@@ -1,7 +1,7 @@
 
 .welcome::before{
-content:"Welcome";
-   animation: gradient-shift 15s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, refadein 2s 9s forwards; 
+    content:"Welcome";
+    animation: gradient-shift 15s infinite, fadeIn 2s forwards, presentation 4s forwards, fadeOut 2s 6s forwards, refadein 2s 9s forwards; 
     background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
@@ -48,11 +48,11 @@ content:"Welcome";
 }
 
 .form .form-text{
-background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
-background-clip: text;
-background-size: 200%, 200%;
-color: transparent;
-animation: gradient-shift 5s infinite;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    animation: gradient-shift 5s infinite;
 }
 
 .form .textinput{
@@ -84,24 +84,19 @@ animation: gradient-shift 5s infinite;
     color: transparent;
 }
 .form .btn:hover {
-transition: 1s ease;
-font-size: x-large;
+    transition: 1s ease;
+    font-size: x-large;
 }
 
 .newuser{
     opacity:0;
     background: var(--bg-color);
     animation: fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
+    border-radius: 15px;
 }
 .newuser:hover{
     background: var(--bg-color);
     border: 1px solid var(--color-3);
-}
-
-.newuser:active{
-    border: 1px solid var(--color-3);
-    border-radius: 5px;
-    background: var(--bg-color) ;
 }
 
 .newuser-btn {
@@ -150,30 +145,30 @@ font-size: x-large;
 
 @keyframes slideline {
   0%{ transform: translateX(150%);}
-  25%{transform: translateX(-450%); visibility: visible;}
-  50%{transform: translateX(150%); visibility: visible;}
-  75%{transform: translateY(15%); visibility: visible;}
-  100%{transform: translateX(0%); visibility: visible;}
+  25%{ transform: translateX(-450%); visibility: visible;}
+  50%{ transform: translateX(150%); visibility: visible;}
+  75%{ transform: translateY(15%); visibility: visible;}
+  100%{ transform: translateX(0%); visibility: visible;}
 }
 
 @keyframes slideform {
   0%{ transform: translateX(50%);}
-  50%{transform: translateX(-10%);}
+  50%{ transform: translateX(-10%);}
   100% { transform: translateX(0%);}
 }
 
 @keyframes presentation {
-    0%{ transform: translateY(50%);font-size: 200%;}
-    50%{transform: translateY(50%);font-size: 200%;}
+    0%{ transform: translateY(50%); font-size: 200%;}
+    50%{ transform: translateY(50%); font-size: 200%;}
     100% { transform: translateY(-27.5%);}
 }
 
 @keyframes refadein {
     from{opacity: 0; content:'What are we doing today?';}
-    to{opacity:1;content:'What are we doing today?';}
+    to{opacity:1; content:'What are we doing today?';}
 }
 
 @keyframes fadeOut {
     0%{opacity: 1;}
     100%{opacity: 0;}
-    }
+}
