@@ -31,17 +31,29 @@ export const Navbar = () => {
 				</Link>
 
 
-				<div className="actions gap-4 justify-content-between d-flex flex-row mx-3">
-					<Link to="/feed" style={{ textDecoration: 'none' }}>
-						<FontAwesomeIcon className="icon-navbar" icon={faMagnifyingGlass} mask={faSquareFull}/>
-					</Link>	
+				<div className="actions gap-4 justify-content-between d-flex flex-row me-3">
+					
+					<form class="search-function d-flex">
+
+						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="text" placeholder="Search" aria-label="Search"/>
+						
+						<button className="btn search-navbar-icon-btn p-0" type="submit">
+
+							<FontAwesomeIcon className="search-navbar-icon icon-navbar" icon={faMagnifyingGlass} mask={faSquareFull}/>
+							
+						</button>
+					
+					</form>
 
 					<Link to="/notifications" style={{ textDecoration: 'none' }}>
 						<FontAwesomeIcon className="icon-navbar" icon={faBell} mask={faSquareFull}/>
 					</Link>
+
 					<div className="dropdown profile">
+
     					<FontAwesomeIcon type="button" className="icon-navbar" data-bs-toggle="dropdown" icon={faCircleUser} mask={faSquareFull}/>
-  							<ul className="dropdown-menu dropdown-menu-end shadow text-end">
+						
+  							<ul className="dropdown-menu dropdown-menu-end shadow-lg text-end">
    								<li>
 									<Link to="/profile"className="dropdown-item">Profile</Link>
 								</li>
@@ -52,6 +64,7 @@ export const Navbar = () => {
 								<Link to="/" className="dropdown-item">More Coming Soon!</Link>
 								</li>
   							</ul>
+
 					</div>
 				</div>
 			</div>

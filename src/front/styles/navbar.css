@@ -54,21 +54,40 @@ transition: 1s;
 animation: gradient-shift 5s infinite linear;
 }
 
-.profile{
-    position: relative;
+.search-function:hover .search-navbar-bar {
+width: 500px;
+opacity: 1;
+transition: 1.5s ease;
+}
+
+.search-navbar-bar {
+border-radius: 30px;
+background: transparent;
+opacity: 0;
+border: 1px solid var(--color-3);
+max-height: 25px;
+width: 0px;
+transition: 0.75s 3s ease;
+}
+
+.search-navbar-bar::placeholder{
+color:white;
+}
+
+.search-navbar-bar:not(:placeholder-shown) {
+  width: 500px;
+  opacity: 1;
 }
 
 .dropdown-menu{
-  position: absolute;
-  z-index: 9999 !important;
   pointer-events: none;
   background-color: var(--bg-color);
+  transform: translateX(10%);
 }
 
 .dropdown-menu , .profile {
   pointer-events: all;
   border: 1px solid rgba(0,0,0,0);
-  z-index: 9999 !important;
 }
 
 .profile:hover .dropdown-menu, 
@@ -78,7 +97,7 @@ animation: gradient-shift 5s infinite linear;
 }
 
 .profile:not(:hover):not(.dropdown-menu:hover) .dropdown-menu {
-  animation: slideright 2s forwards;
+  animation: slideright 2s 2s forwards;
 }
 
 .dropdown-menu .dropdown-item{
