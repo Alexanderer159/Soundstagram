@@ -2,6 +2,9 @@ from datetime import datetime
 from sqlalchemy import String, Column, DateTime, ForeignKey, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from back.extensions import db
+
+
+
 class User(db.Model):
     __tablename__ = "users"
 
@@ -19,6 +22,19 @@ class User(db.Model):
     uploaded_tracks: Mapped[list["Track"]] = relationship("Track", back_populates="uploader")
     roles = relationship("Role", secondary="user_roles", back_populates="users")
     instruments = relationship("Instrument", secondary="user_instruments", back_populates="users")
+    collaborations: Mapped[list["Collaborator"]] = relationship("Collaborator", back_populates="user", cascade="all, delete-orphan")
+    
+    likes: Mapped[list["Like"]] = relationship("Like", back_populates="user", cascade="all, delete-orphan")
+    comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
+    followed = relationship("Follow", foreign_keys="[Follow.follower_id]", backref="follower_user", cascade="all, delete-orphan")
+                            
+    conversations_sent = relationship("Conversation", foreign_keys="[Conversation.user1_id]")
+    conversations_received = relationship("Conversation", foreign_keys="[Conversation.user2_id]")
+    sent_messages = relationship("Message", foreign_keys="[Message.sender_id]")
+
+    followers = relationship("Follow", foreign_keys="[Follow.followed_id]", backref="followed_user", cascade="all, delete-orphan"
+)
+
 
 
     def serialize(self):

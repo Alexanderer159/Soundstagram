@@ -12,7 +12,7 @@ class VisibilityEnum(enum.Enum):
 class StatusEnum(enum.Enum):
     active = "active"
     archived = "archived"
-    
+
 class KeyEnum(enum.Enum):
     C_MAJOR = "C Major"
     G_MAJOR = "G Major"
@@ -28,7 +28,6 @@ class KeyEnum(enum.Enum):
     A_FLAT_MAJOR = "Ab Major"
     D_FLAT_MAJOR = "Db Major"
     G_FLAT_MAJOR = "Gb Major"
-
     A_MINOR = "A Minor"
     E_MINOR = "E Minor"
     B_MINOR = "B Minor"
@@ -43,13 +42,25 @@ class KeyEnum(enum.Enum):
     F_MINOR = "F Minor"
     B_FLAT_MINOR = "Bb Minor"
     E_FLAT_MINOR = "Eb Minor"
-    
+
 class MeterEnum(enum.Enum):
     FOUR_FOUR = "4/4"
     THREE_FOUR = "3/4"
     SIX_EIGHT = "6/8"
     FIVE_FOUR = "5/4"
     SEVEN_EIGHT = "7/8"
+
+project_seeking_roles = db.Table(
+    'project_seeking_roles',
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
+)
+
+project_seeking_instruments = db.Table(
+    'project_seeking_instruments',
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id')),
+    db.Column('instrument_id', db.Integer, db.ForeignKey('instruments.id'))
+)
 
 
 
@@ -70,9 +81,16 @@ class Project(db.Model):
 
     owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
     owner: Mapped["User"] = relationship("User", back_populates="projects")
-    
+
     tracks: Mapped[list["Track"]] = relationship("Track", back_populates="project")
     genres: Mapped[list["Genre"]] = relationship("Genre", secondary=project_genres, backref="projects")
+
+    seeking_roles = relationship("Role", secondary=project_seeking_roles, backref="projects_seeking")
+    seeking_instruments = relationship("Instrument", secondary=project_seeking_instruments, backref="projects_seeking")
+    collaborators: Mapped[list["Collaborator"]] = relationship("Collaborator", back_populates="project", cascade="all, delete-orphan")
+    
+    likes: Mapped[list["Like"]] = relationship("Like", back_populates="project", cascade="all, delete-orphan")
+    comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="project", cascade="all, delete-orphan")
 
     
 
@@ -93,4 +111,6 @@ class Project(db.Model):
             "owner_username": self.owner.username if self.owner else None,
             "owner_pic": self.owner.profile_pic_url if self.owner else None,
             "genres": [g.serialize() for g in self.genres],
+            "seeking_roles": [r.serialize() for r in self.seeking_roles],
+            "seeking_instruments": [i.serialize() for i in self.seeking_instruments],
         }

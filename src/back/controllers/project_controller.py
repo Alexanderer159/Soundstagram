@@ -4,6 +4,8 @@ from datetime import datetime
 from back.models.genre_model import Genre
 from back.extensions import db
 from back.models.project_model import Project, VisibilityEnum, StatusEnum, KeyEnum, MeterEnum
+from back.models.role_model import Role
+from back.models.instrument_model import Instrument
 from back.models.user_model import User
 
 project_api = Blueprint('project_api', __name__)
@@ -15,32 +17,43 @@ def create_project():
     data = request.get_json()
 
     try:
-        visibility = VisibilityEnum(data.get('visibility', 'public'))
-        status = StatusEnum(data.get('status', 'active'))
-        key = KeyEnum(data.get('key')) if data.get('key') else None
-        meter = MeterEnum(data.get('meter')) if data.get('meter') else None
-        bpm = int(data.get('bpm')) if data.get('bpm') is not None else None
-        genre_ids = data.get('genres', [])
-        genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
-    except (ValueError, KeyError):
-        return jsonify({'msg': 'Valores inválidos en visibility, status, key, meter o bpm'}), 400
+        project = Project(
+            title=data["title"],
+            description=data.get("description"),
+            tags=data.get("tags"),
+            key=KeyEnum(data["key"]) if data.get("key") else None,
+            meter=MeterEnum(data["meter"]) if data.get("meter") else None,
+            bpm=int(data["bpm"]) if data.get("bpm") else None,
+            visibility=VisibilityEnum(data["visibility"]),
+            status=StatusEnum(data["status"]),
+            owner_id=user_id
+        )
 
-    new_project = Project(
-        title=data.get('title'),
-        description=data.get('description'),
-        tags=data.get('tags'),
-        visibility=visibility,
-        status=status,
-        key=key,
-        meter=meter,
-        bpm=bpm,
-        owner_id=user_id,
-        genres=genres
-    )
+        genre_ids = data.get("genre_ids", [])
+        if genre_ids:
+            genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
+            project.genres = genres
 
-    db.session.add(new_project)
-    db.session.commit()
-    return jsonify(new_project.serialize()), 201
+        role_ids = data.get("seeking_role_ids", [])
+        if role_ids:
+            roles = Role.query.filter(Role.id.in_(role_ids)).all()
+            project.seeking_roles = roles
+
+        instrument_ids = data.get("seeking_instrument_ids", [])
+        if instrument_ids:
+            instruments = Instrument.query.filter(Instrument.id.in_(instrument_ids)).all()
+            project.seeking_instruments = instruments
+
+        db.session.add(project)
+        db.session.commit()
+
+        return jsonify(project.serialize()), 201
+
+    except (ValueError, KeyError) as e:
+        return jsonify({"msg": f"Error de validación: {str(e)}"}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"msg": f"Error interno: {str(e)}"}), 500
 
 @project_api.route('/projects/public', methods=['GET'])
 @jwt_required()
@@ -113,8 +126,19 @@ def update_project(project_id):
         genres = Genre.query.filter(Genre.id.in_(genre_ids)).all()
         project.genres = genres
 
+    role_ids = data.get('seeking_role_ids')
+    if role_ids is not None:
+        roles = Role.query.filter(Role.id.in_(role_ids)).all()
+        project.seeking_roles = roles
+
+    instrument_ids = data.get('seeking_instrument_ids')
+    if instrument_ids is not None:
+        instruments = Instrument.query.filter(Instrument.id.in_(instrument_ids)).all()
+        project.seeking_instruments = instruments
+
     project.updated_at = datetime.utcnow()
     db.session.commit()
+
     return jsonify(project.serialize()), 200
 
 @project_api.route('/projects/<int:project_id>', methods=['DELETE'])
@@ -129,3 +153,22 @@ def delete_project(project_id):
     db.session.delete(project)
     db.session.commit()
     return jsonify({'msg': 'Proyecto eliminado'}), 200
+
+@project_api.route("/projects/seeking-instrument/<int:instrument_id>", methods=["GET"])
+def get_projects_by_seeking_instrument(instrument_id):
+    projects = Project.query.filter(
+        Project.seeking_instruments.any(id=instrument_id),
+        Project.visibility == VisibilityEnum.public
+    ).all()
+
+    return jsonify([p.serialize() for p in projects]), 200
+
+@project_api.route("/projects/seeking-role/<int:role_id>", methods=["GET"])
+def get_projects_by_seeking_role(role_id):
+    projects = Project.query.filter(
+        Project.seeking_roles.any(id=role_id),
+        Project.visibility == VisibilityEnum.public
+    ).all()
+
+    return jsonify([p.serialize() for p in projects]), 200
+
