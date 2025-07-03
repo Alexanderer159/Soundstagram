@@ -7,16 +7,26 @@ export const AboutUs = () => {
     return (
         <>
             <div className="aboutus container-fluid">
+
                 <div className="filter">
+
                     <div className="row">
+
                         <div className="col">
+
                             <p className="meet text-center fw-bold">Meet the band...</p>
                             <div className="banner"></div>
+
                         </div>
+
                     </div>
-                    <div className="row mt-5 d-flex justify-content-between">
+
+                    <div className="row mt-5 d-flex justify-content-between align-items-start">
+
                         <div className="col">
+
                             <div className="member team1">
+
                                 <Membercard pic='/Pictures/Team_Members/Adrian.png' name='Adrian' role='The Creative Guitarist (Frontend & Audio Engine)'
                                     bio="The original riff was his. Adrián conceived Soundstagram and now shapes the skeleton of the frontend, integrating tools like WaveSurfer.js and fine-tuning the online audio editor. He's the one who plays the first chord and lets the rest of the band flow."
                                     url1='https://github.com/adrifther' url2='https://github.com/adrifther/adrifther/blob/main/url' />

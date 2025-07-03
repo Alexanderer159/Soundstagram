@@ -22,15 +22,10 @@
   animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
 }
 
-.member {
-  margin-top: 40%;
-}
-
 .team1 {
   opacity: 0;
   animation: fadeIn 2s 4s forwards, slidemember ease-in-out 1s 4s forwards;
-  min-width: 450px;
-  max-width: 450px;
+
 }
 .team2 {
   opacity: 0;

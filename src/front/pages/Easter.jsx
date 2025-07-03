@@ -1,6 +1,6 @@
 import "../styles/easter.css";
 import "../styles/index.css";
-import { Grid } from "../components/Grid.jsx"
+
 
 
 export const EasterPage = () => {
@@ -9,23 +9,20 @@ export const EasterPage = () => {
 
     return (
         <>
-<div className="container-fluid easter">
-<Grid />
-</div>
+            <div className="easter container-fluid">
 
+                        <div className="ticket pt-5 d-flex position-absolute">
 
-        {/* 
+                            <p className="">Abro un Ticket!</p>
 
-<div className="row">
+                        </div>
 
-    <div className="col">
-    <p className="congrats">You found the hidden lucky hans! Congratulations!</p>
-</div>
+                    <div className="compi pt-5 d-flex position-absolute">
 
-<div className="col">
-    
-</div>
+                            <p className="">Mi compi destruye main</p>
 
-</div>*/}
+                        </div>
+            </div>
         </>
-    );}
+    );
+}
