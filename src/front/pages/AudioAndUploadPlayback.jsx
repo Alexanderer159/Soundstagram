@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import WaveSurfer from "wavesurfer.js";
-import {
-    Box, Button, Typography, Stack, IconButton,
-    TextField, Slider
-} from "@mui/material";
+import {Box, Button, Typography, Stack, IconButton,TextField, Slider} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import WavEncoder from "wav-encoder";
-
+import "../styles/upload_play.css"
+import "../styles/index.css"
 
 const waveformOptions = container => ({
     container,
@@ -232,61 +230,106 @@ export const AudioUploaderAndPoster = () => {
 
 
     return (
-        <Box sx={{ p: 4, borderRadius: 4 }}>
-            <Typography variant="h5" color="#C0C1C2" gutterBottom>
+        <div className="container-fluid mt-3">
 
-                Upload and Publish Track
-            </Typography>
+            <div className="row">            
+                <p className="uppy text-center">Upload and Publish Project</p>
+            </div>
 
-            <Stack direction="row" spacing={2} mt={2} mb={2}>
 
-                <TextField select label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
-                </TextField>
+            <div className="row all-info m-2 p-4 shadow">
 
-                <TextField select label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
-                </TextField>
+                <div className="col-2 buttons d-flex flex-column">
+                    
+                    <div className="d-flex justify-content-between">
+                        
+                        <div className="">
+                            <label className="text-white">Key</label>
+                            <select className="controls-uppy ps-3" label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} >
+                                {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
+                            </select>
+                        </div>
 
-                <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
+                        <div className="">
 
-                <Stack spacing={2} mb={4}>
-                    <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                    <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                </Stack>
-            </Stack>
+                            <label className="text-white">Compass</label>
+                            <select className="controls-uppy ps-3" label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} >
+                                {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
+                            </select>
 
-            <Stack direction="row" spacing={2} alignItems="center">
-                <Button variant="contained" component="label" startIcon={<UploadIcon />} sx={{ backgroundColor: "#37555B" }}>
-                    Subir pistas
-                    <input hidden type="file" accept="audio/*" multiple onChange={handleFileChange} />
-                </Button>
-                <Button variant="contained" onClick={handleExportMix} sx={{ backgroundColor: "#37555B" }}>
-                    Exportar mezcla
-                </Button>
-                <Button variant="contained" startIcon={<SendIcon />} onClick={handlePost} sx={{ backgroundColor: "#37555B" }}>
-                    Publicar proyecto
-                </Button>
-            </Stack>
+                        </div>
 
-            <Box mt={6} mb={2}>
-                <Typography color="#C0C1C2" fontSize={18} fontWeight={600} mb={1}>Controles de mezcla</Typography>
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Button variant="outlined" onClick={() => handleSeek(-10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>◀◀</Button>
-                    <Button
-                        variant="outlined"
-                        onClick={handlePlayPause}
-                        startIcon={isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                        sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}
-                    >
-                    </Button>
-                    <Button variant="outlined" onClick={() => handleSeek(10)} sx={{ color: "#C0C1C2", borderColor: "#C0C1C2" }}>▶▶</Button>
-                    <Box sx={{ width: 200 }}>
-                        <Typography color="#C0C1C2" fontSize={12}>Zoom</Typography>
-                        <Slider min={10} max={100} value={zoomLevel} onChange={handleZoomChange} sx={{ color: "#37555B" }} />
-                    </Box>
-                </Stack>
-            </Box>
+                    </div>
+
+                        <div className="">
+
+                            <label className="text-white">BPM</label>
+                            <input className="controls-uppy ps-3" label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} />
+
+                        </div>
+                </div>
+
+                <div className="col d-flex flex-column">
+
+                    <label className="text-white">Extra info</label>
+                    
+                    <div className="text-uppy gap-3 d-flex flex-column">
+
+                        <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
+                        <input className="text-uppy-input ps-3" placeholder="Short Description" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)}/>
+                    
+                    </div>
+                </div>
+            </div>
+
+            <div className="row m-3">
+
+                <div className="col d-flex flex-row gap-3 ps-5">
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2">
+                        <label className="into-uppy flex-row align-items-center" for="fileUpload"> <UploadIcon /> Upload Track</label>
+                        <input className="into-uppy" hidden id="fileUpload" type="file" accept="audio/*" multiple onChange={handleFileChange} />
+                    </button>
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleExportMix}>
+                        <p className="m-0 flex-row align-items-center">Download Project</p>
+                    </button>
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handlePost}>
+                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div className="row m-3">
+                <div className="col-2 mt-1">
+
+                    <p className="mix-header text-white">Mix Controls</p>
+
+                    <div className="d-flex flex-row align-items-center justify-content-between">
+
+                        <Button className="" variant="outlined" onClick={() => handleSeek(-10)}>◀◀</Button>
+
+                        <Button className="" variant="outlined" onClick={handlePlayPause}>{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}</Button>
+
+                        <Button className="" variant="outlined" onClick={() => handleSeek(10)}>▶▶</Button>
+
+                    </div>
+                </div>
+                    
+                <div className="col mt-1 d-flex align-items-end">
+
+                        <div className="zoom-line">
+                            <p className="text-white fs-4">Zoom</p>
+                            {/* <input className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/> */}
+                            <Slider className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
+                        </div>
+
+                </div>
+                
+            </div>
 
             <Box ref={containerRef} sx={{ width: "100%", minHeight: 300, backgroundColor: "#2D2D2D", borderRadius: 2 }}>
                 {audioFiles.map((track, idx) => (
@@ -316,6 +359,6 @@ export const AudioUploaderAndPoster = () => {
                 ))}
             </Box>
 
-        </Box>
+        </div>
     );
 };

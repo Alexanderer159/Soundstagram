@@ -1,0 +1,87 @@
+.all-info{
+    background: var(--bg-color);
+    border-radius: 15px;
+}
+
+.uppy{
+font-size: clamp(3em, 5vw, 5vw);
+  background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+  background-size: 200%, 200%;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
+}
+
+.controls-uppy{
+font-size: clamp(0.5em, 1.5vw, 1.5vw);
+border-radius: 5px;
+height: 60px;
+width: 100%;
+background: var(--bg-color);
+border: 1px solid var(--color-3);
+color: white;
+cursor: pointer;
+}
+
+.text-uppy{
+font-size: clamp(0.5em, 1.5vw, 1.5vw);
+border-radius: 5px;
+height: 135px;
+width: 100%;
+}
+
+.text-uppy-input{
+border-radius: 5px;
+background: var(--bg-color);
+border: 1px solid var(--color-3);
+color: white;
+height: 100%;
+width: 100%;
+}
+
+.text-uppy-input::placeholder{
+    color: white;
+}
+
+.btn-uppy{
+      border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: var(--bg-color);
+    cursor: pointer;
+    height: 40px;
+}
+
+.btn-uppy:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.btn-uppy:hover {
+    transition: 1s ease;
+    font-size: large;
+    cursor: pointer;
+}
+
+.into-uppy{
+    cursor: pointer;
+}
+
+.mix-header{
+    font-size: clamp(2em, 2vw, 2vw);
+}
+
+.zoom-line{
+    width: 100%;
+}
+
+.zoom-control{
+    color: var(--color-3);
+}
