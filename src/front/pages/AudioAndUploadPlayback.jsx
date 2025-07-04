@@ -57,11 +57,10 @@ export const AudioUploaderAndPoster = () => {
     useEffect(() => {
         if (audioFiles.length === 0 || !containerRef.current) return;
 
-        // 💥 Destruir la instancia previa antes de crear una nueva
         if (multitrackInstance) {
             multitrackInstance.destroy();
             setMultitrackInstance(null);
-            containerRef.current.innerHTML = ""; // limpiar DOM
+            containerRef.current.innerHTML = ""; 
         }
 
         const script = document.createElement("script");
@@ -173,26 +172,25 @@ export const AudioUploaderAndPoster = () => {
     return (
         <Box sx={{ p: 4, borderRadius: 4 }}>
             <Typography variant="h5" color="#C0C1C2" gutterBottom>
-                Subir y publicar proyecto musical
+
+                Upload and Publish Track
             </Typography>
 
             <Stack direction="row" spacing={2} mt={2} mb={2}>
+
                 <TextField select label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (
-                        <option key={key} value={key}>{key}</option>
-                    ))}
+                    {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
                 </TextField>
+
                 <TextField select label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (
-                        <option key={ts} value={ts}>{ts}</option>
-                    ))}
+                    {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
                 </TextField>
 
                 <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
+
                 <Stack spacing={2} mb={4}>
                     <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
                     <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-
                 </Stack>
             </Stack>
 

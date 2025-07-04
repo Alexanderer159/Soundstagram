@@ -6,6 +6,7 @@
   background-position: top;
   background-size: 100%;
   height: 100vh;
+  cursor: url(../../../public/Pictures/Easter/wand.png), auto;
 }
 
 .ticket{

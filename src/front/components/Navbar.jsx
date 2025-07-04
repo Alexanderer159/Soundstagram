@@ -58,10 +58,10 @@ export const Navbar = () => {
 									<Link to="/profile"className="dropdown-item">Profile</Link>
 								</li>
    								<li>
-									<Link to="/addtrack" className="dropdown-item">Add a track</Link>
+									<Link to="/uploader-poster" className="dropdown-item">Make a project</Link>
 								</li>
 								<li>
-								<Link to="/" className="dropdown-item">More Coming Soon!</Link>
+								<Link to="/addtrack" className="dropdown-item">Upload a track</Link>
 								</li>
   							</ul>
 
