@@ -102,7 +102,7 @@ export const DesktopProfilePage = () => {
 
               <div className="d-flex justify-content-center">
 
-                <Link to="/projectdetails" style={{ textDecoration: 'none' }}>
+                <Link to="/uploader-poster" style={{ textDecoration: 'none' }}>
 
                   <button className="pro-btn ">Add Project</button>
 

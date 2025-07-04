@@ -38,7 +38,6 @@ export const router = createBrowserRouter(
       <Route path="/addtrack" element={< AddExistingTrackPage />} />
       <Route path="/explore" element={< ExploreProjectsPage />} />
       <Route path="/comments" element={< CommentsPage />} />
-   
       <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />
     </Route>
   )
