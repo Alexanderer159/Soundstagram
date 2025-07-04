@@ -3,7 +3,7 @@ import "../styles/index.css";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { getProjectsByUser, getTracksByUser, logoutUser } from "../service/services";
+import { getProjectsByUser, getTracksByUser, logoutUser } from "../services/authServices";
 import { useNavigate } from "react-router-dom";
 import profile_pic_default from "../assets/default-profile.png";
 
@@ -51,7 +51,7 @@ export const DesktopProfilePage = () => {
 
           <div className="col d-flex flex-row justify-content-start align-items-center">
 
-            <img src={user.picture || profile_pic_default} className="pro-pic-user rounded-circle mb-5" />
+            <img src={user.profile_pic_url || profile_pic_default} className="pro-pic-user rounded-circle mb-5" />
 
             <div className="col info d-flex flex-column justify-content-start ps-3">
 
@@ -90,30 +90,30 @@ export const DesktopProfilePage = () => {
 
             <p className="projects-title text-white">Projects</p>
 
-              <div className="projects mb-4">
+            <div className="projects mb-4">
 
-                {projects.length === 0 ? (<p className="text-white p-3">No projects yet.</p>) : (<ul className="list-group">
+              {projects.length === 0 ? (<p className="text-white p-3">No projects yet.</p>) : (<ul className="list-group">
 
-                  {projects.map(project => (<li key={project.id} className="list-group-item bg-secondary text-white">{project.title} - ({project.visibility})</li>))}
+                {projects.map(project => (<li key={project.id} className="list-group-item bg-secondary text-white">{project.title} - ({project.visibility})</li>))}
 
-                </ul>)}
+              </ul>)}
 
-              </div>
+            </div>
 
-              <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
 
-                <Link to="/uploader-poster" style={{ textDecoration: 'none' }}>
+              <Link to="/uploader-poster" style={{ textDecoration: 'none' }}>
 
-                  <button className="pro-btn ">Add Project</button>
+                <button className="pro-btn ">Add Project</button>
 
-                </Link>
+              </Link>
 
-              </div>
+            </div>
           </div>
 
-            <div className="col">
+          <div className="col">
 
-              <p className="tracks-title text-white">Tracks</p>
+            <p className="tracks-title text-white">Tracks</p>
 
             <div className="tracks mb-4">
 
@@ -124,16 +124,16 @@ export const DesktopProfilePage = () => {
 
             </div>
 
-              <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
 
-                <Link to="/addtrack" style={{ textDecoration: 'none' }}>
+              <Link to="/addtrack" style={{ textDecoration: 'none' }}>
 
-                  <button className="pro-btn ">Add Track</button>
+                <button className="pro-btn ">Add Track</button>
 
-                </Link>
+              </Link>
 
-              </div>
             </div>
+          </div>
 
         </div>
       </div>
