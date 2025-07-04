@@ -3,14 +3,15 @@ import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import "../styles/index.css"
 
 export const Layout = () => {
     return (
         <>
             <Navbar />
-        <div className="pt-5">
-<Outlet />
-        </div>
+                <div className="pt-5">
+                    <Outlet />
+                </div>
             <Footer />
             <ToastContainer />
         </>

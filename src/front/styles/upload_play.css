@@ -38,6 +38,7 @@ border: 1px solid var(--color-3);
 color: white;
 height: 100%;
 width: 100%;
+font-size: large;
 }
 
 .text-uppy-input::placeholder{
@@ -82,6 +83,37 @@ width: 100%;
     width: 100%;
 }
 
-.zoom-control{
+.controller-mixer{
     color: var(--color-3);
+    border: 1px solid var(--color-3);
+    border-radius: 10px;
+    background: var(--bg-color);
+}
+
+.zoom-control {
+  -webkit-appearance: none;
+  width: 100% !important;
+  height: 6px !important;
+  color: var(--color-3) !important;
+  border-radius: 3px !important;
+  outline: none !important;
+}
+
+.up-info-box{
+    width: 100%;
+    background: var(--bg-color); 
+    border-radius: 15px;
+}
+
+.project-waves{
+    background: var(--bg-color);
+}
+
+.up-info{
+    display: inline-block;
+    border-radius: 10px;
+}
+
+.up-by{
+    font-size: 0.8rem;
 }

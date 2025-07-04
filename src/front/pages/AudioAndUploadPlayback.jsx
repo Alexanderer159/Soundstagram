@@ -80,8 +80,7 @@ export const AudioUploaderAndPoster = () => {
                 options: {
                     waveColor: 'hsl(200, 87%, 49%)',
                     progressColor: 'hsl(200, 87%, 20%)',
-                },
-            }));
+                }}));
 
             const multitrack = Multitrack.create(tracks, {
                 container: containerRef.current,
@@ -97,8 +96,7 @@ export const AudioUploaderAndPoster = () => {
                     dragPointSize: 10,
                     dragPointFill: 'rgba(255, 255, 255, 0.8)',
                     dragPointStroke: 'rgba(255, 255, 255, 0.3)',
-                },
-            });
+                }});
 
             multitrack.once('canplay', async () => {
                 await multitrack.setSinkId('default');
@@ -166,12 +164,12 @@ export const AudioUploaderAndPoster = () => {
                 title, instrument, user, originalFilename: name
             }))
         });
-        alert("Publicar aún no implementado");
+        alert("Publish is WIP");
     };
 
     const handleExportMix = async () => {
         if (audioFiles.length === 0) {
-            alert("No hay pistas para exportar");
+            alert("No tracks to download yet");
             return;
         }
 
@@ -230,10 +228,10 @@ export const AudioUploaderAndPoster = () => {
 
 
     return (
-        <div className="container-fluid mt-3">
+        <div className="container-fluid">
 
             <div className="row">            
-                <p className="uppy text-center">Upload and Publish Project</p>
+                <p className="uppy text-center">Project Maker</p>
             </div>
 
 
@@ -275,8 +273,8 @@ export const AudioUploaderAndPoster = () => {
                     
                     <div className="text-uppy gap-3 d-flex flex-column">
 
-                        <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
-                        <input className="text-uppy-input ps-3" placeholder="Short Description" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)}/>
+                        <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
+                        <input className="text-uppy-input ps-3" placeholder="Short Description" value={projectDescription} onChange={e => setProjectDescription(e.target.value)}/>
                     
                     </div>
                 </div>
@@ -287,7 +285,7 @@ export const AudioUploaderAndPoster = () => {
                 <div className="col d-flex flex-row gap-3 ps-5">
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2">
-                        <label className="into-uppy flex-row align-items-center" for="fileUpload"> <UploadIcon /> Upload Track</label>
+                        <label className="into-uppy flex-row align-items-center" for="fileUpload"><UploadIcon /> Upload Track</label>
                         <input className="into-uppy" hidden id="fileUpload" type="file" accept="audio/*" multiple onChange={handleFileChange} />
                     </button>
 
@@ -304,61 +302,48 @@ export const AudioUploaderAndPoster = () => {
             </div>
 
             <div className="row m-3">
+
                 <div className="col-2 mt-1">
 
                     <p className="mix-header text-white">Mix Controls</p>
 
-                    <div className="d-flex flex-row align-items-center justify-content-between">
+                    <div className="d-flex flex-row justify-content-between">
 
-                        <Button className="" variant="outlined" onClick={() => handleSeek(-10)}>◀◀</Button>
+                        <button className="controller-mixer p-2" onClick={() => handleSeek(-10)}>◀◀</button>
 
-                        <Button className="" variant="outlined" onClick={handlePlayPause}>{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}</Button>
+                        <button className="controller-mixer p-2" onClick={handlePlayPause}>{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}</button>
 
-                        <Button className="" variant="outlined" onClick={() => handleSeek(10)}>▶▶</Button>
+                        <button className="controller-mixer p-2" onClick={() => handleSeek(10)}>▶▶</button>
 
                     </div>
+
                 </div>
                     
                 <div className="col mt-1 d-flex align-items-end">
 
-                        <div className="zoom-line">
-                            <p className="text-white fs-4">Zoom</p>
-                            {/* <input className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/> */}
-                            <Slider className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
-                        </div>
+                    <div className="zoom-line">
+
+                        <label className="text-white fs-4" for="zoom-control" >Zoom</label>
+
+                        <Slider className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
+                        
+                    </div>
 
                 </div>
                 
             </div>
-
-            <Box ref={containerRef} sx={{ width: "100%", minHeight: 300, backgroundColor: "#2D2D2D", borderRadius: 2 }}>
-                {audioFiles.map((track, idx) => (
-                    <Box key={idx} mt={2} mb={2} p={2} sx={{ backgroundColor: "#2C474C", borderRadius: 2 }}>
-                        <Stack direction="row" spacing={2} mt={2}>
-                            <TextField
-                                label="Título de la pista"
-                                value={track.title}
-                                onChange={e => updateTrackMeta(idx, "title", e.target.value)}
-                                fullWidth
-                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                            />
-                            <TextField
-                                label="Instrumento"
-                                value={track.instrument}
-                                onChange={e => updateTrackMeta(idx, "instrument", e.target.value)}
-                                fullWidth
-                                sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}
-                                InputProps={{ style: { backgroundColor: "#2C474C" } }}
-                            />
-                        </Stack>
-                        <Typography color="#859193" fontSize="0.8rem" mt={1}>
-                            Subido por: {track.user}
-                        </Typography>
-                    </Box>
-                ))}
-            </Box>
-
+            <div className="row mx-2 mb-5 pb-5">
+                <div className="up-info-box" ref={containerRef}>
+                    {audioFiles.map((track, idx) => (
+                        <div className="up-info my-2 " key={idx}>
+                            <div className="d-flex flex-row mt-2 gap-2">
+                                <TextField label="Track Title" value={track.title} onChange={e => updateTrackMeta(idx, "title", e.target.value)} fullWidth sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                                <TextField label="Instrument" value={track.instrument} onChange={e => updateTrackMeta(idx, "instrument", e.target.value)} fullWidth sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                            </div>
+                            <p className="up-by mt-1 text-white"> Uploaded By: {track.user}</p>
+                        </div>))}
+                </div>
+            </div>
         </div>
     );
 };
