@@ -11,7 +11,6 @@ class Track(db.Model):
     uploader_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
 
     track_name: Mapped[str] = mapped_column(String(120), nullable=False)
-    instrument: Mapped[str] = mapped_column(String(100), nullable=False)
     file_url: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     duration: Mapped[int] = mapped_column(nullable=True)
@@ -19,6 +18,9 @@ class Track(db.Model):
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    
+    instrument_id: Mapped[int] = mapped_column(ForeignKey('instruments.id'), nullable=True)
+    instrument: Mapped["Instrument"] = relationship("Instrument", back_populates="tracks")
 
     project: Mapped["Project"] = relationship("Project", back_populates="tracks")
     uploader: Mapped["User"] = relationship("User", back_populates="uploaded_tracks")
@@ -32,11 +34,11 @@ class Track(db.Model):
             "project_id": self.project_id,
             "uploader_id": self.uploader_id,
             "track_name": self.track_name,
-            "instrument": self.instrument,
             "file_url": self.file_url,
             "description": self.description,
             "duration": self.duration,
             "is_approved": self.is_approved,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
+            "instrument_id": self.instrument_id,
         }

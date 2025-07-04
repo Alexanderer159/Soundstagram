@@ -1,4 +1,8 @@
 from datetime import datetime
+from typing import List
+from back.models.chat_model import Chat
+
+
 from sqlalchemy import String, Column, DateTime, ForeignKey, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from back.extensions import db
@@ -28,14 +32,18 @@ class User(db.Model):
     comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
     followed = relationship("Follow", foreign_keys="[Follow.follower_id]", backref="follower_user", cascade="all, delete-orphan")
                             
-    conversations_sent = relationship("Conversation", foreign_keys="[Conversation.user1_id]")
-    conversations_received = relationship("Conversation", foreign_keys="[Conversation.user2_id]")
+    conversations_sent = relationship("Chat", foreign_keys=[Chat.user1_id])
+    conversations_received = relationship("Chat", foreign_keys=[Chat.user2_id])
+
     sent_messages = relationship("Message", foreign_keys="[Message.sender_id]")
 
-    followers = relationship("Follow", foreign_keys="[Follow.followed_id]", backref="followed_user", cascade="all, delete-orphan"
-)
-
-
+    followers = relationship("Follow", foreign_keys="[Follow.followed_id]", backref="followed_user", cascade="all, delete-orphan")
+    notifications_received: Mapped[List["Notification"]] = relationship(
+        "Notification",
+        back_populates="recipient",
+        cascade="all, delete-orphan",
+        foreign_keys="[Notification.recipient_id]"
+    )
 
     def serialize(self):
         return {
