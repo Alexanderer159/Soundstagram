@@ -11,6 +11,12 @@ export const EasterPage = () => {
         <>
             <div className="easter container-fluid">
 
+                <div className="director pt-5 d-flex position-absolute">
+
+                    <p className="">El director de orquesta</p>
+
+                </div>
+
                 <div className="ticket pt-5 d-flex position-absolute">
 
                     <p className="">Abro un Ticket!</p>
