@@ -1,3 +1,5 @@
+
+
 .easter {
   background-image: url(Pictures/Easter/hans.png);
   background-repeat: no-repeat;
@@ -9,7 +11,7 @@
 .ticket{
   font-size: xx-large;
   color: white;
-    top: 10%;
+  top: 10%;
   left: 10%;
   opacity: 0;
   animation: fadeIn 2s 3s forwards;
@@ -22,4 +24,17 @@
   right: 5%;
   opacity: 0;
   animation: fadeIn 2s 5s forwards;
+}
+
+.director{
+  font-size: clamp(2rem, 3.5rem, 3.5rem);
+  background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+  background-clip: text;
+  background-size: 200%, 200%;
+  transition: 1s ease;
+  color: transparent;
+  right: 33%;
+  top: 8%;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
 }

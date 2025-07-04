@@ -17,13 +17,12 @@
 
 body {
     background: linear-gradient(60deg, var(--bg-color),  var(--color-3), var(--bg-color));
-    background-size: 3000%;
+    background-size: 2500%;
     font-family: "Rubik", sans-serif;
 }
 
 html, body {
 height: 100%;
-margin: 0;
 scrollbar-width: none;
 }
 

@@ -35,7 +35,7 @@ export const Navbar = () => {
 					
 					<form class="search-function d-flex">
 
-						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="text" placeholder="Search" aria-label="Search"/>
+						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search"/>
 						
 						<button className="btn search-navbar-icon-btn p-0" type="submit">
 
