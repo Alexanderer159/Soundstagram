@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-{/*import { toast } from 'react-toastify';*/}
-import { registerUser, getRoles, getInstruments } from '../service/services';
+import { toast } from 'react-toastify';
+import { registerUser, getRoles, getInstruments } from '../services/authServices';
 import defaultPic from '../assets/default-profile.png';
-import { uploadToCloudinary } from '../service/cloudinaryService';
+import { uploadToCloudinary } from '../services/cloudinaryService';
 import "../styles/register.css"
 import "../styles/index.css"
 
@@ -103,65 +103,69 @@ export const RegisterDemo = () => {
         : defaultPic;
 
     return (
-    <div className="container-fluid pt-5">
-        <div className="row">
-            <p className="get-started text-center">Lets get you started!</p>
-        </div>
-
-        <div className="row justify-content-center align-items-center gap-5">
-
-            <div className="col d-flex justify-content-end">
-                <img src={profilePicPreview} className="reguserim rounded-circle" onClick={() => fileInputRef.current.click()}/>
-                <input type="file" name="profile_pic_file" accept="image/*" onChange={handleChange} ref={fileInputRef} className="d-none"/>
+        <div className="container-fluid pt-5">
+            <div className="row">
+                <p className="get-started text-center">Lets get you started!</p>
             </div>
 
-            <div className="col">
+            <div className="row justify-content-center align-items-center gap-5">
 
-                <form onSubmit={handleSubmit} className="register-form d-flex flex-column gap-2 p-4 shadow-lg">
+                <div className="col d-flex justify-content-end">
+                    <img src={profilePicPreview} className="reguserim rounded-circle" onClick={() => fileInputRef.current.click()} />
+                    <input type="file" name="profile_pic_file" accept="image/*" onChange={handleChange} ref={fileInputRef} className="d-none" />
+                </div>
 
-                    <input name="email" type="email" placeholder="E-mail" onChange={handleChange} required className="register-input" />
+                <div className="col">
 
-                    <input name="username" type="text" placeholder="Username" onChange={handleChange} required className="register-input" />
+                    <form onSubmit={handleSubmit} className="register-form d-flex flex-column gap-2 p-4 shadow-lg">
 
-                    <input name="password" type="password" placeholder="Password" onChange={handleChange} required className="register-input" />
+                        <input name="email" type="email" placeholder="E-mail" onChange={handleChange} required className="register-input" />
 
-                    <input name="confirmPassword" type="password" placeholder="Confirm Password" onChange={handleChange} required className="register-input" />
+                        <input name="username" type="text" placeholder="Username" onChange={handleChange} required className="register-input" />
 
-                    <textarea name="bio" placeholder="Tell us about you!" onChange={handleChange} className="register-input" rows="4" />
+                        <input name="password" type="password" placeholder="Password" onChange={handleChange} required className="register-input" />
 
-                    <div className="register-selects d-flex justify-content-between">
-                                    
-                        <select onChange={(e) => handleSelect(e, 'roles')} className="register-input">
-                            <option value="">What's your role?</option>
+                        <input name="confirmPassword" type="password" placeholder="Confirm Password" onChange={handleChange} required className="register-input" />
 
-                            {rolesList.map(role => (<option key={role.id} value={role.id}>{role.name}</option>))}
+                        <textarea name="bio" placeholder="Tell us about you!" onChange={handleChange} className="register-input" rows="4" />
 
-                             {formData.roles.map(roleId => { const role = rolesList.find(r => r.id === roleId); return (
-                            <button key={role.id} type="button" className="register-input" onClick={() => removeSelected(roleId, 'roles')}> {role?.name} </button>);})}
+                        <div className="register-selects d-flex justify-content-between">
 
-                        </select>
+                            <select onChange={(e) => handleSelect(e, 'roles')} className="register-input">
+                                <option value="">What's your role?</option>
 
-                        <select onChange={(e) => handleSelect(e, 'instruments')} className="register-input">
+                                {rolesList.map(role => (<option key={role.id} value={role.id}>{role.name}</option>))}
 
-                            <option value="">What's your instrument?</option>
+                                {formData.roles.map(roleId => {
+                                    const role = rolesList.find(r => r.id === roleId); return (
+                                        <button key={role.id} type="button" className="register-input" onClick={() => removeSelected(roleId, 'roles')}> {role?.name} </button>);
+                                })}
 
-                            {instrumentsList.map(inst => (<option key={inst.id} value={inst.id}>{inst.name}</option>))}
+                            </select>
 
-                            {formData.instruments.map(instrId => {const instr = instrumentsList.find(i => i.id === instrId);return (
-                            <button key={instrId} className="register-input" type="button" onClick={() => removeSelected(instrId, 'instruments')}>{instr?.name}</button>);})}
-                        
-                        </select>
+                            <select onChange={(e) => handleSelect(e, 'instruments')} className="register-input">
 
-                    </div>
+                                <option value="">What's your instrument?</option>
 
-                    <input name="spotify_playlist" type="url" placeholder="Spotify Playlist Link" onChange={handleChange} className="register-input" />
+                                {instrumentsList.map(inst => (<option key={inst.id} value={inst.id}>{inst.name}</option>))}
 
-                    <div className="d-flex justify-content-center text-center align-items-center">
-                        <button type="submit" className="register-btn" >Create Account!</button>
-                    </div>
-                </form>
+                                {formData.instruments.map(instrId => {
+                                    const instr = instrumentsList.find(i => i.id === instrId); return (
+                                        <button key={instrId} className="register-input" type="button" onClick={() => removeSelected(instrId, 'instruments')}>{instr?.name}</button>);
+                                })}
+
+                            </select>
+
+                        </div>
+
+                        <input name="spotify_playlist" type="url" placeholder="Spotify Playlist Link" onChange={handleChange} className="register-input" />
+
+                        <div className="d-flex justify-content-center text-center align-items-center">
+                            <button type="submit" className="register-btn" >Create Account!</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx"
 import { Link, useNavigate } from "react-router-dom"
 import { Loader } from "../components/Loader.jsx"
-import { loginUser, registerUser } from '../service/services.js';
+import { loginUser, registerUser } from '../services/authServices.js';
 import "../styles/index.css"
 import "../styles/home.css"
 
@@ -78,53 +78,53 @@ export const Home = () => {
 
 			<div className="row">
 
-				<div className="col-12 col-md-6 my-2 ps-5" style={{minHeight: "300px"}} >
+				<div className="col-12 col-md-6 my-2 ps-5" style={{ minHeight: "300px" }} >
 					<Loader />
-				</div>	
+				</div>
 
-						<div className="col-12 col-md-3 d-flex justify-content-center my-2" >
-						<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
+				<div className="col-12 col-md-3 d-flex justify-content-center my-2" >
+					<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
 
-							<div className="my-2">
-								<p className="form-text fs-4">Log In</p>
-								<label for="emailInput" className="form-label">Email address</label>
-								<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
-								<p className="form-text my-2">We'll never share your email with anyone else.</p>
-							</div>
-
-							<div className="my-3">
-								<label for="PasswordInput" className="form-label">Password</label>
-								<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange}required/>
-							</div>
-							<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
-								<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
-								<label className="text-start" for="rememberme">Remember me</label>
-							</div>
-							<button type="submit" className="btn mt-3">Login</button>
-							<div className="mt-4 px-1">
-								<Link to="/register" style={{ textDecoration: "none" }}>
-									<p className="form-text">Forgot your password?</p>
-								</Link>
-							</div>
-						</form>
+						<div className="my-2">
+							<p className="form-text fs-4">Log In</p>
+							<label for="emailInput" className="form-label">Email address</label>
+							<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
+							<p className="form-text my-2">We'll never share your email with anyone else.</p>
 						</div>
 
-						<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
-							<div className="newuser btn fw-bold shadow-lg">
-								<Link to="/register">
-									<button className="newuser-btn btn fw-bold">New user? <br/> Create an account!</button>
-								</Link>
-							</div>
+						<div className="my-3">
+							<label for="PasswordInput" className="form-label">Password</label>
+							<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange} required />
 						</div>
+						<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
+							<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
+							<label className="text-start" for="rememberme">Remember me</label>
+						</div>
+						<button type="submit" className="btn mt-3">Login</button>
+						<div className="mt-4 px-1">
+							<Link to="/register" style={{ textDecoration: "none" }}>
+								<p className="form-text">Forgot your password?</p>
+							</Link>
+						</div>
+					</form>
+				</div>
+
+				<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
+					<div className="newuser btn fw-bold shadow-lg">
+						<Link to="/register">
+							<button className="newuser-btn btn fw-bold">New user? <br /> Create an account!</button>
+						</Link>
+					</div>
+				</div>
 			</div>
 
 
 			<div className="row" >
 				<div className="col-12 d-flex justify-content-end pe-5 mt-3">
 					<p className="slogan px-5 text-end fw-bold ">Let's make some waves together...</p>
-					</div>
-			
+				</div>
+
 			</div>
-			</div>
+		</div>
 	);
 }; 

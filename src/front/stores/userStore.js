@@ -20,6 +20,13 @@ export default function storeReducer(store, action = {}) {
         isAuthenticated: true,
       };
 
+    case 'update_user':
+      localStorage.setItem('user', JSON.stringify(action.payload));
+      return {
+        ...store,
+        user: action.payload,
+      };
+
     case 'logout':
       localStorage.removeItem('token');
       localStorage.removeItem('user');

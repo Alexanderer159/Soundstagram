@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { getProjectsByUser, getTracksByUser, logoutUser } from "../service/services";
+import { getProjectsByUser, getTracksByUser, logoutUser } from "../services/authServices";
 import { useNavigate } from "react-router-dom";
 
 export const DemoProfile = () => {
