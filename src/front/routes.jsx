@@ -15,7 +15,7 @@ import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
 import { DemoProfile } from "./pages/DemoProfile";
 import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 import { AboutUs } from "./pages/About_Us";
-import { RegisterDemo } from "./pages/RegisterDemo";
+import { RegisterDemo } from "./pages/Register";
 import { EasterPage } from "./pages/Easter";
 
 export const router = createBrowserRouter(

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import WaveSurfer from "wavesurfer.js";
-import {
-    Box, Button, Typography, Stack, IconButton,
-    TextField, Slider
-} from "@mui/material";
+import {Box, Button, Typography, Stack, IconButton, TextField, Slider} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import "../styles/upload_playback.css"
+import "../styles/index.css"
 
 const waveformOptions = container => ({
     container,
@@ -170,29 +170,34 @@ export const AudioUploaderAndPoster = () => {
     };
 
     return (
-        <Box sx={{ p: 4, borderRadius: 4 }}>
-            <Typography variant="h5" color="#C0C1C2" gutterBottom>
+        <div className="container-fluid mt-5">
+            <div className="row">
+                <p className="uppy text-center">Upload and Publish Project</p>
+            </div>
 
-                Upload and Publish Track
-            </Typography>
+            <div className="row">
+                <div className="col">
 
-            <Stack direction="row" spacing={2} mt={2} mb={2}>
+                    <select label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} SelectProps={{ native: true }}>
+                        {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
+                    </select>
 
-                <TextField select label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
-                </TextField>
+                    <TextField select label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
+                        {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
+                    </TextField>
 
-                <TextField select label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} SelectProps={{ native: true }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }}>
-                    {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
-                </TextField>
-
-                <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
-
-                <Stack spacing={2} mb={4}>
+                    <TextField label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} sx={{ label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C", color: "#C0C1C2" } }} />
+                
+                </div>
+                <div>
+                    <Stack spacing={2} mb={4}>
                     <TextField label="Tags (separados por coma)" variant="outlined" fullWidth value={projectTags} onChange={e => setProjectTags(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
                     <TextField label="Descripción breve" multiline rows={2} fullWidth value={projectDescription} onChange={e => setProjectDescription(e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                </Stack>
-            </Stack>
+                    </Stack>
+                </div>
+
+
+            </div>
 
             <Stack direction="row" spacing={2} alignItems="center">
                 <Button variant="contained" component="label" startIcon={<UploadIcon />} sx={{ backgroundColor: "#37555B" }}>
@@ -251,6 +256,6 @@ export const AudioUploaderAndPoster = () => {
                 ))}
             </Box>
 
-        </Box>
+        </div>
     );
 };
