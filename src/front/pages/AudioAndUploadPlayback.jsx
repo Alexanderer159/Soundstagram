@@ -8,6 +8,8 @@ import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import WavEncoder from "wav-encoder";
+
 
 const waveformOptions = container => ({
     container,
@@ -60,7 +62,7 @@ export const AudioUploaderAndPoster = () => {
         if (multitrackInstance) {
             multitrackInstance.destroy();
             setMultitrackInstance(null);
-            containerRef.current.innerHTML = ""; 
+            containerRef.current.innerHTML = "";
         }
 
         const script = document.createElement("script");
@@ -169,6 +171,66 @@ export const AudioUploaderAndPoster = () => {
         alert("Publicar aún no implementado");
     };
 
+    const handleExportMix = async () => {
+        if (audioFiles.length === 0) {
+            alert("No hay pistas para exportar");
+            return;
+        }
+
+        const buffers = [];
+
+        // Paso 1: Cargar y decodificar cada pista
+        for (const track of audioFiles) {
+            const response = await fetch(track.url);
+            const arrayBuffer = await response.arrayBuffer();
+            const tempCtx = new AudioContext();
+            const decodedBuffer = await tempCtx.decodeAudioData(arrayBuffer);
+            buffers.push({ buffer: decodedBuffer, startTime: 0, volume: 1 });
+            tempCtx.close();
+        }
+
+        // Paso 2: Calcular duración total
+        const sampleRate = 44100;
+        const endTimes = buffers.map(({ buffer, startTime }) => startTime + buffer.duration);
+        const lengthInSeconds = Math.max(...endTimes);
+
+        // Paso 3: Crear contexto offline y mezclar
+        const offlineCtx = new OfflineAudioContext(2, sampleRate * lengthInSeconds, sampleRate);
+
+        buffers.forEach(({ buffer, startTime, volume }) => {
+            const source = offlineCtx.createBufferSource();
+            source.buffer = buffer;
+
+            const gain = offlineCtx.createGain();
+            gain.gain.value = volume;
+
+            source.connect(gain).connect(offlineCtx.destination);
+            source.start(startTime);
+        });
+
+        const renderedBuffer = await offlineCtx.startRendering();
+
+        // Paso 4: Exportar como WAV
+        const wavData = await WavEncoder.encode({
+            sampleRate: renderedBuffer.sampleRate,
+            channelData: [
+                renderedBuffer.getChannelData(0),
+                renderedBuffer.numberOfChannels > 1
+                    ? renderedBuffer.getChannelData(1)
+                    : renderedBuffer.getChannelData(0)
+            ]
+        });
+
+        const blob = new Blob([wavData], { type: "audio/wav" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "mezcla.wav";
+        a.click();
+    };
+
+
     return (
         <Box sx={{ p: 4, borderRadius: 4 }}>
             <Typography variant="h5" color="#C0C1C2" gutterBottom>
@@ -198,6 +260,9 @@ export const AudioUploaderAndPoster = () => {
                 <Button variant="contained" component="label" startIcon={<UploadIcon />} sx={{ backgroundColor: "#37555B" }}>
                     Subir pistas
                     <input hidden type="file" accept="audio/*" multiple onChange={handleFileChange} />
+                </Button>
+                <Button variant="contained" onClick={handleExportMix} sx={{ backgroundColor: "#37555B" }}>
+                    Exportar mezcla
                 </Button>
                 <Button variant="contained" startIcon={<SendIcon />} onClick={handlePost} sx={{ backgroundColor: "#37555B" }}>
                     Publicar proyecto
