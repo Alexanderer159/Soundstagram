@@ -62,8 +62,6 @@ project_seeking_instruments = db.Table(
     db.Column('instrument_id', db.Integer, db.ForeignKey('instruments.id'))
 )
 
-
-
 class Project(db.Model):
     __tablename__ = "projects"
 

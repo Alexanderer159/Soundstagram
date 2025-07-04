@@ -9,6 +9,7 @@ class Instrument(db.Model):
     name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
     users = relationship("User", secondary="user_instruments", back_populates="instruments")
+    tracks: Mapped[list["Track"]] = relationship("Track", back_populates="instrument")   
 
     def serialize(self):
         return {

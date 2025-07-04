@@ -25,8 +25,8 @@ class Notification(db.Model):
     is_read: Mapped[bool] = mapped_column(default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
-    recipient: Mapped["User"] = relationship("User", foreign_keys=[recipient_id], back_populates="notifications_received")
-    sender: Mapped["User"] = relationship("User", foreign_keys=[sender_id])
+    recipient = relationship("User", foreign_keys=[recipient_id], back_populates="notifications_received")
+    sender = relationship("User", foreign_keys=[sender_id])
     project: Mapped["Project"] = relationship("Project")
     track: Mapped["Track"] = relationship("Track")
 

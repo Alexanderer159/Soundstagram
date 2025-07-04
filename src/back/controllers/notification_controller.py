@@ -1,24 +1,24 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from back.extensions import db
-from back.models.notification_model import Notification
+from back.models.notification_model import Notification, NotificationType
 
 notification_api = Blueprint("notification_api", __name__)
 
 def create_notification(
     recipient_id: int,
-    notif_type: str,
+    notif_type: NotificationType,
     message: str,
-    related_project_id: int = None,
-    related_track_id: int = None,
+    project_id: int = None,
+    track_id: int = None,
     sender_id: int = None
 ):
     notif = Notification(
         recipient_id=recipient_id,
-        type=notif_type,
+        notif_type=notif_type,
         message=message,
-        related_project_id=related_project_id,
-        related_track_id=related_track_id,
+        project_id=project_id,
+        track_id=track_id,
         sender_id=sender_id
     )
     db.session.add(notif)

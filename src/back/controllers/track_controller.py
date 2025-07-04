@@ -25,7 +25,7 @@ def create_track():
 
     new_track = Track(
         track_name=data["track_name"],
-        instrument=data["instrument"],
+        instrument_id=data.get("instrument_id"),
         file_url=data["file_url"],
         description=data.get("description", ""),
         duration=data.get("duration", 0),
