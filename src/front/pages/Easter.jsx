@@ -11,17 +11,17 @@ export const EasterPage = () => {
         <>
             <div className="easter container-fluid">
 
-                        <div className="ticket pt-5 d-flex position-absolute">
+                <div className="ticket pt-5 d-flex position-absolute">
 
-                            <p className="">Abro un Ticket!</p>
+                    <p className="">Abro un Ticket!</p>
 
-                        </div>
+                </div>
 
-                    <div className="compi pt-5 d-flex position-absolute">
+                <div className="compi pt-5 d-flex position-absolute">
 
-                            <p className="">Mi compi destruye main</p>
+                    <p className="">Mi compi destruye main</p>
 
-                        </div>
+                </div>
             </div>
         </>
     );
