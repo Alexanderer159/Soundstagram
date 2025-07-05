@@ -1,4 +1,3 @@
-# back/routes/follow_routes.py
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from back.models.follow_model import Follow

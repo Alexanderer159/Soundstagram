@@ -6,6 +6,7 @@ from back.extensions import db
 from back.models.project_model import Project, VisibilityEnum, StatusEnum, KeyEnum, MeterEnum
 from back.models.role_model import Role
 from back.models.instrument_model import Instrument
+from back.models.genre_model import project_genres
 from back.models.user_model import User
 
 project_api = Blueprint('project_api', __name__)
@@ -172,3 +173,7 @@ def get_projects_by_seeking_role(role_id):
 
     return jsonify([p.serialize() for p in projects]), 200
 
+@project_api.route("/projects/by-genre/<int:genre_id>", methods=["GET"])
+def get_projects_by_genre(genre_id):
+    projects = db.session.query(Project).join(project_genres).filter(project_genres.c.genre_id == genre_id).all()
+    return jsonify([p.serialize() for p in projects]), 200

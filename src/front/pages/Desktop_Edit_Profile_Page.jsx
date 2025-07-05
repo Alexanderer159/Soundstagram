@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import "../styles/index.css";
 import "../styles/editprofile.css";
 import { Link, useNavigate } from "react-router-dom";
-import useGlobalReducer from "../hooks/useGlobalReducer";
+import userReducer from "../stores/userStore";
 import { updateUser } from "../services/userService";
-import { getRoles, getInstruments } from "../services/authServices";
+import { getRoles, getInstruments } from "../services/roleService";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { toast } from "react-toastify";
 
 export const EditProfilePage = () => {
-    const { store, dispatch } = useGlobalReducer();
+    const { store, dispatch } = userReducer();
     const user = store.user;
     const navigate = useNavigate();
     const fileInputRef = useRef();
@@ -156,7 +156,7 @@ export const EditProfilePage = () => {
                                 value={formData.username}
                             />
                         </div>
-                        <div class="mb-3">
+                        <div className="mb-3">
                             <label htmlFor="BioInput" className="form-label fs-3">Bio</label>
                             <textarea
                                 name="bio"  // ✅ FALTABA ESTO
@@ -221,7 +221,7 @@ export const EditProfilePage = () => {
                                 id="PlaylistInput"
                                 onChange={handleChange}
                                 placeholder={user.spotify_playlist || "Spotify Playlist URL"}
-                                value={formData.spotify_playlist}
+                                value={user.spotify_playlist}
                             />
                         </div>
                         <div className="d-flex flex-row justify-content-between">

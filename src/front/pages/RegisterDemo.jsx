@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { registerUser, getRoles, getInstruments } from '../services/authServices';
+import { registerUser } from '../services/authService';
+import { getRoles, getInstruments } from '../services/roleService';
 import defaultPic from '../assets/default-profile.png';
 import { uploadToCloudinary } from '../services/cloudinaryService';
 import "../styles/register.css"

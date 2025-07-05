@@ -285,7 +285,7 @@ export const AudioUploaderAndPoster = () => {
                 <div className="col d-flex flex-row gap-3 ps-5">
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2">
-                        <label className="into-uppy flex-row align-items-center" for="fileUpload"><UploadIcon /> Upload Track</label>
+                        <label className="into-uppy flex-row align-items-center" htmlFor="fileUpload"><UploadIcon /> Upload Track</label>
                         <input className="into-uppy" hidden id="fileUpload" type="file" accept="audio/*" multiple onChange={handleFileChange} />
                     </button>
 
@@ -323,7 +323,7 @@ export const AudioUploaderAndPoster = () => {
 
                     <div className="zoom-line">
 
-                        <label className="text-white fs-4" for="zoom-control" >Zoom</label>
+                        <label className="text-white fs-4" htmlFor="zoom-control" >Zoom</label>
 
                         <Slider className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
                         

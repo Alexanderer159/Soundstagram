@@ -11,6 +11,8 @@ class NotificationType(enum.Enum):
     comment = "comment"
     track_pending = "track_pending"
     track_approved = "track_approved" 
+    track_rejected = "track_rejected"
+
 
 class Notification(db.Model):
     __tablename__ = "notifications"

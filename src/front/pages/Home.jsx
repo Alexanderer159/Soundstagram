@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx"
+import { useUserReducer } from "../reducers/userReducer"
 import { Link, useNavigate } from "react-router-dom"
 import { Loader } from "../components/Loader.jsx"
-import { loginUser, registerUser } from '../services/authServices.js';
+import { loginUser, registerUser } from '../services/authService.js';
 import "../styles/index.css"
 import "../styles/home.css"
 
 export const Home = () => {
 
-	const { store, dispatch } = useGlobalReducer()
+	const { store, dispatch } = useUserReducer()
 
 	const navigate = useNavigate();
 
@@ -87,18 +87,18 @@ export const Home = () => {
 
 						<div className="my-2">
 							<p className="form-text fs-4">Log In</p>
-							<label for="emailInput" className="form-label">Email address</label>
+							<label htmlFor="emailInput" className="form-label">Email address</label>
 							<input type="email" className="form-control textinput bg-dark text-white" id="emailInput" name="email" value={formData.email} onChange={handleChange} required />
 							<p className="form-text my-2">We'll never share your email with anyone else.</p>
 						</div>
 
 						<div className="my-3">
-							<label for="PasswordInput" className="form-label">Password</label>
+							<label htmlFor="PasswordInput" className="form-label">Password</label>
 							<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange} required />
 						</div>
 						<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
 							<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
-							<label className="text-start" for="rememberme">Remember me</label>
+							<label className="text-start" htmlFor="rememberme">Remember me</label>
 						</div>
 						<button type="submit" className="btn mt-3">Login</button>
 						<div className="mt-4 px-1">

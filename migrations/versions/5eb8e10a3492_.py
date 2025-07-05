@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c07097c55a5c
+Revision ID: 5eb8e10a3492
 Revises: 
-Create Date: 2025-07-03 18:13:22.416049
+Create Date: 2025-07-04 23:50:12.644064
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c07097c55a5c'
+revision = '5eb8e10a3492'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -142,13 +142,14 @@ def upgrade():
     sa.Column('project_id', sa.Integer(), nullable=False),
     sa.Column('uploader_id', sa.Integer(), nullable=False),
     sa.Column('track_name', sa.String(length=120), nullable=False),
-    sa.Column('instrument', sa.String(length=100), nullable=False),
     sa.Column('file_url', sa.String(length=255), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('duration', sa.Integer(), nullable=True),
-    sa.Column('is_approved', sa.Boolean(), nullable=False),
+    sa.Column('status', sa.Enum('pending', 'approved', 'rejected', name='trackstatus'), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.Column('instrument_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['instrument_id'], ['instruments.id'], ),
     sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
     sa.ForeignKeyConstraint(['uploader_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -181,7 +182,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('recipient_id', sa.Integer(), nullable=False),
     sa.Column('sender_id', sa.Integer(), nullable=True),
-    sa.Column('notif_type', sa.Enum('message', 'follow', 'like', 'comment', 'track_pending', 'track_approved', name='notificationtype'), nullable=False),
+    sa.Column('notif_type', sa.Enum('message', 'follow', 'like', 'comment', 'track_pending', 'track_approved', 'track_rejected', name='notificationtype'), nullable=False),
     sa.Column('message', sa.Text(), nullable=True),
     sa.Column('project_id', sa.Integer(), nullable=True),
     sa.Column('track_id', sa.Integer(), nullable=True),

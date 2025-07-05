@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
 from back.extensions import db
-from back.models.track_model import Track
+from back.models.track_model import Track, TrackStatus
 from back.models.project_model import Project
 from back.models.user_model import User
 from back.models.notification_model import NotificationType, Notification
@@ -21,7 +21,7 @@ def create_track():
     if not project:
         return jsonify({"msg": "Proyecto no encontrado"}), 404
 
-    is_approved = project.owner_id == user_id
+    status = TrackStatus.approved if project.owner_id == user_id else TrackStatus.pending
 
     new_track = Track(
         track_name=data["track_name"],
@@ -29,7 +29,7 @@ def create_track():
         file_url=data["file_url"],
         description=data.get("description", ""),
         duration=data.get("duration", 0),
-        is_approved=is_approved,
+        status=status,
         project_id=project.id,
         uploader_id=user_id
     )
@@ -109,7 +109,6 @@ def update_track(track_id):
     track.file_url = data.get("file_url", track.file_url)
     track.updated_at = datetime.utcnow()
     track.duration = data.get("duration", track.duration)
-    track.is_approved = data.get("is_approved", track.is_approved)
 
     db.session.commit()
     return jsonify(track.serialize()), 200
@@ -142,7 +141,7 @@ def approve_track(track_id):
     if track.project.owner_id != user_id:
         return jsonify({"msg": "No autorizado para aprobar este track"}), 403
 
-    track.is_approved = True
+    track.status = TrackStatus.approved
     track.updated_at = datetime.utcnow()
     
     if track.uploader_id != user_id:
@@ -170,6 +169,33 @@ def approve_track(track_id):
             db.session.add(collab)
         elif collab.status != CollaboratorStatus.approved:
             collab.status = CollaboratorStatus.approved
+
+    db.session.commit()
+    return jsonify(track.serialize()), 200
+
+@track_api.route("/tracks/<int:track_id>/reject", methods=["PUT"])
+@jwt_required()
+def reject_track(track_id):
+    user_id = int(get_jwt_identity())
+    track = db.session.get(Track, track_id)
+
+    if not track:
+        return jsonify({"msg": "Track no encontrada"}), 404
+
+    if track.project.owner_id != user_id:
+        return jsonify({"msg": "No autorizado para rechazar este track"}), 403
+
+    track.status = TrackStatus.rejected
+    track.updated_at = datetime.utcnow()
+
+    create_notification(
+        recipient_id=track.uploader_id,
+        notif_type=NotificationType.track_rejected,
+        message="Tu track ha sido rechazada.",
+        project_id=track.project_id,
+        track_id=track.id,
+        sender_id=user_id
+    )
 
     db.session.commit()
     return jsonify(track.serialize()), 200
