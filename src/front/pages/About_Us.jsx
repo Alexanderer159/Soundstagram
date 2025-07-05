@@ -21,7 +21,7 @@ export const AboutUs = () => {
 
                     </div>
 
-                    <div className="row mt-5 d-flex justify-content-between align-items-start">
+                    <div className="row mt-3 d-flex justify-content-between">
 
                         <div className="col">
 
@@ -44,13 +44,6 @@ export const AboutUs = () => {
                                 <Membercard pic='Pictures/Team_Members/Toni.png' name='Toni' role='Drummer (Backend & Architecture)'
                                     bio="Always in the shadows, setting the rhythm with precision. He may not be center stage, but without him, the song has no structure. Antonio is the one who keeps the project moving: he designs databases, structures APIs, and ensures everything works without missing a beat."
                                     url1='https://github.com/cheftonic92' url2='https://www.linkedin.com/in/antonio-barroso-s%C3%A1ez-895811ba/' />
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="member team4">
-                                <Membercard pic='https://media.licdn.com/dms/image/v2/D4D35AQEtNuNrR07zYw/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1697359716786?e=1752004800&v=beta&t=JynxGtpCohL0Py9hhoc2VD4zthxZt-wYP-B--U6xFrM' name='Sergio' role='Discreet Keyboard (Support & Details)'
-                                    bio="He brings harmony where it's needed, filling in details, adjusting pieces, and participating in the front-end when needed. Like a good keyboard in a band."
-                                    url1='https://github.com/padyy23' url2='https://www.linkedin.com/in/sergio-padilla-mogoll%C3%B3n-775771295/' />
                             </div>
                         </div>
                     </div>

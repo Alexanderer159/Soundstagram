@@ -38,6 +38,7 @@ color: transparent;
 animation: gradient-shift 5s infinite linear;
 pointer-events: none;
 user-select: none;
+bottom: 0;
 }
 
 /* Keyframes */
@@ -45,6 +46,6 @@ user-select: none;
 @keyframes moveinbottom {
   0% { transform: translate(0px, 500px);}
   50% { transform: translate(0px, 50px);}
-75% { transform: translate(0px, 20px);}
+  75% { transform: translate(0px, 20px);}
   100% { transform: translate(0, 0);}
 }

@@ -30,20 +30,12 @@
 .team2 {
   opacity: 0;
   animation: fadeIn 2s 4.2s forwards, slidemember ease-in-out 1s 4.2s forwards;
-  min-width: 450px;
-  max-width: 450px;
+
 }
 .team3 {
   opacity: 0;
   animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
-  min-width: 450px;
-  max-width: 450px;
-}
-.team4 {
-  opacity: 0;
-  animation: fadeIn 2s 4.6s forwards, slidemember ease-in-out 1s 4.6s forwards;
-  min-width: 450px;
-  max-width: 450px;
+
 }
 
 /* Keyframes */

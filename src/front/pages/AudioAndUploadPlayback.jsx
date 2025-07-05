@@ -9,18 +9,18 @@ import WavEncoder from "wav-encoder";
 import "../styles/upload_play.css"
 import "../styles/index.css"
 
-const waveformOptions = container => ({
+const waveformOptions = container => ({     //Esto sirve para algo?
     container,
     waveColor: "#C0C1C2",
     progressColor: "#37555B",
     cursorColor: "#859193",
-    height: 80,
+    height: 1000,
     barWidth: 2,
     responsive: true,
     normalize: true,
 });
 
-const currentUser = "Ja Jaja";
+const currentUser = "Test User";
 
 export const AudioUploaderAndPoster = () => {
     const [projectTags, setProjectTags] = useState("");
@@ -54,11 +54,11 @@ export const AudioUploaderAndPoster = () => {
 
 
 
-    useEffect(() => {
+    useEffect(() => {                                                         //PRIMER USEEFFECT
         if (audioFiles.length === 0 || !containerRef.current) return;
 
         if (multitrackInstance) {
-            multitrackInstance.destroy();
+            multitrackInstance.destroy(); //destruye si ya hay track previo, sin embargo, se vuela el title e instrument
             setMultitrackInstance(null);
             containerRef.current.innerHTML = "";
         }
@@ -78,24 +78,27 @@ export const AudioUploaderAndPoster = () => {
                 fadeOutStart: undefined,
                 volume: 0.8,
                 options: {
-                    waveColor: 'hsl(200, 87%, 49%)',
-                    progressColor: 'hsl(200, 87%, 20%)',
+                    mediaControls: true,
+                    barWidth: 4,
+                    barRadius: 7,
+                    normalize: true,
+                    waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
+                    progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
                 }}));
 
             const multitrack = Multitrack.create(tracks, {
                 container: containerRef.current,
                 minPxPerSec: zoomLevel,
-                cursorWidth: 2,
-                cursorColor: '#D72F21',
-                trackBackground: '#2D2D2D',
-                trackBorderColor: '#7C7C7C',
-                dragBounds: true,
+                cursorWidth: 8,
+                cursorColor: 'white',
+                trackBackground: 'transparent',
+                trackBorderColor: 'white',
+                dragBounds: false,
                 envelopeOptions: {
-                    lineColor: 'rgba(255, 0, 0, 0.7)',
+                    lineColor: 'white',
                     lineWidth: 4,
-                    dragPointSize: 10,
-                    dragPointFill: 'rgba(255, 255, 255, 0.8)',
-                    dragPointStroke: 'rgba(255, 255, 255, 0.3)',
+                    dragPointSize: 15,
+                    dragPointFill: 'rgb(255, 255, 255)',
                 }});
 
             multitrack.once('canplay', async () => {
@@ -109,13 +112,13 @@ export const AudioUploaderAndPoster = () => {
 
         return () => {
             if (multitrackInstance) {
-                multitrackInstance.destroy();
+                multitrackInstance.destroy();     //repetido?
                 containerRef.current.innerHTML = "";
             }
         };
-    }, [audioFiles]);
+    }, [audioFiles]);                            ///TERMINA PRIMER USEEFFECT
 
-    useEffect(() => {
+    useEffect(() => {                                                                       //SEGUNDO USEEFFECT
         if (multitrackInstance) {
             multitrackInstance.zoom(zoomLevel);
         }
@@ -162,8 +165,8 @@ export const AudioUploaderAndPoster = () => {
             bpm,
             tracks: audioFiles.map(({ title, instrument, user, name }) => ({
                 title, instrument, user, originalFilename: name
-            }))
-        });
+            })
+        )});
         alert("Publish is WIP");
     };
 
@@ -222,7 +225,7 @@ export const AudioUploaderAndPoster = () => {
 
         const a = document.createElement("a");
         a.href = url;
-        a.download = "mezcla.wav";
+        a.download = "Mix.wav";
         a.click();
     };
 
@@ -299,6 +302,10 @@ export const AudioUploaderAndPoster = () => {
 
                 </div>
 
+             <div className="col">
+                <p className="magic-uppy">Heres where the magic happens...</p>
+             </div>
+
             </div>
 
             <div className="row m-3">
@@ -332,17 +339,19 @@ export const AudioUploaderAndPoster = () => {
                 </div>
                 
             </div>
-            <div className="row mx-2 mb-5 pb-5">
-                <div className="up-info-box" ref={containerRef}>
+            <div className="row mx-2 mb-5 pb-5 up-info-box p-5 d-flex flex-column">
+            
                     {audioFiles.map((track, idx) => (
-                        <div className="up-info my-2 " key={idx}>
-                            <div className="d-flex flex-row mt-2 gap-2">
-                                <TextField label="Track Title" value={track.title} onChange={e => updateTrackMeta(idx, "title", e.target.value)} fullWidth sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                                <TextField label="Instrument" value={track.instrument} onChange={e => updateTrackMeta(idx, "instrument", e.target.value)} fullWidth sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                        <div className="up-info my-2 d-flex flex-row gap-3" key={idx}>
+                            <div className="col-3 d-flex flex-column mt-2 gap-3">
+                                <TextField label="Track Title" value={track.title} onChange={e => updateTrackMeta(idx, "title", e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                                <TextField label="Instrument" value={track.instrument} onChange={e => updateTrackMeta(idx, "instrument", e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                                <p className="up-by mt-1 text-white"> Uploaded By: {track.user}</p>
                             </div>
-                            <p className="up-by mt-1 text-white"> Uploaded By: {track.user}</p>
+                            <div className="col-9 d-flex justify-content-start align-items-start" ref={containerRef}>
+                            </div>
                         </div>))}
-                </div>
+                
             </div>
         </div>
     );

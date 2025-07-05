@@ -71,6 +71,16 @@ font-size: large;
     cursor: pointer;
 }
 
+.magic-uppy {
+    font-size: xx-large;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+  background-size: 200%, 200%;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  animation: fadeIn 4s forwards, slidebackwards 4s forwards;
+}
+
 .into-uppy{
     cursor: pointer;
 }
