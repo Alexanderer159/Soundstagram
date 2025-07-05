@@ -276,7 +276,7 @@ export const AudioUploaderAndPoster = () => {
                     
                     <div className="text-uppy gap-3 d-flex flex-column">
 
-                        <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
+                       <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>   {/* nombre de proyecto, instrumentos, roles, genero, visibility */}
                         <input className="text-uppy-input ps-3" placeholder="Short Description" value={projectDescription} onChange={e => setProjectDescription(e.target.value)}/>
                     
                     </div>
@@ -297,7 +297,7 @@ export const AudioUploaderAndPoster = () => {
                     </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handlePost}>
-                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p>
+                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p> {/* Mixer */}
                     </button>
 
                 </div>
@@ -312,7 +312,7 @@ export const AudioUploaderAndPoster = () => {
 
                 <div className="col-2 mt-1">
 
-                    <p className="mix-header text-white">Mix Controls</p>
+                    <p className="mix-header text-white text-center">Preview</p>
 
                     <div className="d-flex flex-row justify-content-between">
 
@@ -330,9 +330,9 @@ export const AudioUploaderAndPoster = () => {
 
                     <div className="zoom-line">
 
-                        <label className="text-white fs-4" htmlFor="zoom-control" >Zoom</label>
+                        <label className="text-white fs-4" for="zoom-control" >Zoom</label>
 
-                        <Slider className="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
+                        <Slider className="zoom-control" id="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
                         
                     </div>
 
