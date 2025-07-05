@@ -316,35 +316,34 @@ export const AudioUploaderAndPoster = () => {
                     </button>
 
                     <button type="button" className="btn btn-uppy" data-bs-toggle="modal" data-bs-theme="dark" data-bs-target="#Upload">
-  <UploadIcon /> Upload Track
-</button>
+                        <UploadIcon /> Upload Track
+                    </button>
 
-<div className="modal fade text-white" id="Upload" data-bs-theme="dark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <p className="modal-title fs-5" id="exampleModalLabel">Upload Track</p>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
+                        <div className="modal fade text-white" id="Upload" data-bs-theme="dark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <p className="modal-title fs-5" id="exampleModalLabel">Upload Track</p>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
 
- <TextField label="Track Title"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-<TextField label="Instrument"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} /> 
-        
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+                                        <TextField label="Track Title"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+                                        <TextField label="Instrument"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} /> 
+                                        
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" className="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
 
-             <div className="col">
-                <p className="magic-uppy">Heres where the magic happens...</p>
-             </div>
+                <div className="col">
+                    <p className="magic-uppy">Heres where the magic happens...</p>
+                </div>
 
             </div>
 
@@ -388,8 +387,7 @@ export const AudioUploaderAndPoster = () => {
                                 <TextField label="Instrument" value={track.instrument} onChange={e => updateTrackMeta(idx, "instrument", e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} />
                                 <p className="up-by mt-1 text-white"> Uploaded By: {track.user}</p>
                             </div>
-                            <div className="col-9 d-flex justify-content-start align-items-start" ref={containerRef}>
-                            </div>
+                            <div className="col-9 d-flex justify-content-start align-items-start" ref={containerRef} />
                         </div>))}
                 
             </div>
