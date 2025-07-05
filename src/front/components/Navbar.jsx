@@ -33,7 +33,7 @@ export const Navbar = () => {
 
 				<div className="actions gap-4 justify-content-between d-flex flex-row me-3">
 					
-					<form class="search-function d-flex">
+					<form className="search-function d-flex">
 
 						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search"/>
 						
