@@ -24,6 +24,11 @@ color: white;
 cursor: pointer;
 }
 
+.top-text-uppy{
+height: 100%;
+width: 100%;
+}
+
 .text-uppy{
 font-size: clamp(0.5em, 1.5vw, 1.5vw);
 border-radius: 5px;

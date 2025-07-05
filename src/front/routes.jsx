@@ -16,6 +16,7 @@ import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 import { AboutUs } from "./pages/About_Us";
 import { RegisterDemo } from "./pages/RegisterDemo";
 import { EasterPage } from "./pages/Easter";
+import { Mixer } from "./pages/Mixer";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ export const router = createBrowserRouter(
       <Route path="/hans" element={<EasterPage />} />
       <Route path="/about_us" element={< AboutUs />} />
       <Route path="/feed" element={< FeedPage />} />
+      <Route path="/mixer" element={< Mixer />} />
       <Route path="/demoProfile" element={< DemoProfile />} />
       <Route path="/projectdetails" element={< ProjectDetailPage />} />
       <Route path="/notifications" element={< NotificationsPage />} />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import WaveSurfer from "wavesurfer.js";
 import {Box, Button, Typography, Stack, IconButton,TextField, Slider} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -272,12 +273,20 @@ export const AudioUploaderAndPoster = () => {
 
                 <div className="col d-flex flex-column">
 
-                    <label className="text-white">Extra info</label>
+                    <label className="text-white fs-5">Details</label>
                     
                     <div className="text-uppy gap-3 d-flex flex-column">
 
-                       <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>   {/* nombre de proyecto, instrumentos, roles, genero, visibility */}
-                        <input className="text-uppy-input ps-3" placeholder="Short Description" value={projectDescription} onChange={e => setProjectDescription(e.target.value)}/>
+                        <div className="top-text-uppy d-flex flex-row justifyc-content-between gap-3">
+                            <input className="text-uppy-input ps-3" placeholder="Project Name" />
+                            <input className="text-uppy-input ps-3" placeholder="Instrument" />
+                            <input className="text-uppy-input ps-3" placeholder="Roles" />
+                            <input className="text-uppy-input ps-3" placeholder="Genre" />
+                            <input className="text-uppy-input ps-3" placeholder="Visibility" />
+                            <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
+                        </div>
+
+                        <textarea placeholder="Short Description" onChange={e => setProjectDescription(e.target.value)} className="text-uppy-input ps-3" rows="4" value={projectDescription} />
                     
                     </div>
                 </div>
@@ -297,8 +306,39 @@ export const AudioUploaderAndPoster = () => {
                     </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handlePost}>
-                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p> {/* Mixer */}
+                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p> 
                     </button>
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2">
+                        <Link to="/mixer" style={{ textDecoration: "none" }}>
+                            <p className="m-0 flex-row align-items-center text-dark">Mixer</p>
+                        </Link>
+                    </button>
+
+                    <button type="button" className="btn btn-uppy" data-bs-toggle="modal" data-bs-theme="dark" data-bs-target="#Upload">
+  <UploadIcon /> Upload Track
+</button>
+
+<div className="modal fade text-white" id="Upload" data-bs-theme="dark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <p className="modal-title fs-5" id="exampleModalLabel">Upload Track</p>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+
+ <TextField label="Track Title"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
+<TextField label="Instrument"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} /> 
+        
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
                 </div>
 
