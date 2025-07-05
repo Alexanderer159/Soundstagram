@@ -1,8 +1,13 @@
 from datetime import datetime
-from sqlalchemy import String, Text, ForeignKey, DateTime
+from sqlalchemy import String, Text, ForeignKey, DateTime, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from back.extensions import db
+import enum
 
+class TrackStatus(enum.Enum):
+    pending = "pending"
+    approved = "approved"
+    rejected = "rejected"
 class Track(db.Model):
     __tablename__ = "tracks"
 
@@ -14,7 +19,7 @@ class Track(db.Model):
     file_url: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     duration: Mapped[int] = mapped_column(nullable=True)
-    is_approved: Mapped[bool] = mapped_column(default=False, nullable=False)
+    status: Mapped[TrackStatus] = mapped_column(SQLEnum(TrackStatus), default=TrackStatus.pending, nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -37,7 +42,7 @@ class Track(db.Model):
             "file_url": self.file_url,
             "description": self.description,
             "duration": self.duration,
-            "is_approved": self.is_approved,
+            "status": self.status.value,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "instrument_id": self.instrument_id,

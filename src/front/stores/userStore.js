@@ -1,4 +1,4 @@
-export const initialStore = () => {
+export const initialUserStore = () => {
   const savedUser = JSON.parse(localStorage.getItem('user')) || {};
   const savedToken = localStorage.getItem('token') || '';
   return {
@@ -8,7 +8,7 @@ export const initialStore = () => {
   };
 };
 
-export default function storeReducer(store, action = {}) {
+export default function userReducer(store, action = {}) {
   switch (action.type) {
     case 'login_success':
       localStorage.setItem('token', action.payload.token);

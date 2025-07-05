@@ -1,7 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { FeedPage } from "./pages/Desktop_Feed_Page";
 import { ProjectDetailPage } from "./pages/Desktop_Project_Details_Page";
@@ -23,7 +22,6 @@ export const router = createBrowserRouter(
 
     <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
       <Route path="/" element={<Home />} />
-      <Route path="/single/:theId" element={<Single />} />
       <Route path="/demo" element={<Demo />} />
       <Route path="/register" element={<RegisterDemo />} />
       <Route path="/hans" element={<EasterPage />} />
