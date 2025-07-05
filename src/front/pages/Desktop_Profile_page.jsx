@@ -2,7 +2,7 @@ import "../styles/profile.css";
 import "../styles/index.css";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import userReducer from "../stores/userStore";
+import { useUserReducer } from "../reducers/userReducer"
 import { logoutUser } from "../services/authService";
 import { getProjectsByUser, getTracksByUser } from "../services/userService";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import profile_pic_default from "../assets/default-profile.png";
 
 export const DesktopProfilePage = () => {
 
-  const { store, dispatch } = userReducer();
+  const { store, dispatch } = useUserReducer();
   const { user } = store;
 
   const [projects, setProjects] = useState([]);
