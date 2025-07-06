@@ -9,7 +9,7 @@ export const Layout = () => {
     return (
         <>
             <Navbar />
-                <div className="pt-5">
+                <div className="py-5">
                     <Outlet />
                 </div>
             <Footer />

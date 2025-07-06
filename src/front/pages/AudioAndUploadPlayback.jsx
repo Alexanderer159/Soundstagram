@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin from "wavesurfer.js/dist/plugins/regions";
 import EnvelopePlugin from 'wavesurfer.js/dist/plugins/envelope.js';
+import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import {Box, Button, Typography, Stack, IconButton,TextField, Slider, Modal} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
+import DeleteIcon from '@mui/icons-material/Delete';
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import WavEncoder from "wav-encoder";
@@ -21,7 +23,7 @@ const [projectDescription, setProjectDescription] = useState("");
 const [keySignature, setKeySignature] = useState("C");
 const [timeSignature, setTimeSignature] = useState("4/4");
 const [bpm, setBpm] = useState(120);
-const [zoomLevel, setZoomLevel] = useState(30);
+const [zoomLevel, setZoomLevel] = useState(0);
 const [tracks, setTracks] = useState([]);
 const [modalOpen, setModalOpen] = useState(false);
 const [newTrackData, setNewTrackData] = useState({ title: "", instrument: "", file: null, });
@@ -74,18 +76,18 @@ const openModal = () => setModalOpen(true);
         const ws = WaveSurfer.create({
             container: waveformRefs.current[track.id],
             url: track.url,
-            draggable: true,
+            autoCenter:true,
+            autoScroll:true,
             minPxPerSec: zoomLevel,
-            autoCenter: true,
-            autoScroll: true,
-            envelope: true,
-            volume: 0.8,
             barWidth: 4,
+            interact:true,
+            dragToSeek:true,
+            hideScrollbar: true,
             barRadius: 7,
             waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
             progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
-            responsive: true,
-            cursorWidth: 8,
+            normalize: true,
+            cursorWidth: 6,
             cursorColor: 'white',
             trackBackground: 'transparent',
             trackBorderColor: 'white',
@@ -93,46 +95,37 @@ const openModal = () => setModalOpen(true);
             plugins: [
                 RegionsPlugin.create({ 
                     dragSelection: false }),
-                 EnvelopePlugin.create({
-                    minValue: 0,
-                    maxValue: 1,
-                    height: 10,
-                    drag: true,
+                EnvelopePlugin.create({
+                    volume: 0.8,
+                    dragLine: true,
                     lineColor: 'white',
                     lineWidth: 2,
                     dragPointSize: 5,
-                    dragPointFill: 'rgb(255, 255, 255)',}),
+                    dragPointFill: 'rgb(255, 255, 255)',
+                    points: [
+                        { time: 1, volume: 0.9 }],
+                }),
+                Hover.create({
+                    lineColor: 'white',
+                    lineWidth: 3,
+                    labelBackground: 'rgba(39, 39, 39, 0.8)',
+                    labelColor: 'white',
+                    labelSize: '13px',
+                    labelPreferLeft: false,
+    })
             ],
         });
         wavesurferRefs.current[track.id] = ws;
 
-         ws.on('ready', () => {
-        const duration = ws.getDuration();
-        const region = ws.addRegion({
-          id: `${track.id}-region`,
-          start: track.startTime || 0,
-          end: duration,
-          drag: true,
-          resize: false,
-          color: 'rgba(255, 255, 255, 0.1)',
-        });
-      });
-
-      ws.on('region-update-end', (region) => {
-        const newStart = region.start;
-        setTracks((prevTracks) =>
-          prevTracks.map((t) =>
-            t.id === track.id ? { ...t, startTime: newStart } : t
-          )
-        );
-      });
     }
   });
 
     return () => {
       Object.values(wavesurferRefs.current).forEach((ws) => ws.destroy());
       wavesurferRefs.current = {};
-    };}, [tracks, zoomLevel]);
+    };}, [tracks]);
+
+
 
 //controles para TODOS LOS TRACKS
     const handlePlayPauseAll = () => {
@@ -153,11 +146,6 @@ const handleSkipBackwardsAll = () => {
     if (ws) ws.playPause();
   };
 
-  const handleStop = (id) => {
-    const ws = wavesurferRefs.current[id];
-    if (ws) ws.stop();
-  };
-
   const handleSkipForwards = (id) => {
     const ws = wavesurferRefs.current[id];
     if (ws) ws.skip(5);
@@ -167,16 +155,25 @@ const handleSkipBackwardsAll = () => {
     const ws = wavesurferRefs.current[id];
     if (ws) ws.skip(-5);
   };
-      
-    const handleZoomChange = (e, value) => {
-        setZoomLevel(value);
-    };
+
+  const handleRemoveTrack = (id) => {
+    if (wavesurferRefs.current[id]) {
+      wavesurferRefs.current[id].destroy();
+      delete wavesurferRefs.current[id];
+    }
+    setTracks((prev) => prev.filter((track) => track.id !== id));
+  };
 
 useEffect(() => {
   Object.values(wavesurferRefs.current).forEach((ws) => {
     ws.zoom(zoomLevel);
   });
 }, [zoomLevel]);
+
+    const handleZoomChange = (e, value) => {
+        setZoomLevel(value);
+    };
+
 
     const handlePost = () => {
         console.log({
@@ -252,14 +249,14 @@ useEffect(() => {
 
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid mb-5">
 
             <div className="row">            
                 <p className="uppy text-center">Project Maker</p>
             </div>
 
 
-            <div className="row all-info m-2 p-4 shadow">
+            <div className="row all-info m-2 p-4">
 
                 <div className="col-2 buttons d-flex flex-column">
                     
@@ -316,33 +313,45 @@ useEffect(() => {
 
                 <div className="col d-flex flex-row gap-3 ps-5">
 
-                       <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={openModal}><UploadIcon /> Upload Track </button>
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 uptrack" data-bs-toggle="modal" data-bs-target="#UploadModal">
+                        <p className="m-0 flex-row align-items-center"><UploadIcon /> Upload track</p> 
+                    </button>
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleExportMix}>
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 downproj" onClick={handleExportMix}>
                         <p className="m-0 flex-row align-items-center">Download Project</p>
                     </button>
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handlePost}>
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj" onClick={handlePost}>
                         <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p> 
                     </button>
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2">
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut">
                         <Link to="/mixer" style={{ textDecoration: "none" }}>
-                            <p className="m-0 flex-row align-items-center text-dark">Mixer</p>
+                            <p className="m-0 flex-row align-items-center text-light" >Mixer</p>
                         </Link>
                     </button>
 
-      <Modal open={modalOpen} onClose={closeModal}>
-            <div className="d-flex justify-content-center">
-              <div className="modal d-flex flex-column gap-2 p-4 bg-dark text-light" >
-                <p className="fs-3">Upload New Track</p>
-                <input className="text-uppy-input p-3" placeholder="Title" value={newTrackData.title} onChange={(e) => setNewTrackData((prev) => ({ ...prev, title: e.target.value }))} />
-                <input className="text-uppy-input p-3" placeholder="Instrument" value={newTrackData.instrument} onChange={(e) => setNewTrackData((prev) => ({ ...prev, instrument: e.target.value, }))} />
-                <input type="file" accept="audio/*" onChange={handleFileInput} />
-                <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleTrackSubmit}> Submit </button>
-              </div>
-            </div>
-            </Modal>
+                    <div className="modal fade" id="UploadModal" tabindex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content bg-dark text-light">
+                        <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-light">
+                            <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <p className="fs-3 m-0 p-0">Upload New Track</p>
+                        </div>
+
+                        <div className="modal-body d-flex flex-column gap-4 ">
+                            <input className="text-uppy-input p-3" placeholder="Title" value={newTrackData.title} onChange={(e) => setNewTrackData((prev) => ({ ...prev, title: e.target.value }))} />
+                            <input className="text-uppy-input p-3" placeholder="Instrument" value={newTrackData.instrument} onChange={(e) => setNewTrackData((prev) => ({ ...prev, instrument: e.target.value, }))} />
+                            <input type="file" accept="audio/*" onChange={handleFileInput} />
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleTrackSubmit}> Submit </button>
+                        </div>
+
+                        <div className="modal-footer">
+                            <button  className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
 
                 </div>
 
@@ -352,7 +361,7 @@ useEffect(() => {
 
             </div>
 
-            <div className="row m-3">
+            <div className="row mx-3">
 
                 <div className="col-2 mt-1">
 
@@ -360,11 +369,11 @@ useEffect(() => {
 
                     <div className="d-flex flex-row justify-content-between">
 
-                        <button className="controller-mixer p-2" onClick={handleSkipBackwardsAll}>◀◀</button>
+                        <button className="btn-uppy p-2 seektop" onClick={handleSkipBackwardsAll}>◀◀</button>
 
-                        <button className="controller-mixer p-2" onClick={handlePlayPauseAll}><PlayArrowIcon /></button>
+                        <button className="btn-uppy px-5 playtop" onClick={handlePlayPauseAll}><PlayArrowIcon /></button>
 
-                        <button className="controller-mixer p-2" onClick={handleSkipForwardsAll}>▶▶</button>
+                        <button className="btn-uppy p-2 seekfortop" onClick={handleSkipForwardsAll}>▶▶</button>
 
                     </div>
 
@@ -385,18 +394,30 @@ useEffect(() => {
             </div>
             
                     {tracks.map((track) => (
-                    <div key={track.id} className="row mx-2 pb-4 pt-3 px-2 my-2 up-info-box">
-                        <div className="col-2">
+                    <div key={track.id} className="row mx-2 py-2 pt-2 px-2 mb-4 mt-3 up-info-box">
+                        <div className="col-1">
                         <p className="text-white">{track.title}</p>
                         <p className="text-white"> {track.instrument} </p>
                         <p className="text-white">Uploaded by: </p>
                         <p className="text-white">{currentUser}</p>
                         </div>
 
-                        <div className="up-container-waves col-10">
-                            <div ref={(el) => (waveformRefs.current[track.id] = el)} className="wavesurfer-container" />
+                        <div className="col-2 d-flex flex-column justify-content-center gap-1">
+                            
+                        <button className="btn-uppy" onClick={() => handleSkipBackwards(track.id)}>◀◀</button>
+
+                        <button className="btn-uppy" onClick={() => handlePlayPause(track.id)}><PlayArrowIcon /></button>
+
+                        <button className="btn-uppy" onClick={() => handleSkipForwards(track.id)}>▶▶</button>
+
                         </div>
 
+                        <div className="up-container-waves col-8 d-flex align-items-center">
+                            <div ref={(el) => (waveformRefs.current[track.id] = el)} className="wavesurfer-container" />
+                        </div>
+                        <div className="col-1">
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={() => handleRemoveTrack(track.id)}><DeleteIcon/></button>
+                        </div>
                     </div>))}
                 
         </div>
