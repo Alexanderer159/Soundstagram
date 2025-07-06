@@ -1,7 +1,7 @@
 .footer {
     position: fixed;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
     z-index: 1030;
     box-shadow: 10px 10px 30px rgb(14, 14, 14);
     animation: moveinbottom 2.5s 3s forwards;
