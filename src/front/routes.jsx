@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Demo } from "./pages/Demo";
+import { MultitrackEditor } from "./pages/Demo";
 import { FeedPage } from "./pages/Desktop_Feed_Page";
 import { ProjectDetailPage } from "./pages/Desktop_Project_Details_Page";
 import { NotificationsPage } from "./pages/Desktop_Notifications_Page";
@@ -24,7 +24,7 @@ export const router = createBrowserRouter(
 
     <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
       <Route path="/" element={<Home />} />
-      <Route path="/demo" element={<Demo />} />
+      <Route path="/demo" element={<MultitrackEditor />} />
       <Route path="/register" element={<RegisterDemo />} />
       <Route path="/hans" element={<EasterPage />} />
       <Route path="/about_us" element={< AboutUs />} />
