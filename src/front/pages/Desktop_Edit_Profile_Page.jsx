@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import "../styles/index.css";
 import "../styles/editprofile.css";
 import { Link, useNavigate } from "react-router-dom";
-import userReducer from "../stores/userStore";
+import { useUserReducer } from "../reducers/userReducer"
 import { updateUser } from "../services/userService";
 import { getRoles, getInstruments } from "../services/roleService";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { toast } from "react-toastify";
 
 export const EditProfilePage = () => {
-    const { store, dispatch } = userReducer();
+    const { store, dispatch } = useUserReducer();
     const user = store.user;
     const navigate = useNavigate();
     const fileInputRef = useRef();
