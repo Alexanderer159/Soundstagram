@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import WaveSurfer from "wavesurfer.js";
-import {
-  Modal,
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Modal, Box, Button, TextField, Typography, } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import "../styles/upload_play.css";
 import "../styles/index.css";

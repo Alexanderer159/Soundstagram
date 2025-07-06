@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WaveSurfer from "wavesurfer.js";
-import {Box, Button, Typography, Stack, IconButton,TextField, Slider} from "@mui/material";
+import RegionsPlugin from "wavesurfer.js/dist/plugins/regions";
+import EnvelopePlugin from 'wavesurfer.js/dist/plugins/envelope.js';
+import {Box, Button, Typography, Stack, IconButton,TextField, Slider, Modal} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -10,152 +12,171 @@ import WavEncoder from "wav-encoder";
 import "../styles/upload_play.css"
 import "../styles/index.css"
 
-const waveformOptions = container => ({     //Esto sirve para algo?
-    container,
-    waveColor: "#C0C1C2",
-    progressColor: "#37555B",
-    cursorColor: "#859193",
-    height: 1000,
-    barWidth: 2,
-    responsive: true,
-    normalize: true,
-});
-
 const currentUser = "Test User";
 
 export const AudioUploaderAndPoster = () => {
-    const [projectTags, setProjectTags] = useState("");
-    const [projectDescription, setProjectDescription] = useState("");
-    const [keySignature, setKeySignature] = useState("C");
-    const [timeSignature, setTimeSignature] = useState("4/4");
-    const [bpm, setBpm] = useState(120);
-    const [audioFiles, setAudioFiles] = useState([]);
-    const [playingStates, setPlayingStates] = useState([]);
-    const [multitrackInstance, setMultitrackInstance] = useState(null);
-    const [zoomLevel, setZoomLevel] = useState(30);
-    const waveformRefs = useRef([]);
-    const waveSurfers = useRef([]);
-    const containerRef = useRef();
-    const [isPlaying, setIsPlaying] = useState(false);
+
+const [projectTags, setProjectTags] = useState("");
+const [projectDescription, setProjectDescription] = useState("");
+const [keySignature, setKeySignature] = useState("C");
+const [timeSignature, setTimeSignature] = useState("4/4");
+const [bpm, setBpm] = useState(120);
+const [zoomLevel, setZoomLevel] = useState(30);
+const [tracks, setTracks] = useState([]);
+const [modalOpen, setModalOpen] = useState(false);
+const [newTrackData, setNewTrackData] = useState({ title: "", instrument: "", file: null, });
+const waveformRefs = useRef({});
+const wavesurferRefs = useRef({});
 
 
-    const handleFileChange = e => {
-        const files = Array.from(e.target.files);
-        const withMeta = files.map((file, index) => ({
-            id: index,
-            file,
-            url: URL.createObjectURL(file),
-            name: file.name,
-            title: "",
-            instrument: "",
-            user: currentUser,
-        }));
-        setAudioFiles(prev => [...prev, ...withMeta]);
-    };
+const openModal = () => setModalOpen(true);
 
+  const closeModal = () => {
+    setModalOpen(false);
+    setNewTrackData({ title: "", instrument: "", file: null });
+  };
 
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewTrackData((prev) => ({
+        ...prev,
+        file,
+      }));
+    }
+  };
 
-    useEffect(() => {                                                         //PRIMER USEEFFECT
-        if (audioFiles.length === 0 || !containerRef.current) return;
+  const handleTrackSubmit = () => {
+    const { file, title, instrument } = newTrackData;
+    if (!file || !title.trim()) {
+      alert("Please provide a file and a title.");
+      return;
+    }
 
-        if (multitrackInstance) {
-            multitrackInstance.destroy(); //destruye si ya hay track previo, sin embargo, se vuela el title e instrument
-            setMultitrackInstance(null);
-            containerRef.current.innerHTML = "";
-        }
+    const id = crypto.randomUUID();
+    const url = URL.createObjectURL(file);
+    setTracks((prev) => [...prev, { 
+        id, 
+        file, 
+        title, 
+        instrument, 
+        url,
+        startTime: 0,
+        volume: 1,
+     }]);
+    closeModal();
+  };
 
-        const script = document.createElement("script");
-        script.src = "https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js";
-        script.onload = () => {
-            const Multitrack = window.Multitrack;
-            const tracks = audioFiles.map((track, idx) => ({
-                id: idx,
-                url: track.url,
-                draggable: true,
-                envelope: true,
-                startCue: 0,
-                endCue: undefined,
-                fadeInEnd: 1,
-                fadeOutStart: undefined,
-                volume: 0.8,
-                options: {
-                    mediaControls: true,
-                    barWidth: 4,
-                    barRadius: 7,
-                    normalize: true,
-                    waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
-                    progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
-                }}));
-
-            const multitrack = Multitrack.create(tracks, {
-                container: containerRef.current,
-                minPxPerSec: zoomLevel,
-                cursorWidth: 8,
-                cursorColor: 'white',
-                trackBackground: 'transparent',
-                trackBorderColor: 'white',
-                dragBounds: false,
-                envelopeOptions: {
+  //Opciones de wavesurfer, si quieren toquenlas a ver que sacan
+  useEffect(() => {
+    tracks.forEach((track) => {
+      if (!wavesurferRefs.current[track.id] && waveformRefs.current[track.id]) {
+        const ws = WaveSurfer.create({
+            container: waveformRefs.current[track.id],
+            url: track.url,
+            draggable: true,
+            minPxPerSec: zoomLevel,
+            autoCenter: true,
+            autoScroll: true,
+            envelope: true,
+            volume: 0.8,
+            barWidth: 4,
+            barRadius: 7,
+            waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
+            progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
+            responsive: true,
+            cursorWidth: 8,
+            cursorColor: 'white',
+            trackBackground: 'transparent',
+            trackBorderColor: 'white',
+            dragBounds: false,
+            plugins: [
+                RegionsPlugin.create({ 
+                    dragSelection: false }),
+                 EnvelopePlugin.create({
+                    minValue: 0,
+                    maxValue: 1,
+                    height: 10,
+                    drag: true,
                     lineColor: 'white',
-                    lineWidth: 4,
-                    dragPointSize: 15,
-                    dragPointFill: 'rgb(255, 255, 255)',
-                }});
+                    lineWidth: 2,
+                    dragPointSize: 5,
+                    dragPointFill: 'rgb(255, 255, 255)',}),
+            ],
+        });
+        wavesurferRefs.current[track.id] = ws;
 
-            multitrack.once('canplay', async () => {
-                await multitrack.setSinkId('default');
-            });
+         ws.on('ready', () => {
+        const duration = ws.getDuration();
+        const region = ws.addRegion({
+          id: `${track.id}-region`,
+          start: track.startTime || 0,
+          end: duration,
+          drag: true,
+          resize: false,
+          color: 'rgba(255, 255, 255, 0.1)',
+        });
+      });
 
-            setMultitrackInstance(multitrack);
-        };
+      ws.on('region-update-end', (region) => {
+        const newStart = region.start;
+        setTracks((prevTracks) =>
+          prevTracks.map((t) =>
+            t.id === track.id ? { ...t, startTime: newStart } : t
+          )
+        );
+      });
+    }
+  });
 
-        document.body.appendChild(script);
+    return () => {
+      Object.values(wavesurferRefs.current).forEach((ws) => ws.destroy());
+      wavesurferRefs.current = {};
+    };}, [tracks, zoomLevel]);
 
-        return () => {
-            if (multitrackInstance) {
-                multitrackInstance.destroy();     //repetido?
-                containerRef.current.innerHTML = "";
-            }
-        };
-    }, [audioFiles]);                            ///TERMINA PRIMER USEEFFECT
+//controles para TODOS LOS TRACKS
+    const handlePlayPauseAll = () => {
+  Object.values(wavesurferRefs.current).forEach((ws) => ws.playPause());
+};
 
-    useEffect(() => {                                                                       //SEGUNDO USEEFFECT
-        if (multitrackInstance) {
-            multitrackInstance.zoom(zoomLevel);
-        }
-    }, [zoomLevel]);
+const handleSkipForwardsAll = () => {
+  Object.values(wavesurferRefs.current).forEach((ws) => ws.skip(5));
+};
+
+const handleSkipBackwardsAll = () => {
+  Object.values(wavesurferRefs.current).forEach((ws) => ws.skip(-5));
+};
 
 
+  const handlePlayPause = (id) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.playPause();
+  };
+
+  const handleStop = (id) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.stop();
+  };
+
+  const handleSkipForwards = (id) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.skip(5);
+  };
+
+  const handleSkipBackwards = (id) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.skip(-5);
+  };
+      
     const handleZoomChange = (e, value) => {
         setZoomLevel(value);
     };
 
-    const handlePlayPause = () => {
-        if (!multitrackInstance) return;
-        if (multitrackInstance.isPlaying()) {
-            multitrackInstance.pause();
-            setIsPlaying(false);
-        } else {
-            multitrackInstance.play();
-            setIsPlaying(true);
-        }
-    };
-
-
-    const handleSeek = seconds => {
-        if (multitrackInstance) {
-            const current = multitrackInstance.getCurrentTime();
-            multitrackInstance.setTime(current + seconds);
-        }
-    };
-
-    const updateTrackMeta = (index, key, value) => {
-        setAudioFiles(prev => {
-            const updated = [...prev];
-            updated[index][key] = value;
-            return updated;
-        });
-    };
+useEffect(() => {
+  Object.values(wavesurferRefs.current).forEach((ws) => {
+    ws.zoom(zoomLevel);
+  });
+}, [zoomLevel]);
 
     const handlePost = () => {
         console.log({
@@ -164,7 +185,7 @@ export const AudioUploaderAndPoster = () => {
             keySignature,
             timeSignature,
             bpm,
-            tracks: audioFiles.map(({ title, instrument, user, name }) => ({
+            tracks: tracks.map(({ title, instrument, user, name }) => ({
                 title, instrument, user, originalFilename: name
             })
         )});
@@ -172,7 +193,7 @@ export const AudioUploaderAndPoster = () => {
     };
 
     const handleExportMix = async () => {
-        if (audioFiles.length === 0) {
+        if (tracks.length === 0) {
             alert("No tracks to download yet");
             return;
         }
@@ -180,14 +201,13 @@ export const AudioUploaderAndPoster = () => {
         const buffers = [];
 
         // Paso 1: Cargar y decodificar cada pista
-        for (const track of audioFiles) {
-            const response = await fetch(track.url);
-            const arrayBuffer = await response.arrayBuffer();
-            const tempCtx = new AudioContext();
-            const decodedBuffer = await tempCtx.decodeAudioData(arrayBuffer);
-            buffers.push({ buffer: decodedBuffer, startTime: 0, volume: 1 });
-            tempCtx.close();
-        }
+        for (const track of tracks) {
+        const response = await fetch(track.url);
+        const arrayBuffer = await response.arrayBuffer();
+        const tempCtx = new AudioContext();
+        const decodedBuffer = await tempCtx.decodeAudioData(arrayBuffer);
+        buffers.push({ buffer: decodedBuffer, startTime: track.startTime || 0, volume: track.volume || 1, });
+        tempCtx.close();}
 
         // Paso 2: Calcular duración total
         const sampleRate = 44100;
@@ -279,7 +299,7 @@ export const AudioUploaderAndPoster = () => {
 
                         <div className="top-text-uppy d-flex flex-row justifyc-content-between gap-3">
                             <input className="text-uppy-input ps-3" placeholder="Project Name" />
-                            <input className="text-uppy-input ps-3" placeholder="Instrument" />
+                            <input className="text-uppy-input ps-3" placeholder="Instruments" />
                             <input className="text-uppy-input ps-3" placeholder="Roles" />
                             <input className="text-uppy-input ps-3" placeholder="Genre" />
                             <input className="text-uppy-input ps-3" placeholder="Visibility" />
@@ -296,10 +316,7 @@ export const AudioUploaderAndPoster = () => {
 
                 <div className="col d-flex flex-row gap-3 ps-5">
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2">
-                        <label className="into-uppy flex-row align-items-center" htmlFor="fileUpload"><UploadIcon /> Upload Track</label>
-                        <input className="into-uppy" hidden id="fileUpload" type="file" accept="audio/*" multiple onChange={handleFileChange} />
-                    </button>
+                       <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={openModal}><UploadIcon /> Upload Track </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleExportMix}>
                         <p className="m-0 flex-row align-items-center">Download Project</p>
@@ -315,30 +332,18 @@ export const AudioUploaderAndPoster = () => {
                         </Link>
                     </button>
 
-                    <button type="button" className="btn btn-uppy" data-bs-toggle="modal" data-bs-theme="dark" data-bs-target="#Upload">
-                        <UploadIcon /> Upload Track
-                    </button>
+      <Modal open={modalOpen} onClose={closeModal}>
+            <div className="d-flex justify-content-center">
+              <div className="modal d-flex flex-column gap-2 p-4 bg-dark text-light" >
+                <p className="fs-3">Upload New Track</p>
+                <input className="text-uppy-input p-3" placeholder="Title" value={newTrackData.title} onChange={(e) => setNewTrackData((prev) => ({ ...prev, title: e.target.value }))} />
+                <input className="text-uppy-input p-3" placeholder="Instrument" value={newTrackData.instrument} onChange={(e) => setNewTrackData((prev) => ({ ...prev, instrument: e.target.value, }))} />
+                <input type="file" accept="audio/*" onChange={handleFileInput} />
+                <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleTrackSubmit}> Submit </button>
+              </div>
+            </div>
+            </Modal>
 
-                        <div className="modal fade text-white" id="Upload" data-bs-theme="dark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <p className="modal-title fs-5" id="exampleModalLabel">Upload Track</p>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div className="modal-body">
-
-                                        <TextField label="Track Title"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                                        <TextField label="Instrument"  sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} /> 
-                                        
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" className="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                 </div>
 
                 <div className="col">
@@ -355,11 +360,11 @@ export const AudioUploaderAndPoster = () => {
 
                     <div className="d-flex flex-row justify-content-between">
 
-                        <button className="controller-mixer p-2" onClick={() => handleSeek(-10)}>◀◀</button>
+                        <button className="controller-mixer p-2" onClick={handleSkipBackwardsAll}>◀◀</button>
 
-                        <button className="controller-mixer p-2" onClick={handlePlayPause}>{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}</button>
+                        <button className="controller-mixer p-2" onClick={handlePlayPauseAll}><PlayArrowIcon /></button>
 
-                        <button className="controller-mixer p-2" onClick={() => handleSeek(10)}>▶▶</button>
+                        <button className="controller-mixer p-2" onClick={handleSkipForwardsAll}>▶▶</button>
 
                     </div>
 
@@ -378,19 +383,22 @@ export const AudioUploaderAndPoster = () => {
                 </div>
                 
             </div>
-            <div className="row mx-2 mb-5 pb-5 up-info-box p-5 d-flex flex-column">
             
-                    {audioFiles.map((track, idx) => (
-                        <div className="up-info my-2 d-flex flex-row gap-3" key={idx}>
-                            <div className="col-3 d-flex flex-column mt-2 gap-3">
-                                <TextField label="Track Title" value={track.title} onChange={e => updateTrackMeta(idx, "title", e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }} InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                                <TextField label="Instrument" value={track.instrument} onChange={e => updateTrackMeta(idx, "instrument", e.target.value)} sx={{ input: { color: "#C0C1C2" }, label: { color: "#859193" } }}InputProps={{ style: { backgroundColor: "#2C474C" } }} />
-                                <p className="up-by mt-1 text-white"> Uploaded By: {track.user}</p>
-                            </div>
-                            <div className="col-9 d-flex justify-content-start align-items-start" ref={containerRef} />
-                        </div>))}
+                    {tracks.map((track) => (
+                    <div key={track.id} className="row mx-2 pb-4 pt-3 px-2 my-2 up-info-box">
+                        <div className="col-2">
+                        <p className="text-white">{track.title}</p>
+                        <p className="text-white"> {track.instrument} </p>
+                        <p className="text-white">Uploaded by: </p>
+                        <p className="text-white">{currentUser}</p>
+                        </div>
+
+                        <div className="up-container-waves col-10">
+                            <div ref={(el) => (waveformRefs.current[track.id] = el)} className="wavesurfer-container" />
+                        </div>
+
+                    </div>))}
                 
-            </div>
         </div>
     );
 };

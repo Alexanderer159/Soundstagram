@@ -115,20 +115,21 @@ font-size: large;
 }
 
 .up-info-box{
-    width: 100%;
     background: var(--bg-color); 
     border-radius: 15px;
+    border-bottom: 1px solid rgb(112, 111, 111);
 }
 
-.project-waves{
-    background: var(--bg-color);
+.modal{
+    width: 400px;
 }
 
-.up-info{
-    display: inline-block;
-    border-radius: 10px;
+.up-container-waves{
+    overflow-x: hidden !important;
 }
 
-.up-by{
-    font-size: 0.8rem;
+.wavesurfer-container {
+  overflow-x: hidden !important;
+  width: 100%;
+  position: relative;
 }
