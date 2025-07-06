@@ -383,7 +383,7 @@ useEffect(() => {
 
                     <div className="zoom-line">
 
-                        <label className="text-white fs-4" for="zoom-control" >Zoom</label>
+                        <label className="text-white fs-4 zoom-txt" for="zoom-control" >Zoom</label>
 
                         <Slider className="zoom-control" id="zoom-control" value={zoomLevel} onChange={handleZoomChange}/>
                         

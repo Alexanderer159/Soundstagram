@@ -60,9 +60,6 @@ export const Navbar = () => {
    								<li>
 									<Link to="/uploader-poster" className="dropdown-item">Make a project</Link>
 								</li>
-								<li>
-								<Link to="/addtrack" className="dropdown-item">Upload a track</Link>
-								</li>
   							</ul>
 
 					</div>

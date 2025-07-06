@@ -7,7 +7,6 @@ import { ProjectDetailPage } from "./pages/Desktop_Project_Details_Page";
 import { NotificationsPage } from "./pages/Desktop_Notifications_Page";
 import { EditProfilePage } from "./pages/Desktop_Edit_Profile_Page";
 import { NewContributionPage } from "./pages/Desktop_New_Contribution_Page";
-import { AddExistingTrackPage } from "./pages/Desktop_Add_existing_track_page";
 import { ExploreProjectsPage } from "./pages/Desktop_Explore_Projects_Page";
 import { CommentsPage } from "./pages/Desktop_Comments_Page";
 import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
@@ -36,7 +35,6 @@ export const router = createBrowserRouter(
       <Route path="/profile" element={< DesktopProfilePage />} />
       <Route path="/editprofile" element={< EditProfilePage />} />
       <Route path="/newcontribution" element={< NewContributionPage />} />
-      <Route path="/addtrack" element={< AddExistingTrackPage />} />
       <Route path="/explore" element={< ExploreProjectsPage />} />
       <Route path="/comments" element={< CommentsPage />} />
       <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />

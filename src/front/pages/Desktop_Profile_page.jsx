@@ -124,16 +124,6 @@ export const DesktopProfilePage = () => {
                 </ul>)}
 
             </div>
-
-            <div className="d-flex justify-content-center">
-
-              <Link to="/addtrack" style={{ textDecoration: 'none' }}>
-
-                <button className="pro-btn ">Add Track</button>
-
-              </Link>
-
-            </div>
           </div>
 
         </div>

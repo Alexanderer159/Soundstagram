@@ -105,8 +105,15 @@ font-size: large;
     cursor: pointer;
 }
 
+.zoom-txt{
+    opacity: 0;
+animation: fadeIn 2s 4s forwards, bouncein 2s 4s forwards;
+}
+
 .mix-header{
     font-size: clamp(2em, 2vw, 2vw);
+    opacity: 0;
+    animation: fadeIn 2s forwards, bouncein 2s forwards;
 }
 
 .uptrack{
@@ -145,7 +152,8 @@ animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
 }
 
 .zoom-line{
-    width: 100%;
+width: 0%;
+animation: growline 5s forwards;
 }
 
 .zoom-control {
@@ -189,4 +197,9 @@ animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
 @keyframes slideforwards {
   0%{ transform: translateX(-150%);}
   100% { transform: translateX(0%);}
+}
+
+@keyframes growline {
+    from{width: 0%;}
+    to{width: 10%;}
 }
