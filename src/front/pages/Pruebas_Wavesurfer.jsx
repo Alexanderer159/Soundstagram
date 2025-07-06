@@ -109,6 +109,24 @@ export const PruebasWave = () => {
     if (ws) ws.skip(seconds);
   };
 
+  const handleVolumeChange = (id, volume) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.setVolume(volume);
+  };
+
+  const handleMuteToggle = (id) => {
+    const ws = wavesurferRefs.current[id];
+    if (ws) ws.toggleMute();
+  };
+
+  const handleRemoveTrack = (id) => {
+    if (wavesurferRefs.current[id]) {
+      wavesurferRefs.current[id].destroy();
+      delete wavesurferRefs.current[id];
+    }
+    setTracks((prev) => prev.filter((track) => track.id !== id));
+  };
+
   return (
     <div className="container-fluid m-5 text-white">
       <Button variant="contained" color="primary" startIcon={<UploadIcon />} onClick={openModal}>
@@ -168,8 +186,51 @@ export const PruebasWave = () => {
             )}
             <div
               ref={(el) => (waveformRefs.current[track.id] = el)}
-              className="wavesurfer-container"
+              className="wavesurfer-container mb-2"
             />
+            <div className="d-flex gap-2 mb-3">
+              <Button variant="outlined" onClick={() => handlePlayPause(track.id)}>
+                Play/Pause
+              </Button>
+              <Button variant="outlined" onClick={() => handleStop(track.id)}>
+                Stop
+              </Button>
+              <Button variant="outlined" onClick={() => handleSkip(track.id, -5)}>
+                ⏪ -5s
+              </Button>
+              <Button variant="outlined" onClick={() => handleSkip(track.id, 5)}>
+                ⏩ +5s
+              </Button>
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={() => handleMuteToggle(track.id)}
+              >
+                Mute
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => handleRemoveTrack(track.id)}
+              >
+                🗑️ Eliminar
+              </Button>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <label htmlFor={`volume-${track.id}`}>Volumen:</label>
+              <input
+                type="range"
+                id={`volume-${track.id}`}
+                min="0"
+                max="1"
+                step="0.01"
+                defaultValue="0.8"
+                onChange={(e) =>
+                  handleVolumeChange(track.id, parseFloat(e.target.value))
+                }
+              />
+            </div>
+            <hr />
           </div>
         ))}
       </div>
