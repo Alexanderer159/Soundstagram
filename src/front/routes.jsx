@@ -17,6 +17,7 @@ import { AboutUs } from "./pages/About_Us";
 import { RegisterDemo } from "./pages/RegisterDemo";
 import { EasterPage } from "./pages/Easter";
 import { Mixer } from "./pages/Mixer";
+import { AddProject } from "./pages/AddProject";
 import { PruebasWave } from "./pages/Pruebas_Wavesurfer";
 
 export const router = createBrowserRouter(
@@ -41,6 +42,7 @@ export const router = createBrowserRouter(
       <Route path="/comments" element={< CommentsPage />} />
       <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />
       <Route path="/pruebas" element={<PruebasWave />} />
+      <Route path="/add_project" element={<AddProject />} />
     </Route>
   )
 );
