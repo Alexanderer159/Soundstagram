@@ -10,8 +10,8 @@ import profile_pic_default from "../assets/default-profile.png";
 
 export const DesktopProfilePage = () => {
 
-  const { store, dispatch } = useUserReducer();
-  const { user } = store;
+  const { userStore, userDispatch } = useUserReducer();
+  const { user } = userStore;
 
   const [projects, setProjects] = useState([]);
   const [tracks, setTracks] = useState([]);
@@ -19,7 +19,7 @@ export const DesktopProfilePage = () => {
 
   const handleLogout = () => {
     logoutUser();
-    dispatch({ type: "logout" });
+    userDispatch({ type: "logout" });
     navigate("/");
   };
 

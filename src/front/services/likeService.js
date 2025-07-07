@@ -1,29 +1,26 @@
-import axios from 'axios';
-import { getAuthHeader } from './authService';
-
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+import api from './authService';
 
 export const toggleTrackLike = async (trackId) => {
-  const response = await axios.post(`${API_URL}/likes/track/${trackId}`, {}, getAuthHeader());
+  const response = await api.post(`/likes/track/${trackId}`, {});
   return response.data;
 };
 
 export const toggleProjectLike = async (projectId) => {
-  const response = await axios.post(`${API_URL}/likes/project/${projectId}`, {}, getAuthHeader());
+  const response = await api.post(`/likes/project/${projectId}`, {});
   return response.data;
 };
 
 export const getUserLikes = async (userId) => {
-  const response = await axios.get(`${API_URL}/likes/user/${userId}`, getAuthHeader());
+  const response = await api.get(`/likes/user/${userId}`);
+  console.log('📦 getUserLikes response:', response.data); // AÑADE ESTO
   return response.data;
 };
-
 export const getLikesForTrack = async (trackId) => {
-  const response = await axios.get(`${API_URL}/likes/track/${trackId}`);
+  const response = await api.get(`/likes/track/${trackId}`);
   return response.data;
 };
 
 export const getLikesForProject = async (projectId) => {
-  const response = await axios.get(`${API_URL}/likes/project/${projectId}`);
+  const response = await api.get(`/likes/project/${projectId}`);
   return response.data;
 };
