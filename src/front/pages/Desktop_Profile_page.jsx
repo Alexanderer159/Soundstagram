@@ -70,7 +70,7 @@ export const DesktopProfilePage = () => {
           </div>
         </div>
 
-        <div className="row my-3">
+        <div className="row my-1">
 
           <div className="d-flex justify-content-between px-5">
 

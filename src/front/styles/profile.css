@@ -4,28 +4,33 @@
     border-top: 1px solid var(--accent);
     border-bottom: 2px solid rgba(0,0,0,0.6);
     border-right: 2px solid rgba(0,0,0,0.6);
+    animation: fadeIn 2s forwards, rotateimg 3s forwards;
 }
 
 .pro-name-user{
-        background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
     pointer-events: none;
     user-select: none;
     font-size: clamp(3em, 5vw, 5vw);
-    animation: gradient-shift 10s infinite alternate;
+    animation: gradient-shift 10s infinite alternate, slidebackwards 1.5s forwards;
 }
 
 .pro-user-bio{
     max-height: 50px;
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1.5s forwards, bouncein 2s 1.5s forwards;
 }
 
 .sub-titles {
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1s forwards, bouncein 2s 1s forwards;
 }
 
 .projects{
@@ -35,6 +40,8 @@
     border-radius: 10px;
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1.5s forwards, bouncein 2s 1.5s forwards;
 }
 
 .proname{
@@ -50,12 +57,16 @@
     font-size: 4rem;
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1.2s forwards, bouncein 2s 1.2s forwards;
 }
 
 .tracks-title{
     font-size: 4rem;
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1.2s forwards, bouncein 2s 1.2s forwards;
 }
 
 .tracks{
@@ -65,6 +76,8 @@
     border-radius: 10px;
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 1.5s forwards, bouncein 2s 1.5s forwards;
 }
 
 .pro-btn{
@@ -75,7 +88,7 @@
     background: var(--bg-color);
     box-shadow: 1px 1px 1px 1px black;
     background-size: 300%, 300%;
-    animation: gradient-shift 3s ease infinite;
+    animation: gradient-shift 3s ease infinite, bouncein 2s forwards, fadeIn 2s forwards;
     transition: 1s ease;
     color: white;
     cursor: pointer;
@@ -109,7 +122,7 @@
     background: var(--bg-color);
     box-shadow: 1px 1px 1px 1px black;
     background-size: 300%, 300%;
-    animation: gradient-shift 3s ease infinite;
+    animation: gradient-shift 3s ease infinite, bouncein 2s forwards, fadeIn 2s forwards;
     transition: 1s ease;
     color: white;
     cursor: pointer;

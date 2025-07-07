@@ -3,7 +3,7 @@
   bottom: 0;
   width: 100%;
   z-index: 1030;
-  box-shadow: 10px 10px 30px rgb(14, 14, 14);
+  box-shadow: 0px 0px 15px 5px black;
   animation: moveinbottom 2.5s 3s forwards;
   background-color: var(--bg-color);
   transform: translate(0px, 500px);
