@@ -58,9 +58,9 @@ export const DesktopProfilePage = () => {
 
               <p className="pro-name-user">@{user.username || 'No Username Yet'}</p>
 
-              <div className="d-flex flex-row gap-5 ps-5">
-                <p className="text-light">{user.username || 'No Followers Yet'}</p>
-                <p className="text-light">{user.username || 'User Follows No one'}</p>
+              <div className="sub-titles d-flex flex-row gap-5 ps-5">
+                <p className="text-light">{user.role || 'No Role Selected'}</p>
+                <p className="text-light">{user.instrument || 'No Instruments Selected'}</p>
 
               </div>
 
@@ -80,7 +80,7 @@ export const DesktopProfilePage = () => {
 
             </Link>
 
-            <button className="pro-btn-disc" onClick={handleLogout}>Log Out</button>
+            <button className="pro-btn-out" onClick={handleLogout}>Log Out</button>
 
           </div>
         </div>

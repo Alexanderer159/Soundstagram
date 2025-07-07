@@ -98,7 +98,7 @@ export const Home = () => {
 						</div>
 						<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
 							<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
-							<label className="text-start" htmlFor="rememberme">Remember me</label>
+							<label className="text-start form-label" htmlFor="rememberme">Remember me</label>
 						</div>
 						<button type="submit" className="btn mt-3">Login</button>
 						<div className="mt-4 px-1">
@@ -110,7 +110,7 @@ export const Home = () => {
 				</div>
 
 				<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
-					<div className="newuser btn fw-bold shadow-lg">
+					<div className="newuser btn fw-bold">
 						<Link to="/register">
 							<button className="newuser-btn btn fw-bold">New user? <br /> Create an account!</button>
 						</Link>

@@ -13,6 +13,7 @@
 --color-3:rgb(0, 255, 191);
 --color-4:rgb(119, 0, 255);
 --color-5:rgb(240, 13, 13);
+--accent:rgb(112, 111, 111);
 }
 
 body {
@@ -22,8 +23,8 @@ body {
 }
 
 html, body {
-height: 100%;
-scrollbar-width: none;
+    height: 100%;
+    scrollbar-width: none;
 }
 
 /* ----------------     KEYFRAMES    ----------------- */

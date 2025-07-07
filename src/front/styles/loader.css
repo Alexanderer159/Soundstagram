@@ -11,7 +11,7 @@
     }
 
     .hoveruse:hover .line{
-    animation: fadeOut 0.2 ease forwards;
+        animation: fadeOut 0.2 ease forwards;
     }
 
     .line {
@@ -31,164 +31,164 @@
 
     .line2 {
         animation: line-grow 1s 0.2s ease alternate 10.139 forwards;
-    height: 20%;
+        height: 20%;
     }
 
     .line3 {
         animation: line-grow 1s 0.4s ease alternate 10.265 forwards;
-    height: 40%;
+        height: 40%;
     }
 
     .line4 { 
         animation: line-grow 1s 0.6s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line5 {  
         animation: line-grow 1s 0.8s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line6 {
         animation: line-grow 1s 1s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line7 {
      animation: line-grow 1s 1.2s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line8 {
         animation: line-grow 1s 1.4s ease alternate 10.265 forwards;
-    height: 40%;
+        height: 40%;
     }
 
     .line9 { 
         animation: line-grow 1s 1.2s ease alternate 10.139 forwards;
-    height: 20%;
+        height: 20%;
     }
 
     .line10 {
         animation: line-grow 1s 1s ease alternate 10 forwards;
-    height: 10%;
+        height: 10%;
     }
 
     .line11 {
         animation: line-grow 1s 0.8s ease alternate 10 forwards;
-    height: 10%;
+        height: 10%;
     }
 
     .line12 {  
         animation: line-grow 1s 0.6s ease alternate 10.2 forwards;
-    height: 30%;
+        height: 30%;
     }
 
     .line13 {  
         animation: line-grow 1s 0.4s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line14 {
         animation: line-grow 1s 0.2s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line15 {
         animation: line-grow 1s ease alternate 10.7 forwards;
-    height: 90%;
+        height: 90%;
     }
 
     .line16 {  
         animation: line-grow 1s ease alternate 10.7 forwards;
-    height: 90%;
+        height: 90%;
     }
 
     .line17 {
         animation: line-grow 1s 0.2s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line18 { 
         animation: line-grow 1s 0.4s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line19 {
         animation: line-grow 1s 0.6s ease alternate 10.2 forwards;
-    height: 30%
+        height: 30%
     }
 
     .line20 { 
         animation: line-grow 1s 0.8s ease alternate 10 forwards;
-    height: 10%;
+        height: 10%;
     }
 
     .line21 {
         animation: line-grow 1s 1s ease alternate 10 forwards;
-    height: 10%;
+        height: 10%;
     }
 
     .line22 {
         animation: line-grow 1s 1.2s ease alternate 10.139 forwards;
-    height: 20%;
+        height: 20%;
     }
 
     .line23 {
         animation: line-grow 1s 1.4s ease alternate 10.265 forwards;
-    height: 40%;
+        height: 40%;
     }
 
     .line24 {
         animation: line-grow 1s 1.2s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line25 {
         animation: line-grow 1s 1s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line26 {  
         animation: line-grow 1s 0.8s ease alternate 10.54 forwards;
-    height: 80%;
+        height: 80%;
     }
 
     .line27 {
         animation: line-grow 1s 0.6s ease alternate 10.4 forwards;
-    height: 60%;
+        height: 60%;
     }
 
     .line28 {
         animation: line-grow 1s 0.4s ease alternate 10.265 forwards;
-    height: 40%;
+        height: 40%;
     }
 
     .line29 {
         animation: line-grow 1s 0.2s ease alternate 10.139 forwards;
-    height: 20%;
+        height: 20%;
     }
 
     .line30 {
         animation: line-grow 1s ease alternate 10 forwards;
-    height: 10%;
+        height: 10%;
     }
 
     /* Keyframes */
 
     @keyframes lineGradient{
-    0%{background-position:10% 0%}
-    50%{background-position:90% 100%}
-    100%{background-position:10% 0%}
+        0%{background-position:10% 0%}
+        50%{background-position:90% 100%}
+        100%{background-position:10% 0%}
     }
 
     @keyframes line-grow {
-    0% { height: 10%; opacity: 0.2; backdrop-filter: blur(5px);}
-    100% { height: 90%; opacity:0.9; backdrop-filter: blur(5px);}
+        0% { height: 10%; opacity: 0.2; backdrop-filter: blur(5px);}
+        100% { height: 90%; opacity:0.9; backdrop-filter: blur(5px);}
     }
 
     @keyframes slideloader {
-  0%{ transform: translateX(50%);}
-  50%{ transform: translateX(50%);}
-  100% { transform: translateX(0%);}
+    0%{ transform: translateX(50%);}
+    50%{ transform: translateX(50%);}
+    100% { transform: translateX(0%);}
 }

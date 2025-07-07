@@ -4,12 +4,12 @@ import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin from "wavesurfer.js/dist/plugins/regions";
 import EnvelopePlugin from 'wavesurfer.js/dist/plugins/envelope.js';
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
-import {Box, Button, Typography, Stack, IconButton,TextField, Slider, Modal} from "@mui/material";
+import {Slider} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
+import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
+import TuneIcon from '@mui/icons-material/Tune';
 import WavEncoder from "wav-encoder";
 import "../styles/upload_play.css"
 import "../styles/index.css"
@@ -318,7 +318,7 @@ useEffect(() => {
                     </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2 downproj" onClick={handleExportMix}>
-                        <p className="m-0 flex-row align-items-center">Download Project</p>
+                        <p className="m-0 flex-row align-items-center"> <DownloadIcon /> Download Project</p>
                     </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj" onClick={handlePost}>
@@ -327,7 +327,7 @@ useEffect(() => {
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut">
                         <Link to="/mixer" style={{ textDecoration: "none" }}>
-                            <p className="m-0 flex-row align-items-center text-light" >Mixer</p>
+                            <p className="m-0 flex-row align-items-center text-light" ><TuneIcon /> Mixer</p>
                         </Link>
                     </button>
 
@@ -356,7 +356,7 @@ useEffect(() => {
                 </div>
 
                 <div className="col">
-                    <p className="magic-uppy">Heres where the magic happens...</p>
+                    <p className="magic-uppy">Here's where the magic happens...</p>
                 </div>
 
             </div>
@@ -371,7 +371,7 @@ useEffect(() => {
 
                         <button className="btn-uppy p-2 seektop" onClick={handleSkipBackwardsAll}>◀◀</button>
 
-                        <button className="btn-uppy px-5 playtop" onClick={handlePlayPauseAll}><PlayArrowIcon /></button>
+                        <button className="btn-uppy px-5 playtop" onClick={handlePlayPauseAll}>▶</button>
 
                         <button className="btn-uppy p-2 seekfortop" onClick={handleSkipForwardsAll}>▶▶</button>
 
@@ -406,7 +406,7 @@ useEffect(() => {
                             
                         <button className="btn-uppy" onClick={() => handleSkipBackwards(track.id)}>◀◀</button>
 
-                        <button className="btn-uppy" onClick={() => handlePlayPause(track.id)}><PlayArrowIcon /></button>
+                        <button className="btn-uppy" onClick={() => handlePlayPause(track.id)}>▶</button>
 
                         <button className="btn-uppy" onClick={() => handleSkipForwards(track.id)}>▶▶</button>
 

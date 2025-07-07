@@ -1,5 +1,5 @@
 .all-info{
-    border-top: 1px solid rgb(112, 111, 111);
+    border-top: 1px solid var(--accent);
     background: var(--bg-color);
     border-radius: 15px;
     box-shadow: 1px 1px 15px 1px black;
@@ -7,50 +7,50 @@
 }
 
 .uppy{
-font-size: clamp(3em, 5vw, 5vw);
-  background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
-  background-size: 200%, 200%;
-  background-clip: text;
-  color: transparent;
-  opacity: 0;
-  animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
+    font-size: clamp(3em, 5vw, 5vw);
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
 }
 
 .controls-uppy{
-font-size: clamp(0.5em, 1.5vw, 1.5vw);
-border-radius: 5px;
-height: 60px;
-width: 100%;
-background: var(--bg-color);
-border: 0px;
-border-top: 1px solid rgb(112, 111, 111);
-box-shadow: 1px 1px 4px 0.01px var(--color-3);
-color: white;
-cursor: pointer;
+    font-size: clamp(0.5em, 1.5vw, 1.5vw);
+    border-radius: 5px;
+    height: 60px;
+    width: 100%;
+    background: var(--bg-color);
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 4px 0.01px var(--color-3);
+    color: white;
+    cursor: pointer;
 }
 
 .top-text-uppy{
-height: 100%;
-width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .text-uppy{
-font-size: clamp(0.5em, 1.5vw, 1.5vw);
-border-radius: 5px;
-height: 135px;
-width: 100%;
+    font-size: clamp(0.5em, 1.5vw, 1.5vw);
+    border-radius: 5px;
+    height: 135px;
+    width: 100%;
 }
 
 .text-uppy-input{
-border-radius: 5px;
-background: var(--bg-color);
-border: 0px;
-border-top: 1px solid rgb(112, 111, 111);
-box-shadow: 1px 1px 4px 0.01px var(--color-3);
-color: white;
-height: 100%;
-width: 100%;
-font-size: large;
+    border-radius: 5px;
+    background: var(--bg-color);
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 4px 0.01px var(--color-3);
+    color: white;
+    height: 100%;
+    width: 100%;
+    font-size: large;
 }
 
 .text-uppy-input::placeholder{
@@ -59,7 +59,7 @@ font-size: large;
 
 .btn-uppy{
     border: 0px;
-    border-top: 1px solid rgb(112, 111, 111);
+    border-top: 1px solid var(--accent);
     border-radius: 5px;
     background: var(--bg-color);
     box-shadow: 1px 1px 1px 1px black;
@@ -80,7 +80,7 @@ font-size: large;
     color: transparent;
 }
 .btn-uppy:hover {
-        border: 1px solid var(--color-3);
+    border: 1px solid var(--color-3);
     border-radius: 5px;
     background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-clip: text;
@@ -94,11 +94,11 @@ font-size: large;
 .magic-uppy {
     font-size: xx-large;
     background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
-  background-size: 200%, 200%;
-  background-clip: text;
-  color: transparent;
-  opacity: 0;
-  animation: fadeIn 4s forwards, slidebackwards 4s forwards;
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: fadeIn 4s forwards, slidebackwards 4s forwards;
 }
 
 .into-uppy{
@@ -107,7 +107,7 @@ font-size: large;
 
 .zoom-txt{
     opacity: 0;
-animation: fadeIn 2s 4s forwards, bouncein 2s 4s forwards;
+    animation: fadeIn 2s 4s forwards, bouncein 2s 4s forwards;
 }
 
 .mix-header{
@@ -118,58 +118,58 @@ animation: fadeIn 2s 4s forwards, bouncein 2s 4s forwards;
 
 .uptrack{
     opacity: 0;
-animation: fadeIn 2s forwards, bouncein 2s forwards;
+    animation: fadeIn 2s forwards, bouncein 2s forwards;
 }
 
 .downproj{
     opacity: 0;
-animation: fadeIn 2s 0.4s forwards, bouncein 2s 0.4s forwards;
+    animation: fadeIn 2s 0.4s forwards, bouncein 2s 0.4s forwards;
 }
 
 .pubproj{
     opacity: 0;
-animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
+    animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
 }
 
 .mixbut{
        opacity: 0;
-animation: fadeIn 2s 0.8s forwards, bouncein 2s 0.8s forwards;
+    animation: fadeIn 2s 0.8s forwards, bouncein 2s 0.8s forwards;
 }
 
 .seektop{
     opacity: 0;
-animation: fadeIn 2s forwards, bouncein 2s forwards;
+    animation: fadeIn 2s forwards, bouncein 2s forwards;
 }
 
 .playtop{
     opacity: 0;
-animation: fadeIn 2s 0.4s forwards, bouncein 2s 0.4s forwards;
+    animation: fadeIn 2s 0.4s forwards, bouncein 2s 0.4s forwards;
 }
 
 .seekfortop{
     opacity: 0;
-animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
+    animation: fadeIn 2s 0.6s forwards, bouncein 2s 0.6s forwards;
 }
 
 .zoom-line{
-width: 0%;
-animation: growline 5s forwards;
+    width: 0%;
+    animation: growline 5s forwards;
 }
 
 .zoom-control {
-  -webkit-appearance: none;
-  width: 1000% !important;
-  height: 6px !important;
-  color: var(--color-3) !important;
-  border-radius: 3px !important;
-  outline: none !important;
+    -webkit-appearance: none;
+    width: 1000% !important;
+    height: 6px !important;
+    color: var(--color-3) !important;
+    border-radius: 3px !important;
+    outline: none !important;
 }
 
 .up-info-box{
     background: var(--bg-color); 
     border-radius: 15px;
     box-shadow: 1px 1px 15px 2px black;
-    border-top: 1px solid rgb(112, 111, 111);
+    border-top: 1px solid var(--accent);
     animation: fadeIn 6s forwards, slidebackwards 4s forwards;
 }
 
@@ -178,10 +178,9 @@ animation: growline 5s forwards;
 }
 
 .wavesurfer-container {
-
-  width: 100%;
-  box-shadow: 0px 0px 15px 1px black inset;
-  border-radius: 5px;
+    width: 100%;
+    box-shadow: 0px 0px 15px 1px black inset;
+    border-radius: 5px;
 }
 
 .modal{
@@ -195,8 +194,8 @@ animation: growline 5s forwards;
 }
 
 @keyframes slideforwards {
-  0%{ transform: translateX(-150%);}
-  100% { transform: translateX(0%);}
+    0%{ transform: translateX(-150%);}
+    100% { transform: translateX(0%);}
 }
 
 @keyframes growline {
