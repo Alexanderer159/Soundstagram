@@ -11,9 +11,9 @@ export const EasterPage = () => {
         <>
             <div className="easter container-fluid">
 
-                <div className="director pt-5 d-flex position-absolute">
+                <div className="director d-flex position-absolute">
 
-                    <p className="">El director de orquesta</p>
+                    <p className="">You found the orchestra director!</p>
 
                 </div>
 

@@ -83,7 +83,7 @@ export const Home = () => {
 				</div>
 
 				<div className="col-12 col-md-3 d-flex justify-content-center my-2" >
-					<form className="form text-light text-center p-3" onSubmit={handleSubmit} >
+					<form className="form text-center p-3" onSubmit={handleSubmit} >
 
 						<div className="my-2">
 							<p className="form-text fs-4">Log In</p>
@@ -102,7 +102,7 @@ export const Home = () => {
 						</div>
 						<button type="submit" className="btn mt-3">Login</button>
 						<div className="mt-4 px-1">
-							<Link to="/register" style={{ textDecoration: "none" }}>
+							<Link to="/register" className="text-decoration-none">
 								<p className="form-text">Forgot your password?</p>
 							</Link>
 						</div>
@@ -111,7 +111,7 @@ export const Home = () => {
 
 				<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
 					<div className="newuser btn fw-bold">
-						<Link to="/register">
+						<Link to="/register" className="text-decoration-none">
 							<button className="newuser-btn btn fw-bold">New user? <br /> Create an account!</button>
 						</Link>
 					</div>

@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/aboutus.css";
 import "../styles/index.css";
 import { Membercard } from "../components/Member_Card.jsx";
+import { Link, useNavigate } from "react-router-dom";
 
 export const AboutUs = () => {
     return (
@@ -45,6 +46,15 @@ export const AboutUs = () => {
                                     bio="Always in the shadows, setting the rhythm with precision. He may not be center stage, but without him, the song has no structure. Antonio is the one who keeps the project moving: he designs databases, structures APIs, and ensures everything works without missing a beat."
                                     url1='https://github.com/cheftonic92' url2='https://www.linkedin.com/in/antonio-barroso-s%C3%A1ez-895811ba/' />
                             </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+
+                        <Link to="/hans" className="text-decoration-none">
+                            <p className="mistery d-flex justify-content-center p-0 m-0">Whats this? A mistery member?</p>
+                        </Link>
+
                         </div>
                     </div>
                 </div>

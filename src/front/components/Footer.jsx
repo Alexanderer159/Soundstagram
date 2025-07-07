@@ -10,10 +10,10 @@ export const Footer = () => (
 		</div>
 		<div className="col ">
 			<div className="d-flex flex-row justify-content-between">
-				<Link to="/" style={{ textDecoration: 'none' }}><p className="foot-list">Features</p></Link>
-				<Link to="/" style={{ textDecoration: 'none' }}><p className="foot-list">Contact</p></Link>
-				<Link to="/" style={{ textDecoration: 'none' }}><p className="foot-list">FAQs</p></Link>
-				<Link to="/about_us" style={{ textDecoration: 'none' }}><p className="foot-list">About Us</p></Link>
+				<Link to="/" className="text-decoration-none"><p className="foot-list">Features</p></Link>
+				<Link to="/" className="text-decoration-none"><p className="foot-list">Contact</p></Link>
+				<Link to="/" className="text-decoration-none"><p className="foot-list">FAQs</p></Link>
+				<Link to="/about_us" className="text-decoration-none"><p className="foot-list">About Us</p></Link>
 			</div>
 		</div>
 	</div>

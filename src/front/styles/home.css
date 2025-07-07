@@ -65,6 +65,8 @@
     font-weight: bold;
     pointer-events: none;
     user-select: none;
+    color: #fff;
+    text-shadow: 5px 5px 5px black;
 }
 
 .form .textinput{
@@ -108,7 +110,7 @@
     opacity:0;
     background: var(--bg-color);
     animation: fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
-    box-shadow: 2px 2px 3px 2px black;
+    box-shadow: 2px 2px 5px 3px black;
     border-top: 1px solid var(--accent);
     border-radius: 15px;
 }

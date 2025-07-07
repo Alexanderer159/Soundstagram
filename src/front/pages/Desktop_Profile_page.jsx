@@ -59,12 +59,12 @@ export const DesktopProfilePage = () => {
               <p className="pro-name-user">@{user.username || 'No Username Yet'}</p>
 
               <div className="sub-titles d-flex flex-row gap-5 ps-5">
-                <p className="text-light">{user.role || 'No Role Selected'}</p>
-                <p className="text-light">{user.instrument || 'No Instruments Selected'}</p>
+                <p className="">{user.role || 'No Role Selected'}</p>
+                <p className="">{user.instrument || 'No Instruments Selected'}</p>
 
               </div>
 
-              <p className="pro-user-bio text-light ps-5 mb-5">{user.bio || 'User wants to remain misterious'}</p>
+              <p className="pro-user-bio ps-5 mb-5">{user.bio || 'User wants to remain misterious'}</p>
 
             </div>
           </div>
@@ -74,7 +74,7 @@ export const DesktopProfilePage = () => {
 
           <div className="d-flex justify-content-between px-5">
 
-            <Link to="/editprofile" style={{ textDecoration: 'none' }}>
+            <Link to="/editprofile" className="text-decoration-none">
 
               <button className="pro-btn">Edit Profile</button>
 
@@ -89,7 +89,7 @@ export const DesktopProfilePage = () => {
 
           <div className="col">
 
-            <p className="projects-title text-white">Projects</p>
+            <p className="projects-title ">Projects</p>
 
             <div className="projects mb-4">
 
@@ -103,7 +103,7 @@ export const DesktopProfilePage = () => {
 
             <div className="d-flex justify-content-center">
 
-              <Link to="/uploader-poster" style={{ textDecoration: 'none' }}>
+              <Link to="/uploader-poster" className="text-decoration-none">
 
                 <button className="pro-btn ">Add Project</button>
 
@@ -114,7 +114,7 @@ export const DesktopProfilePage = () => {
 
           <div className="col">
 
-            <p className="tracks-title text-white">Tracks</p>
+            <p className="tracks-title">Tracks</p>
 
             <div className="tracks mb-4">
 

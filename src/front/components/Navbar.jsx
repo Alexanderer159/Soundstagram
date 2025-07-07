@@ -12,7 +12,7 @@ export const Navbar = () => {
 			<div className="container-fluid d-flex flex-row m-0 p-0 justify-content-between align-items-center">
 
 
-				<Link to="/" style={{ textDecoration: 'none' }}>
+				<Link to="/" className="text-decoration-none">
 				<div className="d-flex flex-row align-items-center">
 				<img src="/Pictures/Soundstagram_no_bg.svg" className="soundstagram-icon img-fluid icon mx-3 p-1"/>
 					<p className="navbar-text fw-bold m-0 p-0 text-center">Soundstagram!</p>
@@ -20,13 +20,13 @@ export const Navbar = () => {
 				</Link>
 
 				
-				<Link to="/feed" style={{ textDecoration: 'none' }}>
+				<Link to="/feed" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Home</p>
 				</Link>
-				<Link to="/projectdetails" style={{ textDecoration: 'none' }}>
+				<Link to="/projectdetails" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Explore</p>
 				</Link>
-				<Link to="/comments" style={{ textDecoration: 'none' }}>
+				<Link to="/comments" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Messages</p>
 				</Link>
 
@@ -45,7 +45,7 @@ export const Navbar = () => {
 					
 					</form>
 
-					<Link to="/notifications" style={{ textDecoration: 'none' }}>
+					<Link to="/notifications" className="text-decoration-none">
 						<FontAwesomeIcon className="icon-navbar" icon={faBell} mask={faSquareFull}/>
 					</Link>
 

@@ -263,7 +263,7 @@ useEffect(() => {
                     <div className="d-flex justify-content-between">
                         
                         <div className="">
-                            <label className="text-white">Key</label>
+                            <label className="controls-uppy-text text-white">Key</label>
                             <select className="controls-uppy ps-3" label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} >
                                 {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
                             </select>
@@ -271,7 +271,7 @@ useEffect(() => {
 
                         <div className="">
 
-                            <label className="text-white">Compass</label>
+                            <label className="controls-uppy-text text-white">Compass</label>
                             <select className="controls-uppy ps-3" label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} >
                                 {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
                             </select>
@@ -282,7 +282,7 @@ useEffect(() => {
 
                         <div className="">
 
-                            <label className="text-white">BPM</label>
+                            <label className="controls-uppy-text text-white">BPM</label>
                             <input className="controls-uppy ps-3" label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} />
 
                         </div>
@@ -290,7 +290,7 @@ useEffect(() => {
 
                 <div className="col d-flex flex-column">
 
-                    <label className="text-white fs-5">Details</label>
+                    <label className="controls-uppy-text text-white fs-5">Details</label>
                     
                     <div className="text-uppy gap-3 d-flex flex-column">
 
@@ -326,28 +326,27 @@ useEffect(() => {
                     </button>
 
                     <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut">
-                        <Link to="/mixer" style={{ textDecoration: "none" }}>
+                        <Link to="/mixer" className="text-decoration-none">
                             <p className="m-0 flex-row align-items-center text-light" ><TuneIcon /> Mixer</p>
                         </Link>
                     </button>
 
                     <div className="modal fade" id="UploadModal" tabindex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
-                        <div className="modal-content bg-dark text-light">
-                        <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-light">
-                            <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <p className="fs-3 m-0 p-0">Upload New Track</p>
+                        <div className="modal-content bg-dark text-white">
+                        <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-white">
+                            <p className="fs-1 m-0 p-0">Upload New Track</p>
                         </div>
 
                         <div className="modal-body d-flex flex-column gap-4 ">
                             <input className="text-uppy-input p-3" placeholder="Title" value={newTrackData.title} onChange={(e) => setNewTrackData((prev) => ({ ...prev, title: e.target.value }))} />
                             <input className="text-uppy-input p-3" placeholder="Instrument" value={newTrackData.instrument} onChange={(e) => setNewTrackData((prev) => ({ ...prev, instrument: e.target.value, }))} />
-                            <input type="file" accept="audio/*" onChange={handleFileInput} />
+                            <input className="file-in m-1 p-1" type="file" accept="audio/*" onChange={handleFileInput}/>
                             <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleTrackSubmit}> Submit </button>
                         </div>
 
                         <div className="modal-footer">
-                            <button  className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button  className="btn-close-modal" data-bs-dismiss="modal">Close</button>
                         </div>
                         </div>
                     </div>
