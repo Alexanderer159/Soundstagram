@@ -216,7 +216,7 @@ export const EditProfilePage = () => {
                             <label htmlFor="PlaylistInput" className="form-label fs-3">Playlist</label>
                             <input
                                 type="text"
-                                name="spotify_playlist"  // ✅ FALTABA ESTO
+                                name="spotify_playlist"
                                 className="inp-edi-prof form-control bg-dark text-white"
                                 id="PlaylistInput"
                                 onChange={handleChange}

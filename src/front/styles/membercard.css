@@ -1,28 +1,35 @@
 .memcard {
-    animation: glow 5s ease alternate infinite;
+    animation: glow 5s ease infinite;
     border-radius: 15px;
     min-height: 570px;
     max-height: 570px;
     max-width: 100%;
     overflow: hidden;
     background: rgba(33, 37, 41,0.95);
+    border-top: 1px solid var(--accent);
 }
 
 .memberpic {
-    max-height: 200px;
-    max-width: 200px;
+    height: 100%;
+    width: 100%;
+    max-height: 250px;
+    max-width: 250px;
+    box-shadow: 2px 2px 5px 5px black;
+    border-top: 2px solid var(--accent);
     overflow-clip-margin: unset;
-    transition: 1s 1s ease;
+    transition: 1s 2s ease;
 }
 .memberpic:hover{
+    height: 100%;
+    width: 100%;
     max-height: 500px;
     max-width: 500px;
 }
 
 .memberpic:hover, .memcard{
-height: 120%;
-width: 120%;
-transition: 1s ease;
+    height: 120%;
+    width: 120%;
+    transition: 1s ease;
 }
 
 .teamname{
@@ -35,26 +42,16 @@ transition: 1s ease;
 }
 
 .linksteam{
-background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
-color: var(--bg-color);
-background-size: 200%, 200%;
-font-size: 25px;
-transition: 1s ease;
-animation: gradient-shift 5s infinite linear;
+    background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+    color: var(--bg-color);
+    background-size: 200%, 200%;
+    font-size: 25px;
+    transition: 1s ease;
+    animation: gradient-shift 5s infinite linear;
 }
 .linksteam:hover{
-font-size: 35px;
-background-size: 200%, 200%;
-transition: 1s ease;
-animation: gradient-shift 5s infinite linear;
+    font-size: 35px;
+    background-size: 200%, 200%;
+    transition: 1s ease;
+    animation: gradient-shift 5s infinite linear;
 }
-
-/* Keyframes */
-
-@keyframes glow {
-    0% { box-shadow: 10px -10px 35px var(--color-1);}
-    25% { box-shadow: -10px -10px 35px var(--color-3);}
-    50% { box-shadow: -10px 10px 35px var(--color-2);}
-    75% { box-shadow: 10px 10px 35px var(--color-3);}
-    100% { box-shadow: 10px -10px 35px rgb(0, 255, 255);}
-        }

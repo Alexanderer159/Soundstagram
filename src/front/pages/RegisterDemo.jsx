@@ -118,7 +118,7 @@ export const RegisterDemo = () => {
 
                 <div className="col">
 
-                    <form onSubmit={handleSubmit} className="register-form d-flex flex-column gap-2 p-4 shadow-lg">
+                    <form onSubmit={handleSubmit} className="register-form d-flex flex-column gap-3 p-4">
 
                         <input name="email" type="email" placeholder="E-mail" onChange={handleChange} required className="register-input" />
 

@@ -9,65 +9,65 @@
 }
 
 .navbar-text{
-font-size: 1.3rem;
-background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
-background-clip: text;
-background-size: 200%, 200%;
-transition: 1s ease;
-color: transparent;
-animation: gradient-shift 5s infinite linear;
-&:hover{
-background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
-transition: 1.5s ease;
-background-clip: text;
-background-size: 200%, 200%;
-color: transparent;
-animation: gradient-shift 5s infinite linear;
-font-size: x-large;
+  font-size: 1.3rem;
+  background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+  background-clip: text;
+  background-size: 200%, 200%;
+  transition: 1s ease;
+  color: transparent;
+  animation: gradient-shift 5s infinite linear;
+  &:hover{
+  background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
+  transition: 1.5s ease;
+  background-clip: text;
+  background-size: 200%, 200%;
+  color: transparent;
+  animation: gradient-shift 5s infinite linear;
+  font-size: x-large;
 }
 }
 
 .navbar .soundstagram-icon {
-transition: 1s ease;
-height: 45px;
-width: 50px;
-&:hover{
- transition: 1s ease;
- height: 55px;
- width: 65px;
+  transition: 1s ease;
+  height: 45px;
+  width: 50px;
+  &:hover{
+  transition: 1s ease;
+  height: 55px;
+  width: 65px;
 }
 }
 
 .icon-navbar{
-background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
-color: var(--bg-color);
-background-size: 200%, 200%;
-font-size: 25px;
-transition: 1s;
-animation: gradient-shift 5s infinite linear;
+  background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+  color: var(--bg-color);
+  background-size: 200%, 200%;
+  font-size: 25px;
+  transition: 1s;
+  animation: gradient-shift 5s infinite linear;
 }
 
 .icon-navbar:hover{
-font-size: 35px;
-background-size: 200%, 200%;
-transition: 1s;
-animation: gradient-shift 5s infinite linear;
+  font-size: 35px;
+  background-size: 200%, 200%;
+  transition: 1s;
+  animation: gradient-shift 5s infinite linear;
 }
 
 .search-function:hover .search-navbar-bar {
-width: 500px;
-opacity: 1;
-transition: 1.5s ease;
+  width: 500px;
+  opacity: 1;
+  transition: 1.5s ease;
 }
 
 .search-navbar-bar {
-border-radius: 30px;
-background: transparent;
-opacity: 0;
-border: 1px solid var(--color-3);
-max-height: 25px;
-width: 0px;
-transition: 0.75s 3s ease;
+  border-radius: 30px;
+  background: transparent;
+  opacity: 0;
+  border: 1px solid var(--color-3);
+  max-height: 25px;
+  width: 0px;
+  transition: 0.75s 3s ease;
 }
 
 input[type="search"]::-webkit-search-decoration,
@@ -78,7 +78,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .search-navbar-bar::placeholder{
-color:white;
+  color:white;
 }
 
 .search-navbar-bar:not(:placeholder-shown) {
@@ -108,21 +108,21 @@ color:white;
 }
 
 .dropdown-menu .dropdown-item{
-background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
-background-clip: text;
-background-size: 200%, 200%;
-transition: 1s ease;
-font-size: large;
-color: transparent;
-animation: gradient-shift 5s infinite linear;
-&:hover{
-background: linear-gradient(90deg,var(--color-2), var(--color-1), var(--color-2));
-transition: 1.5s ease;
-background-clip: text;
-background-size: 200%, 200%;
-color: transparent;
-animation: gradient-shift 5s infinite linear;
-font-size: x-large;
+  background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
+  background-clip: text;
+  background-size: 200%, 200%;
+  transition: 1s ease;
+  font-size: large;
+  color: transparent;
+  animation: gradient-shift 5s infinite linear;
+  &:hover{
+  background: linear-gradient(90deg,var(--color-2), var(--color-1), var(--color-2));
+  transition: 1.5s ease;
+  background-clip: text;
+  background-size: 200%, 200%;
+  color: transparent;
+  animation: gradient-shift 5s infinite linear;
+  font-size: x-large;
 }
 }
 

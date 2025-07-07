@@ -1,5 +1,5 @@
 .Thecontainer{
-    display: grid;
+  display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
 }
 
@@ -10,7 +10,7 @@
  }
 
  .cell:hover .square{
-height: 1000px;
+  height: 1000px;
  }
 
  .cell:nth-child(n){

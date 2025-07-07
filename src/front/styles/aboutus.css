@@ -29,12 +29,12 @@
 }
 .team2 {
   opacity: 0;
-  animation: fadeIn 2s 4.2s forwards, slidemember ease-in-out 1s 4.2s forwards;
+  animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
 
 }
 .team3 {
   opacity: 0;
-  animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
+  animation: fadeIn 2s 4.8s forwards, slidemember ease-in-out 1s 4.8s forwards;
 
 }
 

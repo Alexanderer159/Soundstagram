@@ -42,7 +42,10 @@
 
 .form {
     border-radius: 10px;
-    animation: glow 5s ease alternate infinite, fadeIn 2s 6s forwards, slideform ease 2s 6s forwards;
+    animation: glow 5s ease infinite, fadeIn 2s 6s forwards, slideform ease 2s 6s forwards;
+    border-top: 1px solid var(--accent);
+    border-bottom: 2px solid rgba(0,0,0,0.3);
+    border-right: 2px solid rgba(0,0,0,0.3);
     opacity: 0;
     background: var(--bg-color);
 }
@@ -52,7 +55,16 @@
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
     animation: gradient-shift 5s infinite;
+}
+
+.form .form-label{
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
 }
 
 .form .textinput{
@@ -88,10 +100,16 @@
     font-size: x-large;
 }
 
+.form .form-check-input:checked {
+    border: 1px solid var(--color-3);
+}
+
 .newuser{
     opacity:0;
     background: var(--bg-color);
     animation: fadeIn 2s 10s forwards, slidewaves 3s 10s forwards;
+    box-shadow: 2px 2px 3px 2px black;
+    border-top: 1px solid var(--accent);
     border-radius: 15px;
 }
 .newuser:hover{
@@ -126,6 +144,10 @@
     color: transparent;
 }
 
+.btn:first-child:active {
+    color: var(--color-3); 
+    background-color: var(--bg-color);
+}
 
 /* Keyframes */
 
@@ -138,23 +160,23 @@
         }
         
 @keyframes slidewaves {
-  0%{ transform: translateX(150%);}
-  50% { transform: translateY(15%);}
-  100% { transform: translateX(0%);}
+    0%{ transform: translateX(150%);}
+    50% { transform: translateY(15%);}
+    100% { transform: translateX(0%);}
 }
 
 @keyframes slideline {
-  0%{ transform: translateX(150%);}
-  25%{ transform: translateX(-450%); visibility: visible;}
-  50%{ transform: translateX(150%); visibility: visible;}
-  75%{ transform: translateY(15%); visibility: visible;}
-  100%{ transform: translateX(0%); visibility: visible;}
+    0%{ transform: translateX(150%);}
+    25%{ transform: translateX(-450%); visibility: visible;}
+    50%{ transform: translateX(150%); visibility: visible;}
+    75%{ transform: translateY(15%); visibility: visible;}
+    100%{ transform: translateX(0%); visibility: visible;}
 }
 
 @keyframes slideform {
-  0%{ transform: translateX(50%);}
-  50%{ transform: translateX(-10%);}
-  100% { transform: translateX(0%);}
+    0%{ transform: translateX(50%);}
+    50%{ transform: translateX(-10%);}
+    100% { transform: translateX(0%);}
 }
 
 @keyframes presentation {

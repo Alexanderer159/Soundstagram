@@ -1,16 +1,18 @@
 .reguserim{
-height: 500px;
-width: 500px;
-cursor: pointer;
-transition:1s ease;
-opacity: 0;
-animation: fadeIn 3s 0.5s forwards, rotateimg 3s forwards, clickin 0.5s 2.7s 1;
+    height: 500px;
+    width: 500px;
+    cursor: pointer;
+    transition:1s ease;
+    opacity: 0;
+    box-shadow: 2px 2px 5px 5px black;
+    border-top: 2px solid var(--accent);
+    animation: fadeIn 3s 0.5s forwards, rotateimg 3s forwards, clickin 0.5s 2.7s 1;
 }
 
 .reguserim:hover{
-transition: 1s ease;
-height: 450px;
-width: 450px;
+    transition: 1s ease;
+    height: 450px;
+    width: 450px;
 }
 
 .get-started{
@@ -28,23 +30,27 @@ width: 450px;
     width: clamp(500px,50%,50%);
     border-radius:5px;
     color: white;
+    box-shadow: 1px 1px 3px 2px black;
+    border-top: 1px solid var(--accent);
     background: var(--bg-color);
     opacity: 0;
     animation: regslidein 2s 2s forwards, fadeIn 2s 2s forwards;
 }
 
 .register-input {
-    border: 1px solid var(--color-3);
     border-radius: 5px;
-    color: white;
-    padding: 3%;
     background: var(--bg-color);
-    background-size: 1500%;
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 4px 0.01px var(--color-3);
+    padding: 2%;
+    color: white;
 }
 
 .register-input::placeholder {
-  color: white;
+    color: white;
 }
+
 
 .register-btn{
     border: 0px;
@@ -65,8 +71,8 @@ width: 450px;
     color: transparent;
 }
 .register-btn:hover {
-transition: 1s ease;
-font-size: x-large;
+    transition: 1s ease;
+    font-size: x-large;
 }
 
 @keyframes regslidein {
