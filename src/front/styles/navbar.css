@@ -6,6 +6,7 @@
     width: 100vw;
     z-index: 1030;
     background-color: var(--bg-color);
+    box-shadow: 2px 0px 15px 5px black;
 }
 
 .navbar-text{
@@ -90,9 +91,11 @@ input[type="search"]::-webkit-search-results-decoration {
   pointer-events: none;
   background-color: var(--bg-color);
   transform: translateX(10%);
+  box-shadow: 10px 10px 20px 1px black;
+  border-top: 1px solid var(--accent);
 }
 
-.dropdown-menu , .profile {
+.profile {
   pointer-events: all;
   border: 1px solid rgba(0,0,0,0);
 }

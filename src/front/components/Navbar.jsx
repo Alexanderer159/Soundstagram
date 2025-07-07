@@ -8,7 +8,7 @@ import '../styles/navbar.css'
 export const Navbar = () => {
 
 	return (
-		<nav className="navbar shadow">
+		<nav className="navbar">
 			<div className="container-fluid d-flex flex-row m-0 p-0 justify-content-between align-items-center">
 
 
@@ -53,7 +53,7 @@ export const Navbar = () => {
 
     					<FontAwesomeIcon type="button" className="icon-navbar" data-bs-toggle="dropdown" icon={faCircleUser} mask={faSquareFull}/>
 						
-  							<ul className="dropdown-menu dropdown-menu-end shadow-lg text-end">
+  							<ul className="dropdown-menu dropdown-menu-end text-end">
    								<li>
 									<Link to="/profile"className="dropdown-item">Profile</Link>
 								</li>

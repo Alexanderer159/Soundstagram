@@ -226,10 +226,10 @@ export const EditProfilePage = () => {
                         </div>
                         <div className="d-flex flex-row justify-content-between">
                             <Link to="/profile" style={{ textDecoration: 'none' }}>
-                                <button className="pro-btn-disc">Discard Changes</button>
+                                <button className="pro-edit-disc">Discard Changes</button>
                             </Link>
                             <Link to="/profile" style={{ textDecoration: 'none' }}>
-                                <button type="sumbit" className="pro-btn" onClick={handleSubmit}>Save Changes</button>
+                                <button type="sumbit" className="pro-edit-btn" onClick={handleSubmit}>Save Changes</button>
                             </Link>
                         </div>
                     </div>
