@@ -7,52 +7,52 @@ export const initialFollowStore = {
 
 export default function followReducer(store, action) {
   switch (action.type) {
-    case 'set_followers':
+    case "set_followers":
       return {
         ...store,
         followers: action.payload,
         loading: false,
       };
 
-    case 'set_following':
+    case "set_following":
       return {
         ...store,
         following: action.payload,
         loading: false,
       };
 
-    case 'add_follower':
+    case "add_follower":
       return {
         ...store,
         followers: [...store.followers, action.payload],
       };
 
-    case 'remove_follower':
+    case "remove_follower":
       return {
         ...store,
         followers: store.followers.filter((f) => f.id !== action.payload),
       };
 
-    case 'add_following':
+    case "add_following":
       return {
         ...store,
         following: [...store.following, action.payload],
       };
 
-    case 'remove_following':
+    case "remove_following":
       return {
         ...store,
         following: store.following.filter((f) => f.id !== action.payload),
       };
 
-    case 'set_loading':
+    case "set_loading":
       return {
         ...store,
         loading: true,
         error: null,
       };
 
-    case 'set_error':
+    case "set_error":
       return {
         ...store,
         loading: false,
