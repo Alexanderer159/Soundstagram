@@ -1,8 +1,9 @@
 import React from 'react';
-import { useUserReducer } from '../../reducers/userReducer';
-import './UserSidebar.css';
+import { useUserReducer } from '../reducers/userReducer';
+import '../styles/usersidebar.css';
 
-const UserSidebar = () => {
+export const UserSidebar = () => {
+
     const { userStore } = useUserReducer();
     const { user } = userStore;
 
@@ -65,5 +66,3 @@ const UserSidebar = () => {
         </div>
     );
 };
-
-export default UserSidebar;

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import './ProjectCard.css';
-import useLikeReducer from '../../reducers/likeReducer';
-import { toggleProjectLike } from '../../services/likeService';
-import { useUserReducer } from '../../reducers/userReducer';
+import useLikeReducer from '../reducers/likeReducer';
+import { toggleProjectLike } from '../services/likeService';
+import { useUserReducer } from '../reducers/userReducer';
+import "../styles/projectcard.css";
 
-const ProjectCard = ({ project }) => {
+export const ProjectCard = ({ project }) => {
+    
     const { likeStore, likeDispatch } = useLikeReducer();
     const { userLikes } = likeStore;
     const { userStore } = useUserReducer();
@@ -106,5 +107,3 @@ const ProjectCard = ({ project }) => {
         </div>
     );
 };
-
-export default ProjectCard;

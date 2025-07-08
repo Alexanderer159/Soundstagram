@@ -8,7 +8,7 @@ import { uploadToCloudinary } from '../services/cloudinaryService';
 import "../styles/register.css"
 import "../styles/index.css"
 
-export const RegisterDemo = () => {
+export const Register = () => {
     const navigate = useNavigate();
     const fileInputRef = useRef();
 

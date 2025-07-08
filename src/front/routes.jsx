@@ -12,10 +12,10 @@ import { AudioUploaderAndPoster } from "./pages/AudioAndUploadPlayback";
 import { DemoProfile } from "./pages/DemoProfile";
 import { DesktopProfilePage } from "./pages/Desktop_Profile_page";
 import { AboutUs } from "./pages/About_Us";
-import { RegisterDemo } from "./pages/RegisterDemo";
+import { Register } from "./pages/Register";
 import { EasterPage } from "./pages/Easter";
 import { Mixer } from "./pages/Mixer";
-import Feed from "./pages/Feed/Feed";
+import { Feed } from "./pages/Feed";
 import { AddProject } from "./pages/AddProject";
 import { PruebasWave } from "./pages/Pruebas_Wavesurfer";
 
@@ -25,7 +25,7 @@ export const router = createBrowserRouter(
     <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
       <Route path="/" element={<Home />} />
       <Route path="/demo" element={<MultitrackEditor />} />
-      <Route path="/register" element={<RegisterDemo />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/hans" element={<EasterPage />} />
       <Route path="/about_us" element={< AboutUs />} />
       <Route path="/feed" element={< Feed />} />
