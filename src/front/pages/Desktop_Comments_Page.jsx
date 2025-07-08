@@ -1,7 +1,7 @@
 import React from "react";
 import CommentSection from "../components/CommentSection";
 import { useUserReducer } from "../reducers/userReducer";
-import useProjectReducer from "../reducers/projectReducer";
+import { useProjectReducer }from "../reducers/projectReducer";
 
 export const CommentsPage = () => {
     const { store: userStore } = useUserReducer();
