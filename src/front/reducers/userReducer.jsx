@@ -9,7 +9,7 @@ export function UserProvider({ children }) {
   const [store, dispatch] = useReducer(userReducer, initialUserStore());
 
   return (
-    <UserContext.Provider value={{ store, dispatch }}>
+    <UserContext.Provider value={{ userStore: store, userDispatch: dispatch }}>
       {children}
     </UserContext.Provider>
   );

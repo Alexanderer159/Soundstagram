@@ -8,7 +8,7 @@ import "../styles/home.css"
 
 export const Home = () => {
 
-	const { store, dispatch } = useUserReducer()
+	const { userStore, userDispatch } = useUserReducer()
 
 	const navigate = useNavigate();
 
@@ -56,8 +56,8 @@ export const Home = () => {
 			}
 
 			const { token, user } = await loginUser(formData.email, formData.password);
-			dispatch({ type: "login_success", payload: { token, user } });
-			navigate("/profile");
+			userDispatch({ type: "login_success", payload: { token, user } });
+			navigate("/feed");
 		} catch (err) {
 			setError(err);
 		}

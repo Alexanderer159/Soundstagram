@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 import defaultPic from '../assets/default-profile.png';
 
 export const EditProfilePage = () => {
-    const { store, dispatch } = useUserReducer();
-    const user = store.user;
+    const { userStore, userDispatch } = useUserReducer();
+    const { user } = userStore;
     const navigate = useNavigate();
     const fileInputRef = useRef();
     const [rolesList, setRolesList] = useState([]);
@@ -122,16 +122,16 @@ export const EditProfilePage = () => {
             <div className="container-fluid">
                 <div className="row">
 
-                        <p className="change text-center">Time for a change...</p>
+                    <p className="change text-center">Time for a change...</p>
 
                 </div>
 
                 <form className="row text-white">
                     <div className="col combo d-flex justify-content-end">
-                        
+
                         <img src={formData.profile_pic_url} className="prof-pic-edit rounded-circle" onClick={() => fileInputRef.current.click()} />
                         <input type="file" name="profile_pic_file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} className="d-none" />
-                    
+
                     </div>
 
                     <div className="col">
@@ -139,7 +139,7 @@ export const EditProfilePage = () => {
 
                             <div className="">
                                 <label htmlFor="NameInput" className="form-label fs-2">Username</label>
-                                <input type="text" name="username" className="inp-edi-prof form-control bg-dark text-white" id="NameInput" onChange={handleChange} placeholder={user.username} value={formData.username} />     
+                                <input type="text" name="username" className="inp-edi-prof form-control bg-dark text-white" id="NameInput" onChange={handleChange} placeholder={user.username} value={formData.username} />
                             </div>
 
                             <div className="">
@@ -153,25 +153,27 @@ export const EditProfilePage = () => {
 
                                     <label className="form-label fs-3">Roles</label>
                                     <select onChange={(e) => handleSelect(e, 'roles')} className="inp-edi-prof bg-dark text-white p-2 cursor-pointer" >
- 
+
                                         <option value="">What's your role?</option>
 
                                         {rolesList.map((role) => (<option key={role.id} value={role.id}>
 
                                             {role.name}
 
-                                            </option>))}
+                                        </option>))}
 
                                     </select>
 
                                     <div className="my-2">
 
-                                        {formData.roles.map((roleId) => {const role = rolesList.find((r) => r.id === roleId); return (
-                                        <button key={roleId} type="button" className="badge me-2 mb-2" onClick={() => removeSelected(roleId, 'roles')}>
+                                        {formData.roles.map((roleId) => {
+                                            const role = rolesList.find((r) => r.id === roleId); return (
+                                                <button key={roleId} type="button" className="badge me-2 mb-2" onClick={() => removeSelected(roleId, 'roles')}>
 
-                                            {role?.name} ✖
+                                                    {role?.name} ✖
 
-                                        </button>);})}
+                                                </button>);
+                                        })}
 
                                     </div>
                                 </div>
@@ -179,32 +181,34 @@ export const EditProfilePage = () => {
                                 <div className="d-flex flex-column w-50">
 
                                     <label className="form-label fs-3">Instruments</label>
-                                        <select onChange={(e) => handleSelect(e, 'instruments')} className="inp-edi-prof bg-dark text-white p-2 cursor-pointer">
+                                    <select onChange={(e) => handleSelect(e, 'instruments')} className="inp-edi-prof bg-dark text-white p-2 cursor-pointer">
 
-                                            <option value="">What's your instrument?</option>
-                                            {instrumentsList.map((inst) => (
-                                                
-                                                <option key={inst.id} value={inst.id}>
-                                                
+                                        <option value="">What's your instrument?</option>
+                                        {instrumentsList.map((inst) => (
+
+                                            <option key={inst.id} value={inst.id}>
+
                                                 {inst.name}
-                                                
-                                                </option>))}
 
-                                        </select>
+                                            </option>))}
+
+                                    </select>
 
                                     <div className="my-2">
 
-                                        {formData.instruments.map((instrId) => { const instr = instrumentsList.find((i) => i.id === instrId); return (
+                                        {formData.instruments.map((instrId) => {
+                                            const instr = instrumentsList.find((i) => i.id === instrId); return (
 
-                                        <button key={instrId} type="button" className="badge me-2 mb-2" onClick={() => removeSelected(instrId, 'instruments')}>
+                                                <button key={instrId} type="button" className="badge me-2 mb-2" onClick={() => removeSelected(instrId, 'instruments')}>
 
-                                            {instr?.name} ✖
+                                                    {instr?.name} ✖
 
-                                        </button>);})}
+                                                </button>);
+                                        })}
 
                                     </div>
                                 </div>
-                            </div>  
+                            </div>
 
                             <div class="">
                                 <label htmlFor="PlaylistInput" className="form-label fs-3">Playlist</label>
