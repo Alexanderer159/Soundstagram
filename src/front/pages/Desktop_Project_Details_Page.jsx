@@ -6,6 +6,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CommentsPage } from "./Desktop_Comments_Page";
 import "../styles/index.css"
 import { Loader } from "../components/Loader.jsx"
+import CommentSection from "../components/CommentSection";
+
 
 const mockProject = {
     title: "Electric Groove Remix",
@@ -109,7 +111,7 @@ export const ProjectDetailPage = () => {
                     <div className="bg-[#1F2937] p-6 rounded-xl space-y-4">
                         <Typography className="text-[#4DE7F3] font-semibold text-lg">Comments</Typography>
                         <>
-                            <CommentsPage />
+                            <CommentSection projectId={project.id} currentUser={store.user} />
                         </>
                     </div>
                     <Button className="bg-[#1F2937] text-[#4DE7F3] border border-[#4DE7F3] hover:bg-[#1e293b] w-full py-2 rounded-md mt-4">
