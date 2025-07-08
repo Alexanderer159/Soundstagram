@@ -188,20 +188,7 @@ useEffect(() => {
         )});
         alert("Publish is WIP");
     };
-
-    const handleGoToMixer = () => {
-      const tracksToSave = tracks.map(t => ({
-        url: t.url,
-        title: t.title,
-        instrument: t.instrument,
-        startTime: t.startTime || 0,
-        volume: t.volume || 1,
-      }));
-      sessionStorage.setItem("mixerTracks", JSON.stringify(tracksToSave));
-      navigate("/mixer");
-    };
     
-
     const handleExportMix = async () => {
         if (tracks.length === 0) {
             alert("No tracks to download yet");
@@ -338,7 +325,7 @@ useEffect(() => {
                         <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p> 
                     </button>
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut" onClick={handleGoToMixer}>
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut">
                         <Link to="/mixer" style={{ textDecoration: "none" }}>
                             <p className="m-0 flex-row align-items-center text-light" ><TuneIcon /> Mixer</p>
                         </Link>
