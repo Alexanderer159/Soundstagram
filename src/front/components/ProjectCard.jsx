@@ -45,23 +45,35 @@ export const ProjectCard = ({ project }) => {
 
     return (
         <div className="project_card">
+
             <div className="project_card_header">
+
                 <div className="d-flex justify-start align-items-end gap-5">
+
                     <div className="owner_container">
+
                         <img
                             src={project.owner_pic}
                             alt={project.owner_username}
                             className="profile_pic_project_card"
                         />
+
                         <span className="owner_username">{project.owner_username}</span>
+
                     </div>
+
                     <h3 className="text-lg font-bold">{project.title}</h3>
+
                 </div>
 
                 {project.collaborators?.length > 0 && (
+
                     <div className="collaborators_container">
+
                         {project.collaborators.map((colab) => (
+                        
                             <div key={colab.id} className="collaborator_avatar">
+                                
                                 <img
                                     src={colab.profile_pic_url}
                                     alt={colab.username}

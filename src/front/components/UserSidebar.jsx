@@ -9,13 +9,17 @@ export const UserSidebar = () => {
 
     return (
         <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg w-full md:w-72">
+
             <div className="userSidebar_header text-center">
+
                 <img
                     src={user.profile_pic_url}
                     alt={user.username}
                     className="sidebar_profile_pic"
                 />
+
                 <h2 className="mt-2 text-lg font-semibold">{user.username}</h2>
+                
             </div>
 
             {user.spotify_playlist && (
