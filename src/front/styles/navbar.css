@@ -69,6 +69,9 @@
   max-height: 25px;
   width: 0px;
   transition: 0.75s 3s ease;
+  color: #fff;
+  text-shadow: 5px 5px 5px black;
+  box-shadow: 5px 5px 2px 2px black;
 }
 
 input[type="search"]::-webkit-search-decoration,
@@ -79,7 +82,8 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .search-navbar-bar::placeholder{
-  color:white;
+  color: #fff;
+  text-shadow: 5px 5px 5px black;
 }
 
 .search-navbar-bar:not(:placeholder-shown) {

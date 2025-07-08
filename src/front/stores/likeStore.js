@@ -1,5 +1,5 @@
 export const initialLikeStore = {
-  userLikes: [], // likes del usuario logueado
+  userLikes: [],
   loading: false,
   error: null,
 };

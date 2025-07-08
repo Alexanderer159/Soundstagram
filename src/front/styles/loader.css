@@ -20,6 +20,7 @@
         background: linear-gradient(130deg, var(--color-1),  var(--color-2), var(--color-1));
         background-size: 500%, 500%;
         backdrop-filter: blur(5px);
+        box-shadow: 50px 50px 2px 0px var(--bg-color);
         opacity: 0;
         animation: lineGradient 5s alternate infinite;
     }

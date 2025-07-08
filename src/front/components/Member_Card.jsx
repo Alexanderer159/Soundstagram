@@ -16,11 +16,11 @@ export const Membercard = (member) => {
     </div>
 
     <h1 className="teamname d-flex justify-content-center mt-2">{member.name}</h1>
-    <p className="role text-light d-flex justify-content-center">{member.role}</p>
-    <p className="teambio d-flex justify-content-center text-light my-3 text-center">{member.bio}</p>
-    <div className="d-flex justify-content-center text-light gap-5 my-4">
-    <Link to={member.url1} style={{ textDecoration: 'none' }}><FontAwesomeIcon className="linksteam" icon={faGithub} mask={faSquareFull} /></Link>
-      <Link to={member.url2} style={{ textDecoration: 'none' }}><FontAwesomeIcon className="linksteam" icon={faLinkedin} mask={faSquareFull} /></Link>
+    <p className="role d-flex justify-content-center">{member.role}</p>
+    <p className="teambio d-flex justify-content-center my-3 text-center">{member.bio}</p>
+    <div className="d-flex justify-content-center gap-5 my-4">
+      <Link to={member.url1} className="text-decoration-none"><FontAwesomeIcon className="linksteam" icon={faGithub} mask={faSquareFull} /></Link>
+      <Link to={member.url2} className="text-decoration-none"><FontAwesomeIcon className="linksteam" icon={faLinkedin} mask={faSquareFull} /></Link>
     </div>
 </div>
 </>

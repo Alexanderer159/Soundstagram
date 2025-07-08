@@ -49,6 +49,7 @@
 
 .register-input::placeholder {
     color: white;
+    text-shadow: 5px 5px 5px black;
 }
 
 

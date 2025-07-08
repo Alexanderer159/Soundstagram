@@ -1,20 +1,9 @@
-.header {
-    animation: gradient-shift 5s infinite, fadeIn 4s 1s forwards, slide 2s forwards;
-    background: linear-gradient(270deg, var(--color-1),  var(--color-2));
-    background-size: 200%, 200%;
-    background-clip: text;
-    color: transparent;
-    overflow: hidden;
-    opacity: 0;
-}
-
 .change{
     font-size: 7rem;
     background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
     background-size: 200%, 200%;
     background-clip: text;
     color: transparent;
-    overflow: hidden;
     opacity: 0;
     animation: gradient-shift 5s infinite, fadeIn 4s 3s forwards, slidebackwards 2s 2s forwards;
 }
@@ -24,28 +13,74 @@
     animation: fadeIn 3s forwards;
 }
 
-.rounded-circle {
-    width: 150px;
-    height: 150px;
+.prof-pic-edit{
+    cursor:pointer;
+    width: 500px; 
+    height: 500px;
+    transition: 1s ease;
+    object-fit:cover;
+    box-shadow: 2px 2px 15px 5px black;
+    border-top: 2px solid var(--accent);
+    animation: fadeIn 2s forwards, rotateimg 2s forwards;
 }
 
-.proform{
-    opacity: 0;
-    animation: fadeIn 3s forwards;
+.prof-pic-edit:hover{
+    width: 450px; 
+    height: 450px;
+    transition: 1s ease;
 }
+
+.form-label{
+    opacity: 0;
+    animation: fadeIn 2s 1s forwards, bouncein 2s 1s forwards;
+}
+
 
 .inp-edi-prof{
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 4px 0.01px var(--color-3);
+    border-radius: 5px;
+    opacity: 0;
+    animation: fadeIn 2s 1.5s forwards, bouncein 2s 1.5s forwards;
+}
+
+.inp-edi-prof::placeholder{
+color: white;
+}
+
+.badge{
+    border: 1px solid transparent;
+    border-top: 1px solid var(--accent);
+    border-radius: 5px;
+    background: var(--bg-color);
+    box-shadow: 1px 1px 1px 1px black;
+    background-size: 300%, 300%;
+    color: white;
+    cursor: pointer;
+    transition: 1s ease;
+    animation: fadeIn 1s forwards;
+}
+
+.badge:hover {
     border: 1px solid var(--color-3);
     border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    transition: 1s ease;
+    cursor: pointer;
+    font-size: 70%;
 }
 
 .pro-edit-disc{
     border: 0px;
     font-size: x-large;
     border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 1px 1px black;
     border-radius: 5px;
     background: var(--bg-color);
-    box-shadow: 1px 1px 1px 1px black;
     background-size: 300%, 300%;
     animation: gradient-shift 3s ease infinite;
     transition: 1s ease;
