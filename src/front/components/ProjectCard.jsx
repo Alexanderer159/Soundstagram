@@ -68,7 +68,6 @@ export const ProjectCard = ({ project }) => {
 
                 </div>
 
-<<<<<<< Updated upstream:src/front/components/ProjectCard.jsx
                 {project.collaborators?.length > 0 && (
 
                     <div className="collaborators_container">
@@ -87,10 +86,6 @@ export const ProjectCard = ({ project }) => {
                         ))}
                     </div>
                 )}
-=======
-
-
->>>>>>> Stashed changes:src/front/components/ProjectCard/ProjectCard.jsx
 
                 <div className="especifications_container">
                     <div className='project_especifications'><span className="font-bold">BPM</span> {project.bpm}</div>
