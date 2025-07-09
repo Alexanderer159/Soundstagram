@@ -6,20 +6,20 @@
 
 
 :root{
---bs-body-font-family: "Rubik", sans-serif !important;
---bg-color:rgb(33, 37, 41);
---color-1:rgb(13, 202, 240);
---color-2:rgb(0, 255, 136);
---color-3:rgb(0, 255, 191);
---color-4:rgb(119, 0, 255);
---color-5:rgb(240, 13, 13);
---accent:rgb(112, 111, 111);
-  cursor: url(../../../public/cursor/Mouse.png), auto;
+    --bs-body-font-family: "Rubik", sans-serif !important;
+    --bg-color:rgb(33, 37, 41);
+    --color-1:rgb(13, 202, 240);
+    --color-2:rgb(0, 255, 136);
+    --color-3:rgb(0, 255, 191);
+    --color-4:rgb(119, 0, 255);
+    --color-5:rgb(240, 13, 13);
+    --accent:rgb(112, 111, 111);
+    cursor: url(../../../public/cursor/Mouse.png), pointer;
 }
 
 .form-control:focus {
-  border-color: white;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px rgba(255, 255, 255, 0);
+    border-color: white;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px rgba(255, 255, 255, 0);
 }
 
 

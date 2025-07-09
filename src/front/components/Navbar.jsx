@@ -2,10 +2,24 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faMagnifyingGlass, faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { faBell, faCircleUser } from '@fortawesome/free-regular-svg-icons'
+import { logoutUser } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { useUserReducer } from "../reducers/userReducer"
 import '../styles/index.css'
 import '../styles/navbar.css'
 
 export const Navbar = () => {
+
+	const { userStore, userDispatch } = useUserReducer();
+	const { user } = userStore;
+
+	const navigate = useNavigate();
+
+	  const handleLogout = () => {
+		logoutUser();
+		userDispatch({ type: "logout" });
+		navigate("/");
+	  };
 
 	return (
 		<nav className="navbar">
@@ -21,13 +35,13 @@ export const Navbar = () => {
 
 				
 				<Link to="/feed" className="text-decoration-none">
-				<p className="navbar-text fw-bold text-center p-0 m-0">Home</p>
-				</Link>
-				<Link to="/projectdetails" className="text-decoration-none">
-				<p className="navbar-text fw-bold text-center p-0 m-0">Explore</p>
+				<p className="navbar-text fw-bold text-center p-0 m-0">Feed</p>
 				</Link>
 				<Link to="/comments" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Messages</p>
+				</Link>
+				<Link to="/uploader-poster" className="text-decoration-none">
+				<p className="navbar-text fw-bold text-center p-0 m-0">Make a project</p>
 				</Link>
 
 
@@ -58,7 +72,7 @@ export const Navbar = () => {
 									<Link to="/profile"className="dropdown-item">Profile</Link>
 								</li>
    								<li>
-									<Link to="/uploader-poster" className="dropdown-item">Make a project</Link>
+									<button className="dropdown-item-red" onClick={handleLogout}>Log Out</button>
 								</li>
   							</ul>
 

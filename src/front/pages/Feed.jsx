@@ -13,20 +13,29 @@ export const Feed = () => {
     }, []);
 
     if (loading) return <p className="text-white text-center mt-5">Cargando proyectos...</p>;
+    
     if (error) return <p className="text-danger text-center mt-5">Error: {error}</p>;
 
+    else
     return (
         <>
-            <div className='feed_container d-flex'>
-                <div className='feed_userSidebar_container d-flex flex-column'>
+        <div className="container-fluid m-5">
+
+            <div className="row feed_container">
+
+                <div className="col-3 feed_userSidebar_container">
+
                     <UserSidebar />
+
                 </div>
-                <div className="feed_projects_container d-flex flex-column">
-                    {projects?.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
-                    ))}
+
+                <div className="col-6 feed_projects_container">
+
+                    {projects?.map((project) => (<ProjectCard key={project.id} project={project} />))}
+
                 </div>
             </div>
+        </div>
         </>
     );
 };

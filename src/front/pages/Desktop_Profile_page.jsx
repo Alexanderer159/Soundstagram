@@ -46,21 +46,26 @@ export const DesktopProfilePage = () => {
   if (!user) return <p>No hay datos de usuario disponibles.</p>;
   return (
     <>
-      <div className="container-fluid mt-5 mx-2">
+      <div className="container-fluid mt-5 mx-3">
 
-        <div className="row">
+        <div className="row my-5">
 
           <div className="col d-flex flex-row justify-content-start align-items-center">
 
-            <img src={user.profile_pic_url || profile_pic_default} className="pro-pic-user rounded-circle mb-5" />
+            <img src={user.profile_pic_url || profile_pic_default} className="pro-pic-user rounded-circle my-5" />
 
             <div className="col info d-flex flex-column justify-content-start ps-3">
 
               <p className="pro-name-user">@{user.username || 'No Username Yet'}</p>
 
               <div className="sub-titles d-flex flex-row gap-5 ps-5">
-                <p className="">{user.role || 'No Role Selected'}</p>
-                <p className="">{user.instrument || 'No Instruments Selected'}</p>
+                 {user.roles?.map((role) => (
+                <p className="" key={role.id}>{role.name || 'No Role Selected'}</p>
+                ))}
+
+                {user.instruments?.map((instrument) => (
+                <p className="" key={instrument.id}>{instrument.name || 'No Instruments Selected'}</p>
+                ))}
 
               </div>
 
