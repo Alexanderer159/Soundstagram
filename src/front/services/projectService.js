@@ -39,3 +39,8 @@ export const getProjectsByGenre = async (genreId) => {
   const response = await api.get(`/projects/by-genre/${genreId}`);
   return response.data;
 };
+
+export const getProjectsFromFollowedUsers = async (userId) => {
+  const response = await api.get(`/projects/followed/${userId}`);
+  return response.data;
+};

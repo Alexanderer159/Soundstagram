@@ -1,0 +1,128 @@
+
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f8f9fa;
+    --accent-color: #2563eb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --active-color: #3b82f6;
+    --hover-color: #f3f4f6;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+}
+
+.sequencer-grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 2px;
+    background-color: var(--border-color);
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.step-button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: var(--secondary-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.step-button:hover {
+    background-color: var(--hover-color);
+}
+
+.step-button.active {
+    background-color: var(--accent-color);
+}
+
+.step-button.playing {
+    background-color: var(--active-color);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.track-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: var(--secondary-bg);
+    border-radius: 4px;
+}
+
+.track-label {
+    width: 80px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: left;
+}
+
+.control-button {
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.1s ease;
+}
+
+.control-button:hover {
+    background-color: var(--hover-color);
+}
+
+.control-button.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.sample-selector {
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    min-width: 60px;
+}
+
+.volume-slider {
+    width: 60px;
+    height: 4px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .step-button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .track-label {
+        width: 60px;
+        font-size: 10px;
+    }
+
+    .control-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
