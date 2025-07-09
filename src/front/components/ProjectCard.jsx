@@ -30,10 +30,12 @@ export const ProjectCard = ({ project }) => {
 
             if (liked) {
                 likeDispatch({ type: "remove_like", payload: { project_id: project.id } });
-                setLikeCount(prev => prev - 1);
+                setLikeCount(res.like_count);
+
             } else {
                 likeDispatch({ type: "add_like", payload: { project_id: project.id, user_id: user.id } });
-                setLikeCount(prev => prev + 1);
+                setLikeCount(res.like_count);
+
             }
 
             setLiked(!liked);
@@ -66,6 +68,7 @@ export const ProjectCard = ({ project }) => {
 
                 </div>
 
+<<<<<<< Updated upstream:src/front/components/ProjectCard.jsx
                 {project.collaborators?.length > 0 && (
 
                     <div className="collaborators_container">
@@ -84,6 +87,10 @@ export const ProjectCard = ({ project }) => {
                         ))}
                     </div>
                 )}
+=======
+
+
+>>>>>>> Stashed changes:src/front/components/ProjectCard/ProjectCard.jsx
 
                 <div className="especifications_container">
                     <div className='project_especifications'><span className="font-bold">BPM</span> {project.bpm}</div>
@@ -103,6 +110,23 @@ export const ProjectCard = ({ project }) => {
                     {project.seeking_instruments.map((i) => (
                         <span key={i.id} className="pill">{i.name}</span>
                     ))}
+                </div>
+
+                <div className="collaborators_container">
+                    {project.collaborators?.length > 0 ? (
+                        project.collaborators.map((colab) => (
+                            <div key={colab.id} className="collaborator_avatar">
+                                <img
+                                    src={colab.profile_pic_url}
+                                    alt={colab.username}
+                                    className="profile_pic_project_card"
+                                />
+                                <span className="owner_username">{colab.username}</span>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="no_collaborators_text">Este proyecto no tiene colaboradores de momento.</p>
+                    )}
                 </div>
 
                 <div className="footer_right_corner">

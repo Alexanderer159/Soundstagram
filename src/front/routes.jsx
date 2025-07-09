@@ -18,6 +18,7 @@ import { Mixer } from "./pages/Mixer";
 import { Feed } from "./pages/Feed";
 import { AddProject } from "./pages/AddProject";
 import { PruebasWave } from "./pages/Pruebas_Wavesurfer";
+import BeatMaker from "./beatmkaer/BeatMaker";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,7 @@ export const router = createBrowserRouter(
       <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />
       <Route path="/pruebas" element={<PruebasWave />} />
       <Route path="/add_project" element={<AddProject />} />
+      <Route path="/beatmaker" element={<BeatMaker />} />
     </Route>
   )
 );

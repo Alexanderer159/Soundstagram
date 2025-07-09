@@ -66,9 +66,19 @@
 
 .project_card_footer {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
   margin-top: 1rem;
+}
+
+.collaborators_container {
+  display: flex;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.no_collaborators_text {
+  margin: 0;
 }
 
 .footer_right_corner {

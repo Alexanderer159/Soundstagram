@@ -177,3 +177,17 @@ def get_projects_by_seeking_role(role_id):
 def get_projects_by_genre(genre_id):
     projects = db.session.query(Project).join(project_genres).filter(project_genres.c.genre_id == genre_id).all()
     return jsonify([p.serialize() for p in projects]), 200
+
+@project_api.route('/projects/followed/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_projects_from_followed_users(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'msg': 'Usuario no encontrado'}), 404
+
+    followed_ids = [f.followed_id for f in user.following]
+    projects = Project.query.filter(
+        Project.owner_id.in_(followed_ids),
+        Project.visibility == VisibilityEnum.public
+    ).all()
+    return jsonify([p.serialize() for p in projects]), 200
