@@ -1,0 +1,84 @@
+.mixer-btn{
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 1px 1px black;
+    border-radius: 5px;
+    background: var(--bg-color);
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+}
+
+.mixer-btn:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.mixer-btn:hover {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    transition: 1s ease;
+    font-size: large;
+    cursor: pointer;
+}
+
+.mixer-btn-red{
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 1px 1px black;
+    border-radius: 5px;
+    background: var(--bg-color);
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+}
+
+.mixer-btn-red:active {
+    border: 1px solid var(--color-5);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-5), var(--color-4), var(--color-5));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.mixer-btn-red:hover {
+    border: 1px solid var(--color-5);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-4), var(--color-5), var(--color-4));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    transition: 1s ease;
+    font-size: large;
+    cursor: pointer;
+}
+
+.mixer-label{
+    pointer-events: none;
+    user-select: none;
+}
+
+.mixer-input{
+    
+    border-radius: 5px;
+    background: var(--bg-color);
+    border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 4px 0.01px var(--color-3);
+    color: white;
+    cursor: pointer;
+    text-shadow: 5px 5px 5px black;
+}
