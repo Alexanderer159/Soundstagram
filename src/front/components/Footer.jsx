@@ -9,10 +9,7 @@ export const Footer = () => (
 			<p className="team text-start p-0 m-0">© 2025 Soundstagram Team</p>
 		</div>
 		<div className="col ">
-			<div className="d-flex flex-row justify-content-between">
-				<Link to="/" className="text-decoration-none"><p className="foot-list">Features</p></Link>
-				<Link to="/" className="text-decoration-none"><p className="foot-list">Contact</p></Link>
-				<Link to="/" className="text-decoration-none"><p className="foot-list">FAQs</p></Link>
+			<div className="d-flex flex-row justify-content-end">
 				<Link to="/about_us" className="text-decoration-none"><p className="foot-list">About Us</p></Link>
 			</div>
 		</div>
