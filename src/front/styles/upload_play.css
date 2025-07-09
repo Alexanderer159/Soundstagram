@@ -23,20 +23,6 @@
     user-select: none;
 }
 
-.controls-uppy{
-    font-size: clamp(0.5em, 1.5vw, 1.5vw);
-    border-radius: 5px;
-    height: 60px;
-    width: 100%;
-    background: var(--bg-color);
-    border: 0px;
-    border-top: 1px solid var(--accent);
-    box-shadow: 1px 1px 4px 0.01px var(--color-3);
-    color: white;
-    cursor: pointer;
-    text-shadow: 5px 5px 5px black;
-}
-
 .top-text-uppy{
     height: 100%;
     width: 100%;
@@ -45,8 +31,11 @@
 .text-uppy{
     font-size: clamp(0.5em, 1.5vw, 1.5vw);
     border-radius: 5px;
-    height: 135px;
-    width: 100%;
+}
+
+.form-info-uppy{
+    box-shadow: 0px 0px 25px 5px black inset;
+    border-radius: 5px;
 }
 
 .text-uppy-input{
@@ -242,9 +231,6 @@
     font-size: large;
     cursor: pointer;
 }
-
-
-
 
 .btn-close-modal{
     border: 0px;

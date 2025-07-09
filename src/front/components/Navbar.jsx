@@ -40,7 +40,7 @@ export const Navbar = () => {
 				<Link to="/comments" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Messages</p>
 				</Link>
-				<Link to="/uploader-poster" className="text-decoration-none">
+				<Link to="/add_project" className="text-decoration-none">
 				<p className="navbar-text fw-bold text-center p-0 m-0">Make a project</p>
 				</Link>
 

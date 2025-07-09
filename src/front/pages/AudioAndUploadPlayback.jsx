@@ -18,6 +18,7 @@ const currentUser = "Test User";
 
 export const AudioUploaderAndPoster = () => {
 
+const [projectInfo, setProjectInfo] = useState({});
 const [projectTags, setProjectTags] = useState("");
 const [projectDescription, setProjectDescription] = useState("");
 const [keySignature, setKeySignature] = useState("C");
@@ -31,12 +32,14 @@ const waveformRefs = useRef({});
 const wavesurferRefs = useRef({});
 
 
-const openModal = () => setModalOpen(true);
+    useEffect(() => {
+        const stored = sessionStorage.getItem("ProjectInfo");
+        if (stored) {
+            const form = JSON.parse(stored);   
+            setProjectInfo(form);
+        }
+    }, []);
 
-  const closeModal = () => {
-    setModalOpen(false);
-    setNewTrackData({ title: "", instrument: "", file: null });
-  };
 
   const handleFileInput = (e) => {
     const file = e.target.files[0];
@@ -264,61 +267,65 @@ const handleGoToMixer = () => {
         <div className="container-fluid mb-5">
 
             <div className="row">            
-                <p className="uppy text-center">Project Maker</p>
+                <p className="uppy text-center">{projectInfo.title}</p>
             </div>
 
+            <div className="row all-info text-uppy m-2">
 
-            <div className="row all-info m-2 p-4">
+<div className="col coleft-uppy">                
+    <div className="text-center">
+                    <p className="controls-uppy-text text-white fs-1" >Description</p>
+                    <p onChange={e => setProjectDescription(e.target.value)} className="text-white form-info-uppy p-2 fs-5" value={projectDescription}>{projectInfo.description}</p>
+                </div>
+                </div>
+                
 
-                <div className="col-2 buttons d-flex flex-column">
+<div className="col">
+    <p className="controls-uppy-text text-white text-center fs-1">Details</p>
+                <div className="d-flex flex-row justify-content-between px-4">
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white">Key</p>
+                        <p className="controls-uppy-text text-white form-info-uppy p-2" value={keySignature} onChange={e => setKeySignature(e.target.value)}>{projectInfo.key}</p>
+                    </div>
                     
-                    <div className="d-flex justify-content-between">
-                        
-                        <div className="">
-                            <label className="controls-uppy-text text-white">Key</label>
-                            <select className="controls-uppy ps-3" label="Clave musical" value={keySignature} onChange={e => setKeySignature(e.target.value)} >
-                                {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(key => (<option key={key} value={key}>{key}</option>))}
-                            </select>
-                        </div>
-
-                        <div className="">
-
-                            <label className="controls-uppy-text text-white">Compass</label>
-                            <select className="controls-uppy ps-3" label="Compás" value={timeSignature} onChange={e => setTimeSignature(e.target.value)} >
-                                {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => (<option key={ts} value={ts}>{ts}</option>))}
-                            </select>
-
-                        </div>
-
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white">Compass</p>
+                        <p className="controls-uppy-text text-white form-info-uppy p-2" value={timeSignature} onChange={e => setTimeSignature(e.target.value)}>{projectInfo.meter}</p>    
                     </div>
 
-                        <div className="">
-
-                            <label className="controls-uppy-text text-white">BPM</label>
-                            <input className="controls-uppy ps-3" label="BPM" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} inputProps={{ min: 40, max: 240 }} />
-
-                        </div>
-                </div>
-
-                <div className="col d-flex flex-column">
-
-                    <label className="controls-uppy-text text-white fs-5">Details</label>
-                    
-                    <div className="text-uppy gap-3 d-flex flex-column">
-
-                        <div className="top-text-uppy d-flex flex-row justifyc-content-between gap-3">
-                            <input className="text-uppy-input ps-3" placeholder="Project Name" />
-                            <input className="text-uppy-input ps-3" placeholder="Instruments" />
-                            <input className="text-uppy-input ps-3" placeholder="Roles" />
-                            <input className="text-uppy-input ps-3" placeholder="Genre" />
-                            <input className="text-uppy-input ps-3" placeholder="Visibility" />
-                            <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags} onChange={e => setProjectTags(e.target.value)}/>
-                        </div>
-
-                        <textarea placeholder="Short Description" onChange={e => setProjectDescription(e.target.value)} className="text-uppy-input ps-3" rows="4" value={projectDescription} />
-                    
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white">BPM</p>
+                        <p className="controls-uppy-text text-white form-info-uppy p-2" value={bpm} onChange={e => setBpm(Number(e.target.value))}>{projectInfo.bpm}</p>  
                     </div>
-                </div>
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white" >Instruments</p>
+                        <p className="text-white form-info-uppy p-2">{projectInfo.seeking_instrument_ids}</p>
+                    </div>
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white" >Roles</p>
+                        <p className="text-white form-info-uppy p-2">{projectInfo.seeking_role_ids}</p> 
+                    </div>
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white" >Genre</p>
+                        <p className="text-white form-info-uppy p-2">{projectInfo.genre_ids}</p>
+                    </div>
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white" >Visibility</p>
+                        <p className="text-white form-info-uppy p-2">{projectInfo.visibility}</p>
+                    </div>
+
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white" >Tags</p>
+                        <p className="text-white form-info-uppy p-2" value={projectTags} onChange={e => setProjectTags(e.target.value)}>{projectInfo.tags}</p>
+                    </div>
+                </div>  
+</div>
+            
             </div>
 
             <div className="row m-3">
