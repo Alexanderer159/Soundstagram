@@ -15,6 +15,7 @@
     --color-5:rgb(240, 13, 13);
     --accent:rgb(112, 111, 111);
     cursor: url(../../../public/cursor/Mouse.png), pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .form-control:focus {

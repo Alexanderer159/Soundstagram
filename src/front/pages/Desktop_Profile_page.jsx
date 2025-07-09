@@ -43,7 +43,7 @@ export const DesktopProfilePage = () => {
     }
   }, [user]);
 
-  if (!user) return <p>No hay datos de usuario disponibles.</p>;
+  if (!user) return <p>No user info available.</p>;
   return (
     <>
       <div className="container-fluid mt-5 mx-3">
@@ -108,7 +108,7 @@ export const DesktopProfilePage = () => {
 
             <div className="d-flex justify-content-center">
 
-              <Link to="/uploader-poster" className="text-decoration-none">
+              <Link to="/add_project" className="text-decoration-none">
 
                 <button className="pro-btn ">Add Project</button>
 
