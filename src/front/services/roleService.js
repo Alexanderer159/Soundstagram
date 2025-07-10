@@ -1,10 +1,8 @@
-import axios from 'axios';
-
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+import api from './authService';
 
 export const getRoles = async () => {
   try {
-    const response = await axios.get(`${API_URL}/roles`);
+    const response = await api.get(`/roles`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener roles:', error.response?.data || error.message);
@@ -14,7 +12,7 @@ export const getRoles = async () => {
 
 export const getInstruments = async () => {
   try {
-    const response = await axios.get(`${API_URL}/instruments`);
+    const response = await api.get(`/instruments`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener instrumentos:', error.response?.data || error.message);

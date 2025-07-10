@@ -1,5 +1,5 @@
-import '../styles/index.css'
-import '../styles/grid.css'
+import '../../styles/index.css'
+import './grid.css'
 
 export const Grid = () => {
 

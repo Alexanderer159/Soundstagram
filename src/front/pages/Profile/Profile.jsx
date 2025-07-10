@@ -1,12 +1,12 @@
-import "../styles/profile.css";
-import "../styles/index.css";
+import "./profile.css";
+import "../../styles/index.css";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useUserReducer } from "../reducers/userReducer"
-import { getProjectsByUser, getTracksByUser } from "../services/userService";
-import profile_pic_default from "../assets/default-profile.png";
+import { useUserReducer } from "../../reducers/userReducer"
+import { getProjectsByUser, getTracksByUser } from "../../services/userService";
+import profile_pic_default from "../../assets/default-profile.png";
 
-export const DesktopProfilePage = () => {
+export const Profile = () => {
 
   const { userStore, userDispatch } = useUserReducer();
   const { user } = userStore;
@@ -51,44 +51,44 @@ export const DesktopProfilePage = () => {
 
             </Link>
 
-            </div>
+          </div>
 
-            <div className="col info d-flex flex-column justify-content-start ps-3">
+          <div className="col info d-flex flex-column justify-content-start ps-3">
 
-              <p className="pro-name-user">@{user.username || 'No Username Yet'}</p>
+            <p className="pro-name-user">@{user.username || 'No Username Yet'}</p>
 
 
 
-              <div className="sub-titles d-flex flex-row gap-5 ps-5">
+            <div className="sub-titles d-flex flex-row gap-5 ps-5">
 
               <div className="pe-5 me-5">
 
-                  <p className="text-white fs-4">Roles</p>
+                <p className="text-white fs-4">Roles</p>
                 {user.roles?.map((role) => (
-                <p className="" key={role.id}>{role.name || 'No Role Selected'}</p>
+                  <p className="" key={role.id}>{role.name || 'No Role Selected'}</p>
                 ))}
-                              
+
               </div>
 
 
 
               <div className="ps-5 ms-5">
 
-                  <p className="text-white fs-4">Instruments</p>
+                <p className="text-white fs-4">Instruments</p>
                 {user.instruments?.map((instrument) => (
-                <p className="" key={instrument.id}>{instrument.name || 'No Instruments Selected'}</p>
+                  <p className="" key={instrument.id}>{instrument.name || 'No Instruments Selected'}</p>
                 ))}
 
               </div>
 
-              </div>
-
-              <p className="text-white fs-4 text-center">Bio</p>
-
-              <p className="pro-user-bio p-3">{user.bio || 'User wants to remain misterious'}</p>
-
             </div>
+
+            <p className="text-white fs-4 text-center">Bio</p>
+
+            <p className="pro-user-bio p-3">{user.bio || 'User wants to remain misterious'}</p>
+
           </div>
+        </div>
 
         <div className="row d-flex justify-content-center gap-5">
 

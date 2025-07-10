@@ -1,4 +1,4 @@
-.aboutus {
+.about {
   background-image: url(Pictures/Team_Members/band_banner.png);
   background-repeat: no-repeat;
   background-position: top;
@@ -25,32 +25,29 @@
 .team1 {
   opacity: 0;
   animation: fadeIn 2s 4s forwards, slidemember ease-in-out 1s 4s forwards;
-
 }
 .team2 {
   opacity: 0;
   animation: fadeIn 2s 4.4s forwards, slidemember ease-in-out 1s 4.4s forwards;
-
 }
 .team3 {
   opacity: 0;
   animation: fadeIn 2s 4.8s forwards, slidemember ease-in-out 1s 4.8s forwards;
-
 }
 
-.mistery{
+.mistery {
   transform: translateY(700%);
   color: #fff;
   text-shadow: 5px 5px 5px black;
   transition: 1s ease;
 }
 
-.mistery:hover{
-transform: translateY(600%);
-transition: 1s ease;
-color: #fff;
-text-shadow: 5px 5px 5px black;
-font-size: large;
+.mistery:hover {
+  transform: translateY(600%);
+  transition: 1s ease;
+  color: #fff;
+  text-shadow: 5px 5px 5px black;
+  font-size: large;
 }
 
 /* Keyframes */

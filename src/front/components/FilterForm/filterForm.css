@@ -11,7 +11,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 4px;
 }
 
 .filter_buttons {

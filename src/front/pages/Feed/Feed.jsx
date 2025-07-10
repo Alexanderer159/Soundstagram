@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useProjectReducer } from '../reducers/projectReducer';
-import { FeedSidebar } from '../components/FeedSidebar';
-import { ProjectCard } from '../components/ProjectCard';
-import "../styles/feed.css"
-import ChatSidebar from '../components/ChatSidebar/ChatSidebar';
+import { useProjectReducer } from '../../reducers/projectReducer';
+import { FeedSidebar } from '../../components/FeedSidebar/FeedSidebar';
+import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
+import "./feed.css"
+import ChatSidebar from '../../components/ChatSidebar/ChatSidebar';
 
 export const Feed = () => {
     const { projectStore, fetchPublicProjects } = useProjectReducer();

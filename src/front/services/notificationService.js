@@ -1,19 +1,16 @@
-import axios from "axios";
-import { getAuthHeader } from "./authService";
-
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+import api from './authService';
 
 export const getNotifications = async () => {
-  const response = await axios.get(`${API_URL}/notifications`, getAuthHeader());
+  const response = await api.get(`/notifications`);
   return response.data;
 };
 
 export const markNotificationAsRead = async (notificationId) => {
-  const response = await axios.put(`${API_URL}/notifications/${notificationId}/read`, {}, getAuthHeader());
+  const response = await api.put(`/notifications/${notificationId}/read`, {});
   return response.data;
 };
 
 export const deleteNotification = async (notificationId) => {
-  const response = await axios.delete(`${API_URL}/notifications/${notificationId}`, getAuthHeader());
+  const response = await api.delete(`/notifications/${notificationId}`);
   return response.data;
 };

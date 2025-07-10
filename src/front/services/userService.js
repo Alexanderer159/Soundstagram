@@ -1,41 +1,38 @@
-import axios from 'axios';
-import { getAuthHeader } from './authService';
-
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+import api from './authService';
 
 export const getAllUsers = async () => {
-  const response = await axios.get(`${API_URL}/users`);
+  const response = await api.get(`/users`);
   return response.data;
 };
 
 export const getUserById = async (id) => {
-  const response = await axios.get(`${API_URL}/users/${id}`);
+  const response = await api.get(`/users/${id}`);
   return response.data;
 };
 
 export const updateUser = async (id, updatedData) => {
-  const response = await axios.put(`${API_URL}/users/${id}`, updatedData, getAuthHeader());
+  const response = await api.put(`/users/${id}`, updatedData);
   return response.data;
 };
 
 export const deleteUser = async (id) => {
-  const response = await axios.delete(`${API_URL}/users/${id}`, getAuthHeader());
+  const response = await api.delete(`/users/${id}`);
   return response.data;
 };
 
 export const getUsersByRole = async (roleId) => {
-  const response = await axios.get(`${API_URL}/users/role/${roleId}`);
+  const response = await api.get(`/users/role/${roleId}`);
   return response.data;
 };
 
 export const getUsersByInstrument = async (instrumentId) => {
-  const response = await axios.get(`${API_URL}/users/instrument/${instrumentId}`);
+  const response = await api.get(`/users/instrument/${instrumentId}`);
   return response.data;
 };
 
 export const getProjectsByUser = async (userId) => {
   try {
-    const response = await axios.get(`${API_URL}/projects/user/${userId}`, getAuthHeader());
+    const response = await api.get(`/projects/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener proyectos del usuario:', error.response?.data || error);
@@ -45,7 +42,7 @@ export const getProjectsByUser = async (userId) => {
 
 export const getTracksByUser = async (userId) => {
   try {
-    const response = await axios.get(`${API_URL}/users/${userId}/tracks`, getAuthHeader());
+    const response = await api.get(`/users/${userId}/tracks`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener tracks del usuario:', error.response?.data || error);

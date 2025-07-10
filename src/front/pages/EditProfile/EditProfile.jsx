@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../styles/index.css";
-import "../styles/editprofile.css";
+import "../../styles/index.css";
+import "./editprofile.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserReducer } from "../reducers/userReducer"
-import { updateUser } from "../services/userService";
-import { getRoles, getInstruments } from "../services/roleService";
-import { uploadToCloudinary } from "../services/cloudinaryService";
+import { useUserReducer } from "../../reducers/userReducer"
+import { updateUser } from "../../services/userService";
+import { getRoles, getInstruments } from "../../services/roleService";
+import { uploadToCloudinary } from "../../services/cloudinaryService";
 import { toast } from "react-toastify";
-import defaultPic from '../assets/default-profile.png';
+import defaultPic from '../../assets/default-profile.png';
 
-export const EditProfilePage = () => {
+export const EditProfile = () => {
     const { userStore, userDispatch } = useUserReducer();
     const { user } = userStore;
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ export const EditProfilePage = () => {
             ...prev,
             [name]: value,
         }));
-        console.log(`Campo editado: ${name} =>`, value); // ⬅️ NUEVO
+        console.log(`Campo editado: ${name} =>`, value);
     };
 
     const handleSelect = (e, field) => {
@@ -86,17 +86,17 @@ export const EditProfilePage = () => {
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        console.log("Imagen seleccionada:", file.name); // ⬅️ NUEVO
+        console.log("Imagen seleccionada:", file.name);
         try {
             const url = await uploadToCloudinary(file);
-            console.log("URL subida a Cloudinary:", url); // ⬅️ NUEVO
+            console.log("URL subida a Cloudinary:", url);
             setFormData((prev) => ({
                 ...prev,
                 profile_pic_url: url,
             }));
             setSelectedImage(file);
         } catch (err) {
-            console.error("Error al subir la imagen:", err); // ⬅️ NUEVO
+            console.error("Error al subir la imagen:", err);
             toast.error("Error al subir la imagen");
         }
     };
@@ -104,15 +104,15 @@ export const EditProfilePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Formulario enviado con los datos:", formData); // ⬅️ NUEVO
+        console.log("Formulario enviado con los datos:", formData);
         try {
             const updated = await updateUser(user.id, formData);
-            console.log("Usuario actualizado correctamente:", updated); // ⬅️ NUEVO
+            console.log("Usuario actualizado correctamente:", updated);
             dispatch({ type: "update_user", payload: updated });
             toast.success("Perfil actualizado");
             navigate("/profile");
         } catch (err) {
-            console.error("Error al actualizar el perfil:", err); // ⬅️ NUEVO
+            console.error("Error al actualizar el perfil:", err);
             toast.error(err || "Error al actualizar");
         }
     };

@@ -1,9 +1,9 @@
-import "../styles/easter.css";
-import "../styles/index.css";
+import "./easter.css";
+import "../../styles/index.css";
 
 
 
-export const EasterPage = () => {
+export const Easter = () => {
 
 
 
