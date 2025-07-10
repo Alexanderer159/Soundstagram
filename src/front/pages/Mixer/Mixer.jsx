@@ -46,6 +46,8 @@ export const Mixer = () => {
     const [micInstrument, setMicInstrument] = useState("Voice");
     const [micTrackDescription, setMicTrackDescription] = useState("");
 
+    // 1. Agregar un ref para el MediaRecorder
+    const mediaRecorderRef = useRef(null);
 
 
     const navigate = useNavigate();
@@ -187,7 +189,8 @@ export const Mixer = () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             streamRef.current = stream;
-            const recorder = new MediaRecorder(stream);
+            const recorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+            mediaRecorderRef.current = recorder;
             recordedChunksRef.current = [];
             recorder.ondataavailable = (e) => recordedChunksRef.current.push(e.data);
             recorder.onstop = () => {
@@ -211,12 +214,13 @@ export const Mixer = () => {
                     effect: "none"
                 };
 
-                // Connect the new track to the audio chain
+                // Conecta el nuevo track a la cadena de audio
                 newTrack.player.connect(newTrack.channel);
                 newTrack.channel.connect(newTrack.panner);
                 newTrack.panner.toDestination();
 
                 setPlayers((prev) => [...prev, newTrack]);
+                setTracks((prev) => [...prev, newTrack]);
                 alert("Recording added to the mixer!");
             };
             recorder.start();
@@ -227,42 +231,15 @@ export const Mixer = () => {
     };
 
     const stopMicRecording = () => {
-        if (!streamRef.current) return;
+        if (!streamRef.current || !mediaRecorderRef.current) return;
 
-        // Stop the media stream
+        // Detener el MediaRecorder (esto disparará onstop y agregará el track)
+        mediaRecorderRef.current.stop();
+
+        // Detener el stream
         streamRef.current.getTracks().forEach((track) => track.stop());
         streamRef.current = null;
-
         setIsRecording(false);
-
-        // Process the recorded audio
-        const blob = new Blob(recordedChunksRef.current, { type: "audio/webm" });
-        const url = URL.createObjectURL(blob);
-
-        const newTrack = {
-            id: crypto.randomUUID(),
-            player: new Tone.Player({ url }),
-            title: micTrackName,
-            instrument: micInstrument,
-            description: micTrackDescription,
-            volume: 1,
-            pan: 0,
-            url,
-            channel: new Tone.Channel({ volume: Tone.gainToDb(1) }),
-            panner: new Tone.Panner(0),
-            reverb: new Tone.Reverb({ decay: 2 }),
-            delay: new Tone.FeedbackDelay("8n", 0.5),
-            distortion: new Tone.Distortion(0.4),
-            effect: "none"
-        };
-
-        // Connect the new track to the audio chain
-        newTrack.player.connect(newTrack.channel);
-        newTrack.channel.connect(newTrack.panner);
-        newTrack.panner.toDestination();
-
-        setPlayers((prev) => [...prev, newTrack]);
-        alert("Recording added to the mixer!");
     };
 
     const openModal = () => setModalOpen(true);
@@ -314,6 +291,7 @@ export const Mixer = () => {
         newTrack.panner.toDestination();
 
         setTracks((prev) => [...prev, newTrack]);
+        setPlayers((prev) => [...prev, newTrack]);
         closeModal();
     };
 
