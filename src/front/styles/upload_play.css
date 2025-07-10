@@ -21,6 +21,26 @@
 .controls-uppy-text{
     pointer-events: none;
     user-select: none;
+    opacity: 0;
+    animation: fadeIn 2s 5s forwards;
+}
+
+.desc-header{
+    opacity: 0;
+    animation: fadeIn 2s 4.5s forwards;
+}
+
+.details-header{
+    opacity: 0;
+    animation: fadeIn 2s 4.5s forwards;
+}
+
+.deets-proj{
+    transform: translateX(-103%);
+    background: var(--bg-color);
+    box-shadow: 1px 1px 15px 1px black;
+    border-radius: 5px;
+    animation: coverdesc 2s 2s forwards;
 }
 
 .top-text-uppy{
@@ -34,7 +54,8 @@
 }
 
 .form-info-uppy{
-    box-shadow: 0px 0px 25px 5px black inset;
+    background-color: var(--bg-color);
+    box-shadow: 0px 0px 10px 0.01px black inset;
     border-radius: 5px;
 }
 
@@ -279,4 +300,9 @@
 @keyframes growline {
     from{width: 0%;}
     to{width: 10%;}
+}
+
+@keyframes coverdesc {
+    0%{ transform: translateX(-103%);}
+    100% { transform: translateX(0%);}
 }

@@ -42,7 +42,7 @@
 
 .form {
     border-radius: 10px;
-    animation: glow 5s ease infinite, fadeIn 2s 6s forwards, slideform ease 2s 6s forwards;
+    animation: glow 5s ease 3, fadeIn 2s 6s forwards, slideform ease 2s 6s forwards, glowdown ease 2s 15s forwards;
     border-top: 1px solid var(--accent);
     border-bottom: 2px solid rgba(0,0,0,0.3);
     border-right: 2px solid rgba(0,0,0,0.3);
@@ -160,6 +160,11 @@
     75% { box-shadow: 10px 10px 35px var(--color-3);}
     100% { box-shadow: 10px -10px 35px var(--color-1);}
         }
+
+@keyframes glowdown {
+    from { box-shadow: 10px -10px 35px var(--color-1);}
+    to {box-shadow: 40px 40px 2px 0px rgba(33, 37, 41, 0.568);}
+}
         
 @keyframes slidewaves {
     0%{ transform: translateX(150%);}

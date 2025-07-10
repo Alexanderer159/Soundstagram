@@ -272,56 +272,46 @@ const handleGoToMixer = () => {
 
             <div className="row all-info text-uppy m-2">
 
-<div className="col coleft-uppy">                
+<div className="col">                
     <div className="text-center">
-                    <p className="controls-uppy-text text-white fs-1" >Description</p>
+                    <p className="controls-uppy-text text-white fs-1 desc-header" >Description</p>
                     <p onChange={e => setProjectDescription(e.target.value)} className="text-white form-info-uppy p-2 fs-5" value={projectDescription}>{projectInfo.description}</p>
                 </div>
                 </div>
                 
 
 <div className="col">
-    <p className="controls-uppy-text text-white text-center fs-1">Details</p>
-                <div className="d-flex flex-row justify-content-between px-4">
+    <p className="controls-uppy-text text-white text-center fs-1 details-header">Details</p>
+                <div className="d-flex flex-row justify-content-between px-4 py-1 deets-proj">
 
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white">Key</p>
                         <p className="controls-uppy-text text-white form-info-uppy p-2" value={keySignature} onChange={e => setKeySignature(e.target.value)}>{projectInfo.key}</p>
                     </div>
                     
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white">Compass</p>
                         <p className="controls-uppy-text text-white form-info-uppy p-2" value={timeSignature} onChange={e => setTimeSignature(e.target.value)}>{projectInfo.meter}</p>    
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white">BPM</p>
                         <p className="controls-uppy-text text-white form-info-uppy p-2" value={bpm} onChange={e => setBpm(Number(e.target.value))}>{projectInfo.bpm}</p>  
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white" >Instruments</p>
-                        <p className="text-white form-info-uppy p-2">{projectInfo.seeking_instrument_ids}</p>
+                        <p className="controls-uppy-text text-white form-info-uppy p-2">{projectInfo.seeking_instrument_ids}</p>
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white" >Roles</p>
-                        <p className="text-white form-info-uppy p-2">{projectInfo.seeking_role_ids}</p> 
+                        <p className="controls-uppy-text text-white form-info-uppy p-2">{projectInfo.seeking_role_ids}</p> 
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center d-flex flex-column gap-4">
                         <p className="controls-uppy-text text-white" >Genre</p>
-                        <p className="text-white form-info-uppy p-2">{projectInfo.genre_ids}</p>
-                    </div>
-
-                    <div className="text-center">
-                        <p className="controls-uppy-text text-white" >Visibility</p>
-                        <p className="text-white form-info-uppy p-2">{projectInfo.visibility}</p>
-                    </div>
-
-                    <div className="text-center">
-                        <p className="controls-uppy-text text-white" >Tags</p>
-                        <p className="text-white form-info-uppy p-2" value={projectTags} onChange={e => setProjectTags(e.target.value)}>{projectInfo.tags}</p>
+                        <p className="controls-uppy-text text-white form-info-uppy p-2">{projectInfo.genre_ids}</p>
                     </div>
                 </div>  
 </div>
