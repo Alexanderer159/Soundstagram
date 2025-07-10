@@ -4,8 +4,8 @@ import WaveSurfer from "wavesurfer.js";
 import { Box, Button, Typography, Slider, Stack, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import SendIcon from "@mui/icons-material/Send";
-import "../styles/mixer.css"
-import "../styles/index.css"
+import "./mixer.css"
+import "../../styles/index.css"
 import * as Tone from "tone";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -18,8 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TuneIcon from '@mui/icons-material/Tune';
 import WavEncoder from "wav-encoder";
-import "../styles/upload_play.css"
-import "../styles/index.css"
+import "../../styles/upload_play.css"
 
 const currentUser = "Test User";
 

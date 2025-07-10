@@ -1,4 +1,4 @@
-import api from './authService'; // cliente axios con interceptor
+import api from './authService';
 
 export const createProject = async (projectData) => {
   const response = await api.post('/projects', projectData);
@@ -27,6 +27,11 @@ export const deleteProject = async (projectId) => {
 
 export const getProjectsBySeekingInstrument = async (instrumentId) => {
   const response = await api.get(`/projects/seeking-instrument/${instrumentId}`);
+  return response.data;
+};
+
+export const getProjectTracks = async (projectId) => {
+  const response = await api.get(`/projects/${projectId}/tracks`);
   return response.data;
 };
 

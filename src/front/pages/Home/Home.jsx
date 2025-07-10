@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { useUserReducer } from "../reducers/userReducer"
+import { useUserReducer } from "../../reducers/userReducer.jsx"
 import { Link, useNavigate } from "react-router-dom"
-import { Loader } from "../components/Loader.jsx"
-import { loginUser, registerUser } from '../services/authService.js';
-import "../styles/index.css"
-import "../styles/home.css"
+import { Loader } from "../../components/Loader/Loader.jsx"
+import { loginUser, registerUser } from '../../services/authService.js';
+import "../../styles/index.css"
+import "./home.css"
 
 export const Home = () => {
 
@@ -15,32 +15,6 @@ export const Home = () => {
 	const [formData, setFormData] = useState({ email: "", password: "" });
 	const [isRegisterMode, setIsRegisterMode] = useState(false);
 	const [error, setError] = useState(null);
-
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
-
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
 
 	const handleChange = (e) =>
 		setFormData({ ...formData, [e.target.name]: e.target.value });

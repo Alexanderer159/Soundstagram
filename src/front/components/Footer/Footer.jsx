@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import "../styles/index.css"
-import "../styles/footer.css"
+import "../../styles/index.css"
+import "./footer.css"
 
 export const Footer = () => (
 
@@ -10,7 +10,7 @@ export const Footer = () => (
 		</div>
 		<div className="col ">
 			<div className="d-flex flex-row justify-content-end">
-				<Link to="/about_us" className="text-decoration-none"><p className="foot-list">About Us</p></Link>
+				<Link to="/about" className="text-decoration-none"><p className="foot-list">About Us</p></Link>
 			</div>
 		</div>
 	</div>

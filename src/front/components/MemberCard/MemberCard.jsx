@@ -2,10 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { Link } from "react-router-dom";
-import '../styles/index.css'
-import '../styles/membercard.css'
+import '../../styles/index.css'
+import './membercard.css'
 
-export const Membercard = (member) => {
+export const MemberCard = (member) => {
 
 
     return(

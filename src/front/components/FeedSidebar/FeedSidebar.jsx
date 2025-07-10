@@ -1,7 +1,7 @@
 import React from 'react';
-import { useUserReducer } from '../reducers/userReducer';
-import '../styles/feedsidebar.css';
-import FilterForm from './FilterForm/FilterForm';
+import { useUserReducer } from '../../reducers/userReducer';
+import './/feedsidebar.css';
+import FilterForm from '../FilterForm/FilterForm';
 
 export const FeedSidebar = () => {
 

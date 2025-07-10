@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import useLikeReducer from '../reducers/likeReducer';
-import { toggleProjectLike } from '../services/likeService';
-import { useUserReducer } from '../reducers/userReducer';
-import "../styles/projectcard.css";
+import useLikeReducer from '../../reducers/likeReducer';
+import { toggleProjectLike } from '../../services/likeService';
+import { useUserReducer } from '../../reducers/userReducer';
+import "./projectcard.css";
 
 export const ProjectCard = ({ project }) => {
 
@@ -40,6 +40,8 @@ export const ProjectCard = ({ project }) => {
             console.error("❌ Error al dar like:", err);
         }
     };
+
+
 
 
     return (
@@ -105,7 +107,7 @@ export const ProjectCard = ({ project }) => {
                 </div>
 
                 <div className="collaborators_container">
-                    {project.collaborators?.length > 0 ? (
+                    {Array.isArray(project.collaborators) && project.collaborators.length > 0 ? (
                         project.collaborators.map((colab) => (
                             <div key={colab.id} className="collaborator_avatar">
                                 <img
@@ -119,6 +121,7 @@ export const ProjectCard = ({ project }) => {
                     ) : (
                         <p className="no_collaborators_text">Este proyecto no tiene colaboradores de momento.</p>
                     )}
+
                 </div>
 
                 <div className="footer_right_corner">

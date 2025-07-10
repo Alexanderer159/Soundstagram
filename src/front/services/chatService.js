@@ -1,23 +1,16 @@
-import axios from 'axios';
-import { getAuthHeader } from './authService';
-
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+import api from './authService';
 
 export const getUserChats = async () => {
-  const response = await axios.get(`${API_URL}/chats`, getAuthHeader());
+  const response = await api.get(`/chats`);
   return response.data;
 };
 
 export const getChatMessages = async (chatId) => {
-  const response = await axios.get(`${API_URL}/chats/${chatId}/messages`, getAuthHeader());
+  const response = await api.get(`/chats/${chatId}/messages`);
   return response.data;
 };
 
 export const sendMessageToUser = async (otherUserId, content) => {
-  const response = await axios.post(
-    `${API_URL}/chats/${otherUserId}/messages`,
-    { content },
-    getAuthHeader()
-  );
+  const response = await api.post(`/chats/${otherUserId}/messages`, { content });
   return response.data;
 };

@@ -14,15 +14,12 @@ export function FollowProvider({ children }) {
 
 
     useEffect(() => {
-        console.log("🔁 FollowProvider montado. userId:", userId);
 
         if (!userId) return;
 
         const fetchFollowing = async () => {
             try {
-                console.log("📡 Cargando datos de following para ID:", userId);
                 const data = await getFollowing(userId);
-                console.log("📥 Datos recibidos de getFollowing:", data);
                 dispatch({ type: "set_following", payload: data });
             } catch (err) {
                 console.error("❌ Error en fetchFollowing:", err.message);
