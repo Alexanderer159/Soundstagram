@@ -1,0 +1,46 @@
+.filters_section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #444;
+}
+
+.filter_checkbox {
+  display: block;
+  font-size: 0.85rem;
+  margin: 0.3rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.filter_buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter_btn {
+  padding: 0.3rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter_btn.apply {
+  background-color: #16a34a;
+  color: white;
+}
+
+.filter_btn.reset {
+  background-color: #dc2626;
+  color: white;
+}
+
+.filter_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+}
