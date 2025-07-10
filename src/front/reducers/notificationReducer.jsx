@@ -7,7 +7,7 @@ export function NotificationProvider({ children }) {
     const [store, dispatch] = useReducer(notificationReducer, initialNotificationStore);
 
     return (
-        <NotificationContext.Provider value={{ store, dispatch }}>
+        <NotificationContext.Provider value={{ notificationStore: store, notificationDispatch: dispatch }}>
             {children}
         </NotificationContext.Provider>
     );

@@ -4,7 +4,6 @@ import { toggleFollowUser } from "../../services/followService";
 import { useUserReducer } from "../../reducers/userReducer";
 import { useFollowReducer } from "../../reducers/followReducer";
 import { Button } from "react-bootstrap";
-import "../../styles/feedsidebar.css";
 import "./chatSidebar.css";
 
 const ChatSidebar = () => {
@@ -50,11 +49,12 @@ const ChatSidebar = () => {
 
     return (
         <div className="user-sidebar">
-            <h5 className="mb-3">Usuarios</h5>
+            <h5 className="mb-3 text-white">Usuarios</h5>
             {allUsers
                 .filter((user) => user.id !== userStore?.user?.id)
                 .map((user) => {
-                    const isFollowing = followStore.following.some((u) => u.id === user.id);
+                    const isFollowing = followStore.following.some((f) => f.followed_id === user.id);
+
                     return (
                         <div key={user.id} className="d-flex flex-column align-items-start justify-content-around gap-3 mb-4 border-bottom pb-3">
                             <div className="d-flex align-items-end gap-3">
@@ -63,7 +63,7 @@ const ChatSidebar = () => {
                                     alt={user.username}
                                     className="chat_sidebar_profile_pic"
                                 />
-                                <span className="text-sm">{user.username}</span>
+                                <span className="text-sm text-white">{user.username}</span>
                             </div>
                             <div>
                                 <Button

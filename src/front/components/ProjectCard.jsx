@@ -5,7 +5,7 @@ import { useUserReducer } from '../reducers/userReducer';
 import "../styles/projectcard.css";
 
 export const ProjectCard = ({ project }) => {
-    
+
     const { likeStore, likeDispatch } = useLikeReducer();
     const { userLikes } = likeStore;
     const { userStore } = useUserReducer();
@@ -14,19 +14,16 @@ export const ProjectCard = ({ project }) => {
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
-        console.log("🎯 userLikes en ProjectCard:", userLikes);
         const hasLiked = userLikes.some(like => like.project_id === project.id);
         setLiked(hasLiked);
     }, [userLikes, project.id]);
 
     const handleLikeToggle = async () => {
-        console.log('🔁 Intentando toggle de like');
         console.log('Proyecto:', project.id, '-', project.title);
         console.log('Usuario:', user?.id);
 
         try {
             const res = await toggleProjectLike(project.id);
-            console.log('✅ Respuesta del backend:', res);
 
             if (liked) {
                 likeDispatch({ type: "remove_like", payload: { project_id: project.id } });
@@ -73,9 +70,9 @@ export const ProjectCard = ({ project }) => {
                     <div className="collaborators_container">
 
                         {project.collaborators.map((colab) => (
-                        
+
                             <div key={colab.id} className="collaborator_avatar">
-                                
+
                                 <img
                                     src={colab.profile_pic_url}
                                     alt={colab.username}

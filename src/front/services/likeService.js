@@ -1,4 +1,4 @@
-import api from "./authService";
+import api from './authService';
 
 export const toggleTrackLike = async (trackId) => {
   const response = await api.post(`/likes/track/${trackId}`, {});
@@ -12,7 +12,6 @@ export const toggleProjectLike = async (projectId) => {
 
 export const getUserLikes = async (userId) => {
   const response = await api.get(`/likes/user/${userId}`);
-  console.log("📦 getUserLikes response:", response.data); // AÑADE ESTO
   return response.data;
 };
 export const getLikesForTrack = async (trackId) => {
