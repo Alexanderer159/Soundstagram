@@ -7,7 +7,7 @@ export function TrackProvider({ children }) {
     const [store, dispatch] = useReducer(trackReducer, initialTrackStore);
 
     return (
-        <TrackContext.Provider value={{ store, dispatch }}>
+        <TrackContext.Provider value={{ trackStore: store, trackDispatch: dispatch }}>
             {children}
         </TrackContext.Provider>
     );

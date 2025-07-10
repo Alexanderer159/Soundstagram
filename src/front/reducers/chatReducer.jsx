@@ -7,7 +7,7 @@ export function ChatProvider({ children }) {
     const [store, dispatch] = useReducer(chatReducer, initialChatStore);
 
     return (
-        <ChatContext.Provider value={{ store, dispatch }}>
+        <ChatContext.Provider value={{ chatStore: store, chatDispatch: dispatch }}>
             {children}
         </ChatContext.Provider>
     );
