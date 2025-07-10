@@ -4,7 +4,7 @@ from datetime import datetime
 from back.extensions import db
 from back.models.chat_model import Chat, Message
 from back.models.user_model import User
-from back.controllers.notification_controller import create_notification
+from back.controllers.notification_controller import create_notification, NotificationType
 
 chat_api = Blueprint("chat_api", __name__)
 
@@ -64,11 +64,11 @@ def send_message_to_user(other_user_id):
     new_msg = Message(chat_id=chat.id, sender_id=current_user_id, content=content)
     
     create_notification(
-        user_id=other_user_id,
-        type="message",
-        source_user_id=current_user_id,
-        metadata={"chat_id": chat.id}
-    )
+    recipient_id=other_user_id,
+    notif_type=NotificationType.message,
+    message="Nuevo mensaje recibido.",
+    sender_id=current_user_id
+)
     
     db.session.add(new_msg)
     db.session.commit()

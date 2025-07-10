@@ -9,13 +9,13 @@ const LikeContext = createContext();
 export function LikeProvider({ children }) {
     const [store, dispatch] = useReducer(likeReducer, initialLikeStore);
     const { userStore } = useUserReducer();
-    const { user } = userStore;
+    const userId = userStore?.user?.id;
 
     useEffect(() => {
         const fetchUserLikes = async () => {
-            if (!user?.id) return;
+            if (!userId) return;
             try {
-                const data = await getUserLikes(user.id);
+                const data = await getUserLikes(userId);
                 dispatch({ type: "set_user_likes", payload: data });
             } catch (err) {
                 dispatch({ type: "set_error", payload: err.message });
@@ -23,10 +23,10 @@ export function LikeProvider({ children }) {
         };
 
         fetchUserLikes();
-    }, [user?.id]);
+    }, [userId]);
 
     return (
-        <LikeContext.Provider value={{ likeStore: store, LikeDispatch: dispatch }}>
+        <LikeContext.Provider value={{ likeStore: store, likeDispatch: dispatch }}>
             {children}
         </LikeContext.Provider>
     );

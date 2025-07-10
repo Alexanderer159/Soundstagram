@@ -4,18 +4,18 @@ export const initialLikeStore = {
   error: null,
 };
 
-export default function likeReducer(state, action) {
+export default function likeReducer(store, action) {
   switch (action.type) {
     case 'set_user_likes':
-      return { ...state, userLikes: action.payload, loading: false };
+      return { ...store, userLikes: action.payload, loading: false };
 
     case 'add_like':
-      return { ...state, userLikes: [...state.userLikes, action.payload] };
+      return { ...store, userLikes: [...store.userLikes, action.payload] };
 
     case 'remove_like':
       return {
-        ...state,
-        userLikes: state.userLikes.filter(
+        ...store,
+        userLikes: store.userLikes.filter(
           (like) =>
             !(
               like.track_id === action.payload.track_id ||
@@ -25,10 +25,10 @@ export default function likeReducer(state, action) {
       };
 
     case 'set_loading':
-      return { ...state, loading: true };
+      return { ...store, loading: true };
 
     case 'set_error':
-      return { ...state, error: action.payload, loading: false };
+      return { ...store, error: action.payload, loading: false };
 
     default:
       throw new Error('Acción no reconocida en likeReducer');
