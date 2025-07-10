@@ -1,10 +1,32 @@
+.title-add-project{
+    font-size: clamp(3em, 5vw, 5vw);
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    animation: gradient-shift 5s infinite, fadeIn 4s forwards, slidebackwards 2s forwards;
+}
+
+
 .project-form{
-    max-width: 700px;
+    width: 900px;
     background: var(--bg-color);
     border-radius: 15px;
     border-top: 1px solid var(--accent);
-    box-shadow: 1px 1px 15px 1px black;
+    border-left: 1px solid var(--accent);
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    box-shadow: 50px 50px 5px 15px rgba(33, 37, 41, 0.568);
     animation: fadeIn 4s forwards, slideforwards 2s forwards;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .project-form-input{
@@ -15,7 +37,8 @@
     box-shadow: 1px 1px 4px 0.01px var(--color-3);
     color: white;
     font-size: large;
-    overflow: hidden;
+    min-height: 40px;
+    scrollbar-color: var(--color-3) transparent;
 }
 
 .project-form-input::placeholder{

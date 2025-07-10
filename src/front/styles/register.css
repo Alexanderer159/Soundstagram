@@ -28,10 +28,12 @@
 
 .register-form{
     width: clamp(500px,50%,50%);
-    border-radius:5px;
+    border-radius: 10px;
     color: white;
-    box-shadow: 1px 1px 3px 2px black;
+    box-shadow: 40px 40px 2px 0px rgba(33, 37, 41, 0.568);
     border-top: 1px solid var(--accent);
+    border-bottom: 2px solid rgba(0,0,0,0.3);
+    border-right: 2px solid rgba(0,0,0,0.3);
     background: var(--bg-color);
     opacity: 0;
     animation: regslidein 2s 2s forwards, fadeIn 2s 2s forwards;

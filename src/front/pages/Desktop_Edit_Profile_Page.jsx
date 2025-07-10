@@ -127,7 +127,7 @@ export const EditProfilePage = () => {
                 </div>
 
                 <form className="row text-white">
-                    <div className="col combo d-flex justify-content-end">
+                    <div className="col combo d-flex justify-content-end ">
 
                         <img src={formData.profile_pic_url} className="prof-pic-edit rounded-circle" onClick={() => fileInputRef.current.click()} />
                         <input type="file" name="profile_pic_file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} className="d-none" />
@@ -135,7 +135,7 @@ export const EditProfilePage = () => {
                     </div>
 
                     <div className="col">
-                        <div className="form-container w-50 d-flex flex-column justify-content-center gap-3">
+                        <div className="d-flex flex-column justify-content-center gap-3 all-form-edit pt-3 pb-4 px-5">
 
                             <div className="">
                                 <label htmlFor="NameInput" className="form-label fs-2">Username</label>

@@ -28,6 +28,7 @@ export const AddProject = () => {
     const [genres, setGenres] = useState([]);
     const [roles, setRoles] = useState([]);
     const [instruments, setInstruments] = useState([]);
+    const [selected, setSelected] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,7 +57,15 @@ export const AddProject = () => {
                 bpm: parseInt(form.bpm),
             };
 
-            sessionStorage.setItem("ProjectInfo", JSON.stringify(form));
+            const playbackForm = {
+                ...form,
+                bpm: parseInt(form.bpm),
+                instruments: setInstruments(await getInstruments()),
+                roles: setRoles(await getRoles()),
+                genre: setGenres(await getAllGenres()),
+            }
+
+            sessionStorage.setItem("ProjectInfo", JSON.stringify(playbackForm));
             navigate("/uploader-poster");
 
             console.log("Payload enviado:", payload); // 👈 MUY IMPORTANTE
@@ -73,94 +82,81 @@ export const AddProject = () => {
 
     return (
 <>
-    <div className="container-fluid m-5 text-white">
+    <div className="container-fluid m-5">
 
         <div className="row">
             <div className="col">
-                <p className="fs-1 text-center">Create a project</p>
+                <p className="text-center title-add-project">Create a project</p>
             </div>
         </div>
             
-        <div className="row">
-            <div className="col d-flex justify-content-center">
+        <div className="row d-flex justify-content-center text-white">
 
                 <form  onSubmit={handleSubmit} className="project-form px-3 py-2 d-flex flex-column gap-3">
                     <div className="row">
                         <div className="col d-flex flex-column justify-content-between gap-1">
 
                             <label className="mt-2">Title</label>
-                            <input className="my-2 project-form-input" name="title" placeholder="Title" onChange={handleChange} />
+                            <input className="my-2 project-form-input" name="title" placeholder="Title" required onChange={handleChange} />
 
                             <label className="mt-2">Description</label>
-                            <textarea className="my-2 project-form-input" name="description" placeholder="Description" onChange={handleChange} />
+                            <textarea className="my-2 project-form-input" name="description" placeholder="Description" required  onChange={handleChange} />
 
-                            <label className="mt-2">Tags</label>
-                            <input className=" my-2 project-form-input" name="tags" placeholder="Tag (comma separated)" onChange={handleChange} />
+                            <label className="mt-2">BPM</label>
+                            <input className=" my-2 project-form-input" name="bpm" placeholder="BPM" type="number" required onChange={handleChange} />
 
-                            <label className="mt-2">Extra info</label>
-                            <input className=" my-2 project-form-input" name="bpm" placeholder="BPM" type="number" onChange={handleChange} />
-
-                            <div className="d-flex flex-row gap-3">
-                                <select className="project-form-input py-2 clicky-project-form" value={form.key} onChange={(e) => setForm({ ...form, key: e.target.value })}>
+                            <label className="mt-2">Key</label>
+                                <select className="project-form-input py-2 clicky-project-form" required value={form.key} onChange={(e) => setForm({ ...form, key: e.target.value })}>
 
                                     <option value="">Select a key</option>
                                     {Object.entries(KEY_ENUM).map(([key, label]) => (<option key={key} value={label}>{label}</option>))}
 
                                 </select>
 
-                                <select className="project-form-input py-2 clicky-project-form" value={form.meter} onChange={(e) => setForm({ ...form, meter: e.target.value })} >
+                            <label className="mt-2">Compass</label>
+
+                                <select className="project-form-input py-2 clicky-project-form" required value={form.meter} onChange={(e) => setForm({ ...form, meter: e.target.value })} >
 
                                     <option value="">Select a compass</option>
                                     {Object.entries(METER_ENUM).map(([meter, label]) => (<option key={meter} value={label}>{label}</option>))}
 
                                 </select>
-                            </div>
-                            <div className="d-flex flex-row gap-3">
-                                <select className="form-select my-2 project-form-input clicky-project-form" name="visibility" onChange={handleChange}>
-                                    <option value="public">Public</option>
-                                    <option value="private">Private</option>
-                                </select>
-
-                                <select className="form-select my-2 project-form-input clicky-project-form" name="status" onChange={handleChange}>
-                                    <option value="active">Active</option>
-                                    <option value="archived">Archived</option>
-                                </select>
-                            </div>
                         </div>    
 
                         <div className="col d-flex flex-column justify-content-between">
 
                             <label className="mt-2">Genre</label>
 
-                            <select multiple className="project-form-input clicky-project-form" onChange={(e) => handleMultiSelect(e, "genre_ids")}>
+                            <select multiple className="project-form-input clicky-project-form my-2" required onChange={(e) => handleMultiSelect(e, "genre_ids")}>
 
                                 {genres.map((g) => (<option key={g.id} value={g.id}>{g.name}</option>))}
 
                             </select>
 
-                            <label className="mt-2">Project's roles</label>
+                            <label className="mt-2">What roles do you need?</label>
 
-                            <select multiple className=" project-form-input clicky-project-form" onChange={(e) => handleMultiSelect(e, "seeking_role_ids")}>
+                            <select multiple className=" project-form-input clicky-project-form my-2" required onChange={(e) => handleMultiSelect(e, "seeking_role_ids")}>
                                 
                                 {roles.map((r) => (<option key={r.id} value={r.id}>{r.name}</option>))}
 
                             </select>
 
-                            <label className="mt-2">Project's instruments</label>
+                            <label className="mt-2">What instruments do you need?</label>
 
-                            <select multiple className="project-form-input clicky-project-form" onChange={(e) => handleMultiSelect(e, "seeking_instrument_ids")}>
+                            <select multiple className="project-form-input clicky-project-form my-2" required onChange={(e) => handleMultiSelect(e, "seeking_instrument_ids")}>
 
                                 {instruments.map((i) => (<option key={i.id} value={i.id}>{i.name}</option>))}
 
                             </select>
 
                         </div>
+
                     </div>
 
                         <button className="btn-sub-project-form my-2" type="submit">Create Project</button>
 
                 </form>
-            </div>
+            
         </div>
     </div>
 </>
