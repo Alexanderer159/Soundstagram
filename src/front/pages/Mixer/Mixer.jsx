@@ -214,6 +214,7 @@ export const Mixer = () => {
                     effect: "none"
                 };
 
+
                 // Conecta el nuevo track a la cadena de audio
                 newTrack.player.connect(newTrack.channel);
                 newTrack.channel.connect(newTrack.panner);
