@@ -30,6 +30,7 @@ php_errorlog
 # ignore OS generated files
 ehthumbs.db
 Thumbs.db
+test.db
 
 # ignore Editor files
 *.sublime-project
