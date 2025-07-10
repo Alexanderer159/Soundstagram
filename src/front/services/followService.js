@@ -1,19 +1,17 @@
 import axios from 'axios';
-import { getAuthHeader } from './authService';
+import api from './authService';
 
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
-
-export const followUser = async (userId) => {
-  const response = await axios.post(`${API_URL}/follow/${userId}`, {}, getAuthHeader());
+export const toggleFollowUser = async (userId) => {
+  const response = await api.post(`/follow/${userId}`, {});
   return response.data;
 };
 
 export const getFollowers = async (userId) => {
-  const response = await axios.get(`${API_URL}/followers/${userId}`, getAuthHeader());
+  const response = await api.get(`/followers/${userId}`);
   return response.data;
 };
 
 export const getFollowing = async (userId) => {
-  const response = await axios.get(`${API_URL}/following/${userId}`);
+  const response = await api.get(`/following/${userId}`);
   return response.data;
 };

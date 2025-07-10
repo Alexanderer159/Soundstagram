@@ -2,7 +2,6 @@ import React from 'react';
 import { useUserReducer } from '../reducers/userReducer';
 import '../styles/feedsidebar.css';
 import FilterForm from './FilterForm/FilterForm';
-import { Filter } from 'tone';
 
 export const FeedSidebar = () => {
 

@@ -14,10 +14,8 @@ export function LikeProvider({ children }) {
     useEffect(() => {
         const fetchUserLikes = async () => {
             if (!user?.id) return;
-            likeDispatch({ type: "set_loading" });
             try {
                 const data = await getUserLikes(user.id);
-                console.log("✅ Likes del usuario cargados:", data);
                 likeDispatch({ type: "set_user_likes", payload: data });
             } catch (err) {
                 likeDispatch({ type: "set_error", payload: err.message });

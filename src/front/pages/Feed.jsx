@@ -3,6 +3,7 @@ import { useProjectReducer } from '../reducers/projectReducer';
 import { FeedSidebar } from '../components/FeedSidebar';
 import { ProjectCard } from '../components/ProjectCard';
 import "../styles/feed.css"
+import ChatSidebar from '../components/ChatSidebar/ChatSidebar';
 
 export const Feed = () => {
     const { projectStore, fetchPublicProjects } = useProjectReducer();
@@ -32,6 +33,12 @@ export const Feed = () => {
                         <div className="col-6 feed_projects_container">
 
                             {projects?.map((project) => (<ProjectCard key={project.id} project={project} />))}
+
+                        </div>
+
+                        <div className="col-3 feed_userSidebar_container">
+
+                            <ChatSidebar />
 
                         </div>
                     </div>
