@@ -106,10 +106,9 @@
     border-radius: 10px;
     color: #fff;
     text-shadow: 5px 5px 5px black;
-    pointer-events: none;
-    user-select: none;
     opacity: 0;
     animation: fadeIn 2s 1.5s forwards, bouncein 2s 1.5s forwards;
+    scrollbar-color: var(--color-3) transparent;
 }
 
 .pro-btn{
