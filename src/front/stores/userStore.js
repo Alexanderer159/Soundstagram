@@ -30,7 +30,11 @@ export default function userReducer(store, action = {}) {
     case 'logout':
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      return initialUserStore();
+      return {
+        user: null,
+        token: null,
+        isAuthenticated: false,
+      };
 
     default:
       throw Error('Unknown action.');

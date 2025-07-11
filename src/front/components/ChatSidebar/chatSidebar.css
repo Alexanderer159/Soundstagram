@@ -5,6 +5,11 @@
   object-fit: cover;
 }
 
-.user_sidebar {
+.chat-sidebar {
   color: aliceblue !important;
+  padding: 5%;
+}
+
+.chat-active-users {
+  border-bottom: 1px solid #fff;
 }

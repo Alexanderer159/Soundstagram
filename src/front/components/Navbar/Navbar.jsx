@@ -14,17 +14,26 @@ export const Navbar = () => {
 	const { user } = userStore;
 	const navigate = useNavigate();
 
-	const handleLogout = () => {
+	console.log("👤 Usuario en Navbar:", user);
+
+
+	const handleLogout = (e) => {
+		e.preventDefault();
+
 		logoutUser();
 		userDispatch({ type: "logout" });
 
+
 		setTimeout(() => {
+			console.log("🔁 Redireccionando a /");
 			navigate("/", { replace: true });
 		}, 0);
 	};
 
+
+
 	useEffect(() => {
-	}, [userStore]);
+	}, [user]);
 
 
 	return (
@@ -78,7 +87,7 @@ export const Navbar = () => {
 								<Link to="/profile" className="dropdown-item">Profile</Link>
 							</li>
 							<li>
-								<button className="dropdown-item-red" onClick={handleLogout}>Log Out</button>
+								<button type="button" className="dropdown-item-red logout-btn" onClick={(e) => handleLogout(e)}>Log Out</button>
 							</li>
 						</ul>
 

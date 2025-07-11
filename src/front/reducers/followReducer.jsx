@@ -27,7 +27,7 @@ export function FollowProvider({ children }) {
         };
 
         fetchFollowing();
-    }, [userStore?.user?.id]);
+    }, [userId]);
 
 
     return (

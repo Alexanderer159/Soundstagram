@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useLikeReducer from '../../reducers/likeReducer';
-import { toggleProjectLike } from '../../services/likeService';
+import { getUserLikes, toggleProjectLike } from '../../services/likeService';
 import { useUserReducer } from '../../reducers/userReducer';
 import "./projectcard.css";
 
@@ -9,42 +9,29 @@ export const ProjectCard = ({ project }) => {
     const { likeStore, likeDispatch } = useLikeReducer();
     const { userLikes } = likeStore;
     const { userStore } = useUserReducer();
-    const { user } = userStore;
+    const currentUser = userStore?.user?.id;
+    const liked = userLikes.some((like) => like.project_id === project.id);
 
-    const [liked, setLiked] = useState(false);
-
-    useEffect(() => {
-        const hasLiked = userLikes.some(like => like.project_id === project.id);
-        setLiked(hasLiked);
-    }, [userLikes, project.id]);
 
     const handleLikeToggle = async () => {
-        console.log('Proyecto:', project.id, '-', project.title);
-        console.log('Usuario:', user?.id);
-
         try {
-            const res = await toggleProjectLike(project.id);
-
-            if (liked) {
-                likeDispatch({ type: "remove_like", payload: { project_id: project.id } });
-                setLikeCount(res.like_count);
-
-            } else {
-                likeDispatch({ type: "add_like", payload: { project_id: project.id, user_id: user.id } });
-                setLikeCount(res.like_count);
-
+            await toggleProjectLike(project.id);
+            if (!currentUser) {
+                return;
             }
+            const updatedLikes = await getUserLikes(currentUser);
 
-            setLiked(!liked);
+            likeDispatch({ type: "set_user_likes", payload: updatedLikes });
         } catch (err) {
             console.error("❌ Error al dar like:", err);
         }
     };
 
-
+    console.log(`🎯 Renderizando ProjectCard ${project.id} - liked: ${liked}`);
 
 
     return (
+
         <div className="project_card">
 
             <div className="project_card_header">

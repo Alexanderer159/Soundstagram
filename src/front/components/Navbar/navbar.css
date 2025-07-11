@@ -1,15 +1,15 @@
-.navbar{
-    animation: moveintop 2.5s 3s forwards;
-    transform: translate(0px, -500px);
-    position: fixed;
-    top: 0;
-    width: 100vw;
-    z-index: 1030;
-    background-color: var(--bg-color);
-    box-shadow: 2px 0px 15px 5px black;
+.navbar {
+  animation: moveintop 2.5s 3s forwards;
+  transform: translate(0px, -500px);
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1030;
+  background-color: var(--bg-color);
+  box-shadow: 2px 0px 15px 5px black;
 }
 
-.navbar-text{
+.navbar-text {
   font-size: 1.3rem;
   background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
   background-clip: text;
@@ -17,29 +17,29 @@
   transition: 1s ease;
   color: transparent;
   animation: gradient-shift 5s infinite linear;
-  &:hover{
-  background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
-  transition: 1.5s ease;
-  background-clip: text;
-  background-size: 200%, 200%;
-  color: transparent;
-  animation: gradient-shift 5s infinite linear;
-  font-size: x-large;
-}
+  &:hover {
+    background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
+    transition: 1.5s ease;
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    animation: gradient-shift 5s infinite linear;
+    font-size: x-large;
+  }
 }
 
 .navbar .soundstagram-icon {
   transition: 1s ease;
   height: 45px;
   width: 50px;
-  &:hover{
-  transition: 1s ease;
-  height: 55px;
-  width: 65px;
-}
+  &:hover {
+    transition: 1s ease;
+    height: 55px;
+    width: 65px;
+  }
 }
 
-.icon-navbar{
+.icon-navbar {
   background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
   color: var(--bg-color);
   background-size: 200%, 200%;
@@ -48,7 +48,7 @@
   animation: gradient-shift 5s infinite linear;
 }
 
-.icon-navbar:hover{
+.icon-navbar:hover {
   font-size: 35px;
   background-size: 200%, 200%;
   transition: 1s;
@@ -74,14 +74,14 @@
   box-shadow: 5px 5px 2px 2px black;
 }
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration { 
-  display: none; 
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  display: none;
 }
 
-.search-navbar-bar::placeholder{
+.search-navbar-bar::placeholder {
   color: #fff;
   text-shadow: 5px 5px 5px black;
 }
@@ -91,7 +91,7 @@ input[type="search"]::-webkit-search-results-decoration {
   opacity: 1;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   pointer-events: none;
   background-color: var(--bg-color);
   transform: translateX(10%);
@@ -101,11 +101,11 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .profile {
   pointer-events: all;
-  border: 1px solid rgba(0,0,0,0);
+  border: 1px solid rgba(0, 0, 0, 0);
 }
 
-.profile:hover .dropdown-menu, 
-.profile .dropdown-menu:hover{
+.profile:hover .dropdown-menu,
+.profile .dropdown-menu:hover {
   animation: slideleft 2s forwards;
   pointer-events: all;
 }
@@ -114,7 +114,7 @@ input[type="search"]::-webkit-search-results-decoration {
   animation: slideright 2s 2s forwards;
 }
 
-.dropdown-menu .dropdown-item{
+.dropdown-menu .dropdown-item {
   background: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
   background-clip: text;
   background-size: 200%, 200%;
@@ -122,18 +122,18 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: large;
   color: transparent;
   animation: gradient-shift 5s infinite linear;
-  &:hover{
-  background: linear-gradient(90deg,var(--color-2), var(--color-1), var(--color-2));
-  transition: 1.5s ease;
-  background-clip: text;
-  background-size: 200%, 200%;
-  color: transparent;
-  animation: gradient-shift 5s infinite linear;
-  font-size: x-large;
-}
+  &:hover {
+    background: linear-gradient(90deg, var(--color-2), var(--color-1), var(--color-2));
+    transition: 1.5s ease;
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    animation: gradient-shift 5s infinite linear;
+    font-size: x-large;
+  }
 }
 
-.dropdown-item-red{
+.dropdown-item-red {
   border: 0;
   background: linear-gradient(90deg, var(--color-4), var(--color-5), var(--color-4));
   background-clip: text;
@@ -142,32 +142,48 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: large;
   color: transparent;
   animation: gradient-shift 5s infinite linear;
-  &:hover{
-  background: linear-gradient(90deg,var(--color-5), var(--color-4), var(--color-5));
-  transition: 1.5s ease;
-  background-clip: text;
-  background-size: 200%, 200%;
-  color: transparent;
-  animation: gradient-shift 5s infinite linear;
-  font-size: x-large;
-}
+  &:hover {
+    background: linear-gradient(90deg, var(--color-5), var(--color-4), var(--color-5));
+    transition: 1.5s ease;
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    animation: gradient-shift 5s infinite linear;
+    font-size: x-large;
+  }
 }
 
 /* Keyframes */
 
 @keyframes moveintop {
-  0% { transform: translate(0px, -500px);}
-  50% { transform: translate(0px, -50px);}
-  75% { transform: translate(0px, -20px);}
-  100% { transform: translate(0, 0);}
+  0% {
+    transform: translate(0px, -500px);
+  }
+  50% {
+    transform: translate(0px, -50px);
+  }
+  75% {
+    transform: translate(0px, -20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes slideleft {
-  from { transform: translateX(150%);}
-  to { transform: translateX(10%);}
+  from {
+    transform: translateX(150%);
+  }
+  to {
+    transform: translateX(10%);
+  }
 }
 
 @keyframes slideright {
-  from { transform: translateX(10%);}
-  to { transform: translateX(150%);}
+  from {
+    transform: translateX(10%);
+  }
+  to {
+    transform: translateX(150%);
+  }
 }
