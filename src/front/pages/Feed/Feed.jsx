@@ -22,6 +22,10 @@ export const Feed = () => {
             <>
                 <div className="container-fluid my-5">
 
+                    <div className="row">
+                        <p className="header-feed text-center display-1 fw-bold">Lets make some noise!</p>
+                    </div>
+
                     <div className="row feed_container pb-5">
 
                         <div className="col-3 feed_userSidebar_container pb-5">

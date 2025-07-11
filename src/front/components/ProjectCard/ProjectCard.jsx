@@ -32,7 +32,7 @@ export const ProjectCard = ({ project }) => {
 
     return (
         <>
-            <div className='container-fluid project_card text-white p-4'>
+            <div className='container-fluid project_card text-white p-4 mb-3'>
 
                 <div className="row">
 
