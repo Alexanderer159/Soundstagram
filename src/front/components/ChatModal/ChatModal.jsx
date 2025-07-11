@@ -56,38 +56,39 @@ const ChatModal = ({ otherUser }) => {
     };
 
     return (
-        <div className="chat-modal-container">
-            <div className="chat-modal-header">
-                <img src={otherUser.profile_pic_url} alt={otherUser.username} className="chat_modal_avatar" />
-                <span className="chat_modal_username">{otherUser.username}</span>
-            </div>
+    <>
+    <div className="container-fluid">
 
-            <div className="chat-modal-content">
-                <div className="chat-modal-body">
-                    {messages.map((m) => (
-                        <div
-                            key={m.id}
-                            className={`chat-message ${m.sender_id === currentUserId ? "sent" : "received"}`}
-                        >
-                            {m.content}
-                        </div>
-                    ))}
+        <p className="text-center fs-2">Chat</p>
+
+        <div className="chat-modal-container p-2 d-flex flex-column">
+
+                <div className="chat-modal-header d-flex flex-row align-items-center gap-3 pb-3 pt-1 px-1 fs-3 mb-2">
+
+                    <img src={otherUser.profile_pic_url} className="chat_modal_avatar" />
+
+                    <span className="chat_modal_username">{otherUser.username}</span>
+
                 </div>
-                <div className="chat-modal-footer">
-                    <textarea
-                        type="text"
-                        className="chat-input"
-                        value={newMessage}
-                        placeholder="Escribe un mensaje..."
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    />
-                    <button onClick={handleSend} className="send-btn">
-                        Enviar
-                    </button>
+
+                <div className="chat-modal-content">
+                    <div className="chat-modal-body mb-3">
+                        {messages.map((m) => (
+                            <div key={m.id} className={`chat-message ${m.sender_id === currentUserId ? "sent" : "received"}`}>
+                                {m.content}
+                            </div>))}
+                    </div>
+                    <div className="chat-modal-footer p-2">
+
+                        <textarea type="text" className="chat-input" value={newMessage} placeholder="Write a message..." onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSend()}/>
+                        
+                        <button onClick={handleSend} className="send-btn">Send</button>
+                    </div>
                 </div>
-            </div>
+            
         </div>
+    </div>
+    </>
     );
 };
 

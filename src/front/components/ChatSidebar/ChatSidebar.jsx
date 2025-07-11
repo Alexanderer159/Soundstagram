@@ -51,65 +51,56 @@ const ChatSidebar = () => {
     };
 
     return (
-        <div className="chat-sidebar">
-            <h5 className="mb-3 text-white">Usuarios</h5>
+<>
+        <div className="chat-sidebar text-white px-4 py-2">
 
-            {/* Lista de usuarios con los que ya tienes chats */}
-            <div className="mb-4 chat-active-users">
-                <p className=" small">Tus chats activos</p>
-                {chats.map((chat) => {
-                    const otherUserId = chat.user1_id === currentUserId ? chat.user2_id : chat.user1_id;
-                    const user = allUsers.find((u) => u.id === otherUserId);
+            <p className="text-white fs-1 text-center">Users</p>
+
+            <div className="chat-active-users mb-4 pb-3">
+
+                <p className="fs-5 text-center">Active Chats</p>
+
+                {chats.map((chat) => {const otherUserId = chat.user1_id === currentUserId ? chat.user2_id : chat.user1_id; const user = allUsers.find((u) => u.id === otherUserId);
                     if (!user) return null;
 
                     return (
-                        <div
-                            key={chat.id}
-                            className="d-flex align-items-center gap-2 mb-2 chat-user clickable"
-                            onClick={() => openChatWithUser(user)}
-                        >
-                            <img src={user.profile_pic_url} alt={user.username} className="chat_sidebar_profile_pic" />
+                        <div key={chat.id} className="d-flex align-items-center gap-3 mb-2 chat-user clickable cursor-pointer" onClick={() => openChatWithUser(user)} >
+                            
+                            <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+
                             <span className="text-white">{user.username}</span>
                         </div>
                     );
                 })}
             </div>
 
-            {/* Lista completa de usuarios */}
+            
             <div>
-                <p className="small">Todos los usuarios</p>
-                {allUsers
-                    .filter((user) => user.id !== currentUserId)
-                    .map((user) => {
-                        const isFollowing = followStore.following.some((f) => f.followed_id === user.id);
+                <p className="fs-4 text-center">All users</p>
+                {allUsers .filter((user) => user.id !== currentUserId) .map((user) => { const isFollowing = followStore.following.some((f) => f.followed_id === user.id);
 
                         return (
-                            <div key={user.id} className="d-flex flex-column align-items-start justify-content-around gap-3 mb-4 border-bottom pb-3">
-                                <div className="d-flex align-items-end gap-3">
-                                    <img src={user.profile_pic_url} alt={user.username} className="chat_sidebar_profile_pic" />
-                                    <span className="text-sm text-white">{user.username}</span>
+                            <div key={user.id} className="user-chat d-flex flex-column align-items-start gap-3 mb-4 pb-3">
+
+                                <div className="d-flex align-items-center gap-3">
+
+                                    <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+
+                                    <span className="text-white">{user.username}</span>
+
                                 </div>
-                                <div>
-                                    <Button
-                                        size="sm"
-                                        variant={isFollowing ? "danger" : "primary"}
-                                        onClick={() => handleFollowToggle(user)}
-                                        className="me-1"
-                                    >
-                                        {isFollowing ? "Unfollow" : "Follow"}
-                                    </Button>
-                                    <Button size="sm" variant="success" onClick={() => openChatWithUser(user)}>
-                                        Message
-                                    </Button>
+                                <div className="d-flex gap-2">
+                                    <button onClick={() => handleFollowToggle(user)} className={isFollowing ? "chat-btn-unfollow me-1" : "chat-btn-follow me-1"}> {isFollowing ? "Unfollow" : "Follow"} </button>
+                                    <button className="chat-btn-follow" onClick={() => openChatWithUser(user)}> Message</button>
                                 </div>
                             </div>
                         );
                     })}
             </div>
 
-            {/* Modal de chat si hay conversación activa */}
             {currentChat && <ChatModal otherUser={currentChat} />}
         </div>
+</>
     );
 };
 

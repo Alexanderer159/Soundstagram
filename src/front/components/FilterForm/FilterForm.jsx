@@ -79,73 +79,88 @@ const FilterForm = () => {
     };
 
     return (
-        <div className="filters_section">
-            <h3 className="text-sm font-bold mt-4">Filtrar por género:</h3>
-            <div className='filter_container'>
-                {genres.map(genre => (
-                    <label key={genre.id} className="filter_checkbox">
-                        <input
-                            type="checkbox"
-                            checked={selectedGenres.includes(genre.id)}
-                            onChange={() =>
-                                handleCheckboxChange(genre.id, selectedGenres, setSelectedGenres)
-                            }
-                        />
-                        {genre.name}
-                    </label>
-                ))}
+    <>
+        <div className="container-fluid">
+
+            <div className="row my-3">
+
+                <details className="dropdown_section">
+
+                    <summary className="fs-4">Filter by genre</summary>
+
+                    <div className="filter_container my-2">
+
+                        {genres.map(genre => (<label key={genre.id} className="filter_checkbox">
+
+                            <input hidden className="input-box-feed" type="checkbox" checked={selectedGenres.includes(genre.id)} onChange={() => handleCheckboxChange(genre.id, selectedGenres, setSelectedGenres)}/>
+                            <p className="inside-button p-0 m-0">{genre.name}</p>
+                        
+                        </label>))}
+
+                    </div>
+                </details>
+
+            </div>
+        
+            <div className="row my-3">
+
+                <details className="dropdown_section">
+
+                    <summary className="fs-4">Filter by roles</summary>
+
+                    <div className="filter_container my-2">
+
+                        {roles.map(role => (<label key={role.id} className="filter_checkbox">
+
+                        <input hidden className="input-box-feed" type="checkbox" checked={selectedRoles.includes(role.id)} onChange={() => handleCheckboxChange(role.id, selectedRoles, setSelectedRoles)} />
+
+                        <p className="inside-button p-0 m-0">{role.name}</p>
+
+                        </label>))}
+
+                    </div>
+                </details>
+
             </div>
 
-            <h3 className="text-sm font-bold mt-4">Filtrar por roles buscados:</h3>
-            <div className='filter_container'>
-                {roles.map(role => (
-                    <label key={role.id} className="filter_checkbox">
-                        <input
-                            type="checkbox"
-                            checked={selectedRoles.includes(role.id)}
-                            onChange={() =>
-                                handleCheckboxChange(role.id, selectedRoles, setSelectedRoles)
-                            }
-                        />
-                        {role.name}
-                    </label>
-                ))}
+            <div className="row my-3">
+
+                <details className="dropdown_section">
+
+                    <summary className="fs-4">Filter by instruments</summary>
+
+                    <div className="filter_container my-2">
+
+                    {instruments.map(inst => (<label key={inst.id} className="filter_checkbox">
+                        
+                        <input hidden className="input-box-feed" type="checkbox" checked={selectedInstruments.includes(inst.id)} onChange={() => handleCheckboxChange( inst.id, selectedInstruments, setSelectedInstruments) } />
+
+                        <p className="inside-button p-0 m-0">{inst.name}</p>
+
+                        </label>))}
+
+                    </div>
+                </details>
+
             </div>
 
-            <h3 className="text-sm font-bold mt-4">Filtrar por instrumentos buscados:</h3>
-            <div className='filter_container'>
-                {instruments.map(inst => (
-                    <label key={inst.id} className="filter_checkbox">
-                        <input
-                            type="checkbox"
-                            checked={selectedInstruments.includes(inst.id)}
-                            onChange={() =>
-                                handleCheckboxChange(inst.id, selectedInstruments, setSelectedInstruments)
-                            }
-                        />
-                        {inst.name}
-                    </label>
-                ))}
-            </div>
+            <label className="filter_checkbox my-3 w-100">
 
-            <label className="filter_checkbox mt-3">
-                <input
-                    type="checkbox"
-                    checked={onlyFollowed}
-                    onChange={() => setOnlyFollowed(!onlyFollowed)}
-                />
-                Solo mostrar proyectos de personas que sigues
+                <input hidden className="input-box-feed" type="checkbox" checked={onlyFollowed} onChange={() => setOnlyFollowed(!onlyFollowed)}/> 
+                <p className="inside-button p-0 m-0 people-follow text-center w-100">Show only projects of people you follow</p>
+                
             </label>
 
-            <div className="filter_buttons mt-4">
-                <button onClick={applyFilters} className="filter_btn apply">
-                    Aplicar filtros
-                </button>
-                <button onClick={resetFilters} className="filter_btn reset">
-                    Resetear filtros
-                </button>
+            <div className="filter_buttons d-flex justify-content-between my-3">
+
+                <button onClick={applyFilters} className="filter_btn apply">Apply filters</button>
+
+                <button onClick={resetFilters} className="filter_btn reset">Reset filters</button>
+
             </div>
+        
         </div>
+    </>
     );
 };
 
