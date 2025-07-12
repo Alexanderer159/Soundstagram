@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Tone from "tone";
+import { uploadTrackToCloudinary } from '../../services/cloudinaryService';
+import { useParams } from 'react-router-dom';
 
 export const Mixer = () => {
+    const { projectId } = useParams();
     const [tracks, setTracks] = useState([]);
     const [isGlobalPlaying, setIsGlobalPlaying] = useState(false);
     const [masterVolume, setMasterVolume] = useState(0.8);
@@ -11,6 +14,8 @@ export const Mixer = () => {
     const [bpm, setBpm] = useState(128);
     const [isInitialized, setIsInitialized] = useState(false);
     const [loadingTracks, setLoadingTracks] = useState([]);
+    const [mixUrl, setMixUrl] = useState(null);
+    const [isExporting, setIsExporting] = useState(false);
 
     const mediaRecorderRef = useRef(null);
     const streamRef = useRef(null);
@@ -103,6 +108,15 @@ export const Mixer = () => {
                 setTimeout(() => reject(new Error("Load timeout")), 10000);
             });
 
+            // Verificar duración del audio
+            let duration = 0;
+            if (player.buffer) {
+                duration = player.buffer.duration;
+                console.log(`📏 ${title} - Duración detectada: ${duration}s`);
+            } else {
+                console.warn(`⚠️ ${title} - No se pudo detectar duración`);
+            }
+
             // Crear efectos épicos
             const reverb = new Tone.Reverb({
                 decay: 6,
@@ -159,7 +173,7 @@ export const Mixer = () => {
                 effect: "none",
                 isPlaying: false,
                 isLoaded: true,
-                duration: player.buffer ? player.buffer.duration : 0,
+                duration: duration,
                 waveformData,
 
                 // Effects
@@ -176,7 +190,7 @@ export const Mixer = () => {
                 type: file.type
             };
 
-            console.log(`🎵 Track created: ${title}`);
+            console.log(`🎵 Track created: ${title} - Duración: ${duration}s - Tamaño: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
             return track;
 
         } catch (error) {
@@ -229,7 +243,9 @@ export const Mixer = () => {
             if (track.id !== trackId) return track;
 
             try {
-                // Desconectar todo
+                console.log(`🎛️ Applying ${effectType} to ${track.title}...`);
+
+                // Desconectar todo completamente
                 track.player.disconnect();
                 track.reverb.disconnect();
                 track.delay.disconnect();
@@ -238,36 +254,64 @@ export const Mixer = () => {
                 track.chorus.disconnect();
                 track.channel.disconnect();
 
-                // Reconectar según efecto
+                // Reconectar según efecto usando connect() individual
                 switch (effectType) {
                     case "reverb":
-                        track.player.chain(track.reverb, track.channel, masterDestination.current);
+                        track.player.connect(track.reverb);
+                        track.reverb.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Reverb connected: player → reverb → channel → master`);
                         break;
                     case "delay":
-                        track.player.chain(track.delay, track.channel, masterDestination.current);
+                        track.player.connect(track.delay);
+                        track.delay.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Delay connected: player → delay → channel → master`);
                         break;
                     case "distortion":
-                        track.player.chain(track.distortion, track.channel, masterDestination.current);
+                        track.player.connect(track.distortion);
+                        track.distortion.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Distortion connected: player → distortion → channel → master`);
                         break;
                     case "filter":
-                        track.player.chain(track.filter, track.channel, masterDestination.current);
+                        track.player.connect(track.filter);
+                        track.filter.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Filter connected: player → filter → channel → master`);
                         break;
                     case "chorus":
-                        track.player.chain(track.chorus, track.channel, masterDestination.current);
+                        track.player.connect(track.chorus);
+                        track.chorus.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Chorus connected: player → chorus → channel → master`);
                         break;
                     case "combo":
-                        track.player.chain(track.distortion, track.delay, track.reverb, track.channel, masterDestination.current);
+                        track.player.connect(track.distortion);
+                        track.distortion.connect(track.delay);
+                        track.delay.connect(track.reverb);
+                        track.reverb.connect(track.channel);
+                        track.channel.connect(masterDestination.current);
+                        console.log(`✅ Combo connected: player → distortion → delay → reverb → channel → master`);
                         break;
                     default:
                         track.player.connect(track.channel);
                         track.channel.connect(masterDestination.current);
+                        console.log(`✅ Clean connected: player → channel → master`);
                         break;
                 }
 
-                console.log(`🎛️ Applied ${effectType} to ${track.title}`);
+                console.log(`🎛️ Successfully applied ${effectType} to ${track.title}`);
                 return { ...track, effect: effectType };
             } catch (error) {
-                console.error("Effect error:", error);
+                console.error(`❌ Error applying ${effectType} to ${track.title}:`, error);
+                // En caso de error, reconectar sin efectos
+                try {
+                    track.player.connect(track.channel);
+                    track.channel.connect(masterDestination.current);
+                } catch (reconnectError) {
+                    console.error("❌ Failed to reconnect track:", reconnectError);
+                }
                 return track;
             }
         }));
@@ -403,13 +447,17 @@ export const Mixer = () => {
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true,
-                    sampleRate: 44100
+                    sampleRate: 44100,
+                    channelCount: 2
                 }
             });
 
             streamRef.current = stream;
+
+            // Configuración optimizada para grabaciones largas (3+ minutos)
             const recorder = new MediaRecorder(stream, {
-                mimeType: 'audio/webm;codecs=opus'
+                mimeType: 'audio/webm;codecs=opus',
+                audioBitsPerSecond: 128000 // 128kbps para mejor calidad
             });
 
             mediaRecorderRef.current = recorder;
@@ -418,12 +466,32 @@ export const Mixer = () => {
             recorder.ondataavailable = (e) => {
                 if (e.data.size > 0) {
                     recordedChunksRef.current.push(e.data);
+                    console.log(`📦 Chunk recibido: ${e.data.size} bytes`);
                 }
             };
 
             recorder.onstop = async () => {
+                console.log(`🎙️ Grabación terminada. Total chunks: ${recordedChunksRef.current.length}`);
+
+                // Verificar el tamaño total de todos los chunks
+                const totalSize = recordedChunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
+                console.log(`📊 Tamaño total de chunks: ${totalSize} bytes (${(totalSize / 1024 / 1024).toFixed(2)} MB)`);
+
                 const blob = new Blob(recordedChunksRef.current, { type: 'audio/webm' });
                 const file = new File([blob], `Recording_${Date.now()}.webm`, { type: 'audio/webm' });
+
+                console.log(`📁 Archivo de grabación creado: ${file.size} bytes (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+
+                // Intentar obtener la duración del archivo
+                try {
+                    const audioContext = new AudioContext();
+                    const arrayBuffer = await file.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    console.log(`⏱️ Duración detectada del archivo grabado: ${audioBuffer.duration}s`);
+                    audioContext.close();
+                } catch (error) {
+                    console.warn(`⚠️ No se pudo detectar la duración del archivo:`, error);
+                }
 
                 try {
                     const track = await createAudioTrack(file, `Recording ${tracks.length + 1}`, "Microphone");
@@ -435,8 +503,10 @@ export const Mixer = () => {
                 }
             };
 
-            recorder.start(100);
+            // Iniciar grabación sin parámetros para capturar toda la duración
+            recorder.start();
             setIsRecording(true);
+            console.log("🎙️ Grabación iniciada - capturando duración completa");
         } catch (error) {
             console.error("Recording error:", error);
             alert("❌ Could not access microphone");
@@ -456,6 +526,14 @@ export const Mixer = () => {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const calculateRecordingSize = (durationSeconds) => {
+        // Estimación: 128kbps = ~16KB por segundo
+        const bytesPerSecond = 16000;
+        const estimatedBytes = durationSeconds * bytesPerSecond;
+        const estimatedMB = estimatedBytes / 1024 / 1024;
+        return estimatedMB.toFixed(2);
     };
 
     const WaveformVisualizer = ({ track }) => {
@@ -492,6 +570,605 @@ export const Mixer = () => {
                 ))}
             </div>
         );
+    };
+
+    // Función para convertir audio a AudioBuffer válido
+    const getValidAudioBuffer = async (track) => {
+        try {
+            // Si ya tenemos un buffer válido, usarlo
+            if (track.player.buffer && track.player.buffer instanceof AudioBuffer) {
+                console.log(`📏 Usando buffer existente para ${track.title}: ${track.player.buffer.duration}s`);
+                return track.player.buffer;
+            }
+
+            // Si no, intentar crear uno desde la URL
+            if (track.url) {
+                console.log(`🔄 Decodificando audio desde URL para ${track.title}...`);
+                const response = await fetch(track.url);
+                const arrayBuffer = await response.arrayBuffer();
+                const audioContext = new AudioContext();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                audioContext.close();
+
+                console.log(`✅ Audio decodificado para ${track.title}: ${audioBuffer.duration}s`);
+                return audioBuffer;
+            }
+
+            throw new Error("No se puede obtener AudioBuffer válido");
+        } catch (error) {
+            console.error(`❌ Error obteniendo AudioBuffer para ${track.title}:`, error);
+            throw error;
+        }
+    };
+
+    // Función para aplicar efectos durante la exportación
+    const applyEffectToOfflineContext = (offlineCtx, source, track) => {
+        let lastNode = source;
+
+        // Aplicar efectos según el tipo
+        switch (track.effect) {
+            case "reverb":
+                const reverb = offlineCtx.createConvolver();
+                // Crear impulso de reverb simple
+                const reverbLength = offlineCtx.sampleRate * 2; // 2 segundos de reverb
+                const reverbBuffer = offlineCtx.createBuffer(2, reverbLength, offlineCtx.sampleRate);
+                for (let channel = 0; channel < 2; channel++) {
+                    const channelData = reverbBuffer.getChannelData(channel);
+                    for (let i = 0; i < reverbLength; i++) {
+                        channelData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (offlineCtx.sampleRate * 0.5));
+                    }
+                }
+                reverb.buffer = reverbBuffer;
+
+                const reverbGain = offlineCtx.createGain();
+                reverbGain.gain.value = 0.3; // Wet level
+
+                lastNode.connect(reverb);
+                reverb.connect(reverbGain);
+                reverbGain.connect(offlineCtx.destination);
+                break;
+
+            case "delay":
+                const delay = offlineCtx.createDelay(2.0);
+                delay.delayTime.value = 0.5; // 500ms delay
+
+                const delayGain = offlineCtx.createGain();
+                delayGain.gain.value = 0.5; // Feedback level
+
+                const delayOutput = offlineCtx.createGain();
+                delayOutput.gain.value = 0.3; // Wet level
+
+                lastNode.connect(delay);
+                delay.connect(delayGain);
+                delayGain.connect(delay);
+                delay.connect(delayOutput);
+                delayOutput.connect(offlineCtx.destination);
+                break;
+
+            case "distortion":
+                const distortion = offlineCtx.createWaveShaper();
+                const curve = new Float32Array(44100);
+                for (let i = 0; i < 44100; i++) {
+                    const x = (i * 2) / 44100 - 1;
+                    curve[i] = (Math.PI + x) * Math.tan(Math.PI * x) / (Math.PI + x * x);
+                }
+                distortion.curve = curve;
+                distortion.oversample = '4x';
+
+                const distortionGain = offlineCtx.createGain();
+                distortionGain.gain.value = 0.3; // Wet level
+
+                lastNode.connect(distortion);
+                distortion.connect(distortionGain);
+                distortionGain.connect(offlineCtx.destination);
+                break;
+
+            case "filter":
+                const filter = offlineCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 1000;
+                filter.Q.value = 1;
+
+                lastNode.connect(filter);
+                filter.connect(offlineCtx.destination);
+                break;
+
+            case "chorus":
+                const chorus = offlineCtx.createDelay(0.1);
+                chorus.delayTime.value = 0.02;
+
+                const lfo = offlineCtx.createOscillator();
+                lfo.frequency.value = 2;
+                const lfoGain = offlineCtx.createGain();
+                lfoGain.gain.value = 0.01;
+
+                lfo.connect(lfoGain);
+                lfoGain.connect(chorus.delayTime);
+                lfo.start();
+
+                const chorusGain = offlineCtx.createGain();
+                chorusGain.gain.value = 0.3; // Wet level
+
+                lastNode.connect(chorus);
+                chorus.connect(chorusGain);
+                chorusGain.connect(offlineCtx.destination);
+                break;
+
+            case "combo":
+                // Combinación de efectos: distortion + delay + reverb
+                const comboDistortion = offlineCtx.createWaveShaper();
+                const comboCurve = new Float32Array(44100);
+                for (let i = 0; i < 44100; i++) {
+                    const x = (i * 2) / 44100 - 1;
+                    comboCurve[i] = (Math.PI + x) * Math.tan(Math.PI * x) / (Math.PI + x * x);
+                }
+                comboDistortion.curve = comboCurve;
+                comboDistortion.oversample = '4x';
+
+                const comboDelay = offlineCtx.createDelay(2.0);
+                comboDelay.delayTime.value = 0.3;
+
+                const comboDelayGain = offlineCtx.createGain();
+                comboDelayGain.gain.value = 0.4;
+
+                const comboReverb = offlineCtx.createConvolver();
+                const comboReverbLength = offlineCtx.sampleRate * 1.5;
+                const comboReverbBuffer = offlineCtx.createBuffer(2, comboReverbLength, offlineCtx.sampleRate);
+                for (let channel = 0; channel < 2; channel++) {
+                    const channelData = comboReverbBuffer.getChannelData(channel);
+                    for (let i = 0; i < comboReverbLength; i++) {
+                        channelData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (offlineCtx.sampleRate * 0.3));
+                    }
+                }
+                comboReverb.buffer = comboReverbBuffer;
+
+                const comboGain = offlineCtx.createGain();
+                comboGain.gain.value = 0.2; // Wet level
+
+                lastNode.connect(comboDistortion);
+                comboDistortion.connect(comboDelay);
+                comboDelay.connect(comboDelayGain);
+                comboDelayGain.connect(comboDelay);
+                comboDelay.connect(comboReverb);
+                comboReverb.connect(comboGain);
+                comboGain.connect(offlineCtx.destination);
+                break;
+
+            default:
+                // Sin efectos, conectar directamente
+                lastNode.connect(offlineCtx.destination);
+                break;
+        }
+    };
+
+    // Función para exportar la duración completa garantizada
+    const exportFullDuration = async () => {
+        if (tracks.length === 0) {
+            alert("❌ No hay tracks para mezclar");
+            return;
+        }
+
+        setIsExporting(true);
+        try {
+            await initializeAudio();
+
+            // Verificar que todos los tracks estén cargados
+            const loadedTracks = tracks.filter(track => {
+                if (!track.player) {
+                    console.warn(`Track ${track.title} no tiene player`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (loadedTracks.length === 0) {
+                throw new Error("No hay tracks cargados para exportar");
+            }
+
+            console.log(`🎵 Exportando duración completa: ${loadedTracks.length} tracks...`);
+            loadedTracks.forEach((track, index) => {
+                console.log(`  ${index + 1}. ${track.title} - Duración: ${track.duration}s - Efecto: ${track.effect} - Volumen: ${track.volume}`);
+            });
+
+            // Validar que todos los tracks tengan duración válida
+            const validTracks = loadedTracks.filter(track => {
+                if (!track.duration || track.duration <= 0) {
+                    console.warn(`⚠️ Track ${track.title} no tiene duración válida: ${track.duration}`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (validTracks.length === 0) {
+                throw new Error("No hay tracks con duración válida para exportar");
+            }
+
+            console.log(`✅ ${validTracks.length} tracks válidos para exportar`);
+
+            // Crear contexto offline para renderizar la mezcla
+            const sampleRate = 44100;
+            const maxDuration = Math.max(...validTracks.map(t => t.duration || 0));
+            console.log(`📏 Duración máxima de la mezcla: ${maxDuration}s`);
+
+            // Asegurar que tenemos al menos 1 segundo de duración
+            const finalDuration = Math.max(maxDuration, 1);
+            console.log(`📏 Duración final del contexto: ${finalDuration}s`);
+
+            const offlineCtx = new OfflineAudioContext(2, sampleRate * finalDuration, sampleRate);
+
+            // Procesar cada track con sus efectos
+            for (const track of validTracks) {
+                try {
+                    console.log(`🎛️ Procesando track: ${track.title} con efecto: ${track.effect}`);
+
+                    // Obtener AudioBuffer válido
+                    const audioBuffer = await getValidAudioBuffer(track);
+
+                    if (!audioBuffer || audioBuffer.length === 0) {
+                        console.warn(`⚠️ Saltando track ${track.title} - buffer inválido`);
+                        continue;
+                    }
+
+                    console.log(`✅ Buffer válido para ${track.title}: ${audioBuffer.duration}s`);
+
+                    const source = offlineCtx.createBufferSource();
+                    source.buffer = audioBuffer;
+
+                    // Aplicar volumen y pan
+                    const gainNode = offlineCtx.createGain();
+                    gainNode.gain.value = track.volume * masterVolume;
+                    source.connect(gainNode);
+
+                    const pannerNode = offlineCtx.createStereoPanner();
+                    pannerNode.pan.value = track.pan;
+                    gainNode.connect(pannerNode);
+
+                    // Aplicar efectos según el tipo seleccionado
+                    applyEffectToOfflineContext(offlineCtx, pannerNode, track);
+
+                    // Iniciar el source en el tiempo 0 para que se reproduzca completo
+                    source.start(0);
+                    console.log(`✅ Track ${track.title} procesado exitosamente - Efecto: ${track.effect} - Volumen: ${track.volume * masterVolume} - Duración: ${audioBuffer.duration}s`);
+
+                } catch (trackError) {
+                    console.error(`❌ Error procesando track ${track.title}:`, trackError);
+                }
+            }
+
+            console.log("🎵 Renderizando mezcla con efectos...");
+            // Renderizar la mezcla
+            const renderedBuffer = await offlineCtx.startRendering();
+            console.log(`✅ Mezcla renderizada con efectos - Duración: ${renderedBuffer.duration}s`);
+
+            // Verificar que la duración sea correcta
+            if (renderedBuffer.duration < finalDuration * 0.9) {
+                console.warn(`⚠️ La duración renderizada (${renderedBuffer.duration}s) es menor que la esperada (${finalDuration}s)`);
+            } else {
+                console.log(`✅ Duración del archivo final correcta: ${renderedBuffer.duration}s`);
+            }
+
+            console.log("🎵 Codificando WebM con efectos...");
+
+            // Convertir a WebM usando MediaRecorder con configuración optimizada
+            const audioContext = new AudioContext();
+            const source = audioContext.createBufferSource();
+            source.buffer = renderedBuffer;
+            const destination = audioContext.createMediaStreamDestination();
+            source.connect(destination);
+
+            const mediaRecorder = new MediaRecorder(destination.stream, {
+                mimeType: 'audio/webm;codecs=opus',
+                audioBitsPerSecond: 128000 // 128kbps para mejor calidad
+            });
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    chunks.push(e.data);
+                    console.log(`📦 Chunk WebM recibido: ${e.data.size} bytes`);
+                }
+            };
+
+            mediaRecorder.onstop = async () => {
+                const webmBlob = new Blob(chunks, { type: 'audio/webm' });
+                console.log(`📁 Archivo WebM completo creado: ${webmBlob.size} bytes (${(webmBlob.size / 1024 / 1024).toFixed(2)} MB)`);
+                console.log(`⏱️ Duración final: ${renderedBuffer.duration}s`);
+
+                console.log("☁️ Subiendo a Cloudinary...");
+                // Subir a Cloudinary
+                const file = new File([webmBlob], `${projectName}_Mix.webm`, { type: 'audio/webm' });
+                const cloudinaryUrl = await uploadTrackToCloudinary(file);
+
+                console.log("💾 Guardando en backend...");
+                // Guardar en backend
+                await fetch('/api/projects/save-mix', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        projectId,
+                        mixUrl: cloudinaryUrl,
+                        projectName,
+                        bpm,
+                        trackCount: validTracks.length
+                    }),
+                });
+
+                setMixUrl(cloudinaryUrl);
+                console.log("✅ Export de duración completa con efectos completado y guardado");
+                alert("✅ Mezcla exportada y guardada exitosamente con efectos aplicados!");
+
+                audioContext.close();
+            };
+
+            source.start(0);
+            mediaRecorder.start();
+
+            // Detener después de la duración completa con margen
+            const stopTime = (renderedBuffer.duration + 1) * 1000; // +1 segundo de margen
+            console.log(`⏱️ Programando parada en: ${stopTime}ms para duración completa`);
+
+            setTimeout(() => {
+                console.log("🛑 Deteniendo MediaRecorder para duración completa...");
+                mediaRecorder.stop();
+                source.stop();
+            }, stopTime);
+
+        } catch (error) {
+            console.error("❌ Error en export de duración completa:", error);
+            alert("❌ Error en export de duración completa: " + error.message);
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
+    // Función para codificar audio como WAV (mantenida por compatibilidad pero no usada)
+    const encodeWAV = async (audioBuffer) => {
+        const sampleRate = audioBuffer.sampleRate;
+        const length = audioBuffer.length;
+        const numberOfChannels = audioBuffer.numberOfChannels;
+
+        const buffer = new ArrayBuffer(44 + length * numberOfChannels * 2);
+        const view = new DataView(buffer);
+
+        // WAV header
+        const writeString = (offset, string) => {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        };
+
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + length * numberOfChannels * 2, true);
+        writeString(8, 'WAVE');
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numberOfChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numberOfChannels * 2, true);
+        view.setUint16(32, numberOfChannels * 2, true);
+        view.setUint16(34, 16, true);
+        writeString(36, 'data');
+        view.setUint32(40, length * numberOfChannels * 2, true);
+
+        // Audio data
+        let offset = 44;
+        for (let i = 0; i < length; i++) {
+            for (let channel = 0; channel < numberOfChannels; channel++) {
+                const sample = Math.max(-1, Math.min(1, audioBuffer.getChannelData(channel)[i]));
+                view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                offset += 2;
+            }
+        }
+
+        return new Uint8Array(buffer);
+    };
+
+    // Función para descargar la mezcla
+    const downloadMix = async () => {
+        if (!mixUrl) {
+            alert("❌ No hay mezcla guardada para descargar");
+            return;
+        }
+
+        try {
+            console.log("📥 Iniciando descarga de mezcla...");
+            console.log("🔗 URL:", mixUrl);
+
+            const response = await fetch(mixUrl);
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            const blob = await response.blob();
+            console.log(`📁 Archivo descargado: ${blob.size} bytes (${(blob.size / 1024 / 1024).toFixed(2)} MB)`);
+
+            // Verificar la duración del archivo descargado
+            try {
+                const audioContext = new AudioContext();
+                const arrayBuffer = await blob.arrayBuffer();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                console.log(`⏱️ Duración del archivo descargado: ${audioBuffer.duration}s`);
+                audioContext.close();
+
+                if (audioBuffer.duration < 10) {
+                    console.warn("⚠️ El archivo descargado parece ser muy corto!");
+                }
+            } catch (error) {
+                console.warn("⚠️ No se pudo verificar la duración del archivo descargado:", error);
+            }
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${projectName}_Mix.webm`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            console.log("✅ Descarga completada");
+        } catch (error) {
+            console.error("❌ Error downloading mix:", error);
+            alert("❌ Error al descargar la mezcla: " + error.message);
+        }
+    };
+
+    // Función para exportar directamente (sin Cloudinary)
+    const directExport = async () => {
+        if (tracks.length === 0) {
+            alert("❌ No hay tracks para mezclar");
+            return;
+        }
+
+        try {
+            await initializeAudio();
+
+            // Verificar que todos los tracks estén cargados
+            const loadedTracks = tracks.filter(track => {
+                if (!track.player) {
+                    console.warn(`Track ${track.title} no tiene player`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (loadedTracks.length === 0) {
+                throw new Error("No hay tracks cargados para exportar");
+            }
+
+            console.log(`🎵 Exportando ${loadedTracks.length} tracks directamente...`);
+            loadedTracks.forEach((track, index) => {
+                console.log(`  ${index + 1}. ${track.title} - Duración: ${track.duration}s - Efecto: ${track.effect} - Volumen: ${track.volume}`);
+            });
+
+            // Validar que todos los tracks tengan duración válida
+            const validTracks = loadedTracks.filter(track => {
+                if (!track.duration || track.duration <= 0) {
+                    console.warn(`⚠️ Track ${track.title} no tiene duración válida: ${track.duration}`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (validTracks.length === 0) {
+                throw new Error("No hay tracks con duración válida para exportar");
+            }
+
+            console.log(`✅ ${validTracks.length} tracks válidos para exportar`);
+
+            // Crear contexto offline para renderizar la mezcla
+            const sampleRate = 44100;
+            const maxDuration = Math.max(...validTracks.map(t => t.duration || 0));
+            console.log(`📏 Duración máxima de la mezcla: ${maxDuration}s`);
+
+            // Asegurar que tenemos al menos 1 segundo de duración
+            const finalDuration = Math.max(maxDuration, 1);
+            console.log(`📏 Duración final del contexto: ${finalDuration}s`);
+
+            const offlineCtx = new OfflineAudioContext(2, sampleRate * finalDuration, sampleRate);
+
+            // Procesar cada track con sus efectos
+            for (const track of validTracks) {
+                try {
+                    console.log(`🎛️ Procesando track: ${track.title} con efecto: ${track.effect}`);
+
+                    // Obtener AudioBuffer válido
+                    const audioBuffer = await getValidAudioBuffer(track);
+
+                    if (!audioBuffer || audioBuffer.length === 0) {
+                        console.warn(`⚠️ Saltando track ${track.title} - buffer inválido`);
+                        continue;
+                    }
+
+                    console.log(`✅ Buffer válido para ${track.title}: ${audioBuffer.duration}s`);
+
+                    const source = offlineCtx.createBufferSource();
+                    source.buffer = audioBuffer;
+
+                    // Aplicar volumen y pan
+                    const gainNode = offlineCtx.createGain();
+                    gainNode.gain.value = track.volume * masterVolume;
+                    source.connect(gainNode);
+
+                    const pannerNode = offlineCtx.createStereoPanner();
+                    pannerNode.pan.value = track.pan;
+                    gainNode.connect(pannerNode);
+
+                    // Aplicar efectos según el tipo seleccionado
+                    applyEffectToOfflineContext(offlineCtx, pannerNode, track);
+
+                    // Iniciar el source en el tiempo 0 para que se reproduzca completo
+                    source.start(0);
+                    console.log(`✅ Track ${track.title} procesado exitosamente - Efecto: ${track.effect} - Volumen: ${track.volume * masterVolume} - Duración: ${audioBuffer.duration}s`);
+
+                } catch (trackError) {
+                    console.error(`❌ Error procesando track ${track.title}:`, trackError);
+                }
+            }
+
+            console.log("🎵 Renderizando mezcla con efectos...");
+            // Renderizar la mezcla
+            const renderedBuffer = await offlineCtx.startRendering();
+            console.log(`✅ Mezcla renderizada con efectos - Duración: ${renderedBuffer.duration}s`);
+
+            // Verificar que la duración sea correcta
+            if (renderedBuffer.duration < finalDuration * 0.9) {
+                console.warn(`⚠️ La duración renderizada (${renderedBuffer.duration}s) es menor que la esperada (${finalDuration}s)`);
+            } else {
+                console.log(`✅ Duración del archivo final correcta: ${renderedBuffer.duration}s`);
+            }
+
+            console.log("🎵 Codificando WebM con efectos...");
+
+            // Convertir a WebM usando MediaRecorder
+            const audioContext = new AudioContext();
+            const source = audioContext.createBufferSource();
+            source.buffer = renderedBuffer;
+            const destination = audioContext.createMediaStreamDestination();
+            source.connect(destination);
+
+            const mediaRecorder = new MediaRecorder(destination.stream, {
+                mimeType: 'audio/webm;codecs=opus'
+            });
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    chunks.push(e.data);
+                    console.log(`📦 Chunk WebM recibido: ${e.data.size} bytes`);
+                }
+            };
+
+            mediaRecorder.onstop = async () => {
+                const webmBlob = new Blob(chunks, { type: 'audio/webm' });
+                console.log(`📁 Archivo WebM creado: ${webmBlob.size} bytes (${(webmBlob.size / 1024 / 1024).toFixed(2)} MB)`);
+
+                // Descargar directamente sin subir a Cloudinary
+                const url = URL.createObjectURL(webmBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${projectName}_Direct_Mix.webm`;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                console.log("✅ Export directo completado - archivo descargado localmente");
+                alert("✅ Export directo completado - revisa el archivo descargado");
+
+                audioContext.close();
+            };
+
+            source.start(0);
+            mediaRecorder.start();
+
+            // Detener después de la duración completa
+            setTimeout(() => {
+                mediaRecorder.stop();
+                source.stop();
+            }, renderedBuffer.duration * 1000);
+
+        } catch (error) {
+            console.error("❌ Error en export directo:", error);
+            alert("❌ Error en export directo: " + error.message);
+        }
     };
 
     return (
@@ -814,6 +1491,44 @@ export const Mixer = () => {
                     </div>
                 </div>
 
+                {/* Export Controls */}
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '20px',
+                    marginBottom: '20px',
+                    flexWrap: 'wrap'
+                }}>
+                    <button
+                        onClick={exportFullDuration}
+                        disabled={isExporting || tracks.length === 0}
+                        className="mixer-btn"
+                        style={{
+                            padding: '15px 30px',
+                            fontSize: '16px',
+                            opacity: isExporting || tracks.length === 0 ? 0.5 : 1,
+                            cursor: isExporting || tracks.length === 0 ? 'not-allowed' : 'pointer',
+                            background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(147, 51, 234, 0.2))',
+                            borderColor: '#a855f7'
+                        }}
+                    >
+                        {isExporting ? '🔄 EXPORTING...' : '💾 EXPORT & SAVE MIX (Full Duration)'}
+                    </button>
+
+                    {mixUrl && (
+                        <button
+                            onClick={downloadMix}
+                            className="mixer-btn"
+                            style={{
+                                padding: '15px 30px',
+                                fontSize: '16px'
+                            }}
+                        >
+                            📥 DOWNLOAD MIX
+                        </button>
+                    )}
+                </div>
+
                 {/* Status System */}
                 <div style={{
                     display: 'inline-flex',
@@ -840,6 +1555,11 @@ export const Mixer = () => {
                     <span style={{ color: 'var(--accent)', fontWeight: 'bold' }}>
                         {tracks.length} TRACKS LOADED
                     </span>
+                    {mixUrl && (
+                        <span style={{ color: '#22c55e', fontWeight: 'bold' }}>
+                            ✅ MIX SAVED
+                        </span>
+                    )}
                 </div>
             </div>
 
@@ -896,42 +1616,59 @@ export const Mixer = () => {
                 </button>
 
                 {/* Recording */}
-                {!isRecording ? (
-                    <button
-                        onClick={startRecording}
-                        className="mixer-btn-red"
-                        style={{
-                            width: '70px',
-                            height: '70px',
-                            borderRadius: '50%',
-                            fontSize: '28px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        🎙️
-                    </button>
-                ) : (
-                    <button
-                        onClick={stopRecording}
-                        className="mixer-btn-red record-pulse"
-                        style={{
-                            padding: '15px 25px',
-                            borderRadius: '15px',
-                            fontSize: '16px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '5px'
-                        }}
-                    >
-                        <div>🔴 REC</div>
-                        <div style={{ fontSize: '14px', fontFamily: 'monospace' }}>
-                            {formatTime(recordingTime)}
-                        </div>
-                    </button>
-                )}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                    {!isRecording ? (
+                        <button
+                            onClick={startRecording}
+                            className="mixer-btn-red"
+                            style={{
+                                width: '70px',
+                                height: '70px',
+                                borderRadius: '50%',
+                                fontSize: '28px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            🎙️
+                        </button>
+                    ) : (
+                        <button
+                            onClick={stopRecording}
+                            className="mixer-btn-red record-pulse"
+                            style={{
+                                padding: '15px 25px',
+                                borderRadius: '15px',
+                                fontSize: '16px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '5px',
+                                minWidth: '120px'
+                            }}
+                        >
+                            <div>🔴 REC</div>
+                            <div style={{ fontSize: '14px', fontFamily: 'monospace' }}>
+                                {formatTime(recordingTime)}
+                            </div>
+                            <div style={{ fontSize: '10px', opacity: 0.8 }}>
+                                ~{calculateRecordingSize(recordingTime)} MB
+                            </div>
+                        </button>
+                    )}
+
+                    {/* Recording Info */}
+                    <div style={{
+                        fontSize: '10px',
+                        color: 'var(--accent)',
+                        textAlign: 'center',
+                        opacity: 0.8,
+                        maxWidth: '100px'
+                    }}>
+                        {!isRecording ? 'Optimized for 3+ min' : 'Recording...'}
+                    </div>
+                </div>
 
                 {/* Upload */}
                 <label className="mixer-btn" style={{
@@ -1076,21 +1813,6 @@ export const Mixer = () => {
                                         </div>
 
                                         <div className={`status-indicator ${track.isPlaying ? 'playing' : 'stopped'}`} />
-
-                                        <button
-                                            onClick={() => removeTrack(track.id)}
-                                            className="mixer-btn-red"
-                                            style={{
-                                                width: '40px',
-                                                height: '40px',
-                                                fontSize: '16px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}
-                                        >
-                                            🗑️
-                                        </button>
                                     </div>
                                 </div>
 
@@ -1102,94 +1824,10 @@ export const Mixer = () => {
                                 {/* Controls Grid */}
                                 <div style={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'auto 1fr 1fr 1fr auto',
+                                    gridTemplateColumns: '1fr 1fr auto',
                                     gap: '20px',
                                     alignItems: 'center'
                                 }}>
-                                    {/* Play Button */}
-                                    <button
-                                        onClick={() => togglePlayTrack(track.id)}
-                                        className={track.isPlaying ? "mixer-btn-red" : "mixer-btn"}
-                                        style={{
-                                            width: '60px',
-                                            height: '60px',
-                                            borderRadius: '50%',
-                                            fontSize: '24px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}
-                                    >
-                                        {track.isPlaying ? '⏸️' : '▶️'}
-                                    </button>
-
-                                    {/* Volume Control */}
-                                    <div>
-                                        <label style={{
-                                            display: 'block',
-                                            color: 'var(--accent)',
-                                            fontWeight: 'bold',
-                                            fontSize: '12px',
-                                            marginBottom: '8px',
-                                            textTransform: 'uppercase'
-                                        }}>
-                                            Volume
-                                        </label>
-                                        <input
-                                            type="range"
-                                            min="0"
-                                            max="1"
-                                            step="0.01"
-                                            value={track.volume}
-                                            onChange={(e) => updateTrackVolume(track.id, Number(e.target.value))}
-                                            className="mixer-range"
-                                            style={{ width: '100%' }}
-                                        />
-                                        <div style={{
-                                            textAlign: 'center',
-                                            color: 'var(--color-3)',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            marginTop: '5px'
-                                        }}>
-                                            {Math.round(track.volume * 100)}%
-                                        </div>
-                                    </div>
-
-                                    {/* Pan Control */}
-                                    <div>
-                                        <label style={{
-                                            display: 'block',
-                                            color: 'var(--accent)',
-                                            fontWeight: 'bold',
-                                            fontSize: '12px',
-                                            marginBottom: '8px',
-                                            textTransform: 'uppercase'
-                                        }}>
-                                            Pan
-                                        </label>
-                                        <input
-                                            type="range"
-                                            min="-1"
-                                            max="1"
-                                            step="0.01"
-                                            value={track.pan}
-                                            onChange={(e) => updateTrackPan(track.id, Number(e.target.value))}
-                                            className="mixer-range"
-                                            style={{ width: '100%' }}
-                                        />
-                                        <div style={{
-                                            textAlign: 'center',
-                                            color: 'var(--color-3)',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            marginTop: '5px'
-                                        }}>
-                                            {track.pan < 0 ? `L${Math.abs(Math.round(track.pan * 100))}` :
-                                                track.pan > 0 ? `R${Math.round(track.pan * 100)}` : 'CENTER'}
-                                        </div>
-                                    </div>
-
                                     {/* Effects */}
                                     <div>
                                         <label style={{
@@ -1247,6 +1885,22 @@ export const Mixer = () => {
                                             {track.solo ? 'SOLO' : 'SOLO'}
                                         </button>
                                     </div>
+
+                                    {/* Remove Button */}
+                                    <button
+                                        onClick={() => removeTrack(track.id)}
+                                        className="mixer-btn-red"
+                                        style={{
+                                            width: '40px',
+                                            height: '40px',
+                                            fontSize: '16px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
+                                    >
+                                        🗑️
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -1278,757 +1932,5 @@ export const Mixer = () => {
         </div>
     );
 };
- 
-// import React, { useState, useEffect, useRef } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import WaveSurfer from "wavesurfer.js";
-// import { Box, Button, Typography, Slider, Stack, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
-// import UploadIcon from "@mui/icons-material/Upload";
-// import SendIcon from "@mui/icons-material/Send";
-// import "./mixer.css"
-// import "../../styles/index.css"
-// import * as Tone from "tone";
-// import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-// import PauseIcon from "@mui/icons-material/Pause";
-// import StopIcon from "@mui/icons-material/Stop";
-// import MicIcon from "@mui/icons-material/Mic";
-// import RegionsPlugin from "wavesurfer.js/dist/plugins/regions";
-// import EnvelopePlugin from 'wavesurfer.js/dist/plugins/envelope.js';
-// import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
-// import DownloadIcon from '@mui/icons-material/Download';
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import TuneIcon from '@mui/icons-material/Tune';
-// import WavEncoder from "wav-encoder";
-// import "../../styles/upload_play.css"
-
-// const currentUser = "Test User";
-
-// export const Mixer = () => {
-
-//     const [projectTags, setProjectTags] = useState("");
-//     const [projectDescription, setProjectDescription] = useState("");
-//     const [keySignature, setKeySignature] = useState("C");
-//     const [timeSignature, setTimeSignature] = useState("4/4");
-//     const [bpm, setBpm] = useState(120);
-//     const [zoomLevel, setZoomLevel] = useState(0);
-//     const [tracks, setTracks] = useState([]);
-//     const [modalOpen, setModalOpen] = useState(false);
-//     const [newTrackData, setNewTrackData] = useState({ title: "", instrument: "", file: null, });
-//     const waveformRefs = useRef({});
-//     const wavesurferRefs = useRef({});
-
-//     const [mediaRecorder, setMediaRecorder] = useState(null);
-//     const recordedChunksRef = useRef([]);
-//     const streamRef = useRef(null);
-//     const [players, setPlayers] = useState([]);
-//     const [isPlaying, setIsPlaying] = useState(false);
-//     const [isRecording, setIsRecording] = useState(false);
-//     const [micTrackName, setMicTrackName] = useState("Mic Recording");
-//     const [micInstrument, setMicInstrument] = useState("Voice");
-//     const [micTrackDescription, setMicTrackDescription] = useState("");
-
-//     // 1. Agregar un ref para el MediaRecorder
-//     const mediaRecorderRef = useRef(null);
-
-
-//     const navigate = useNavigate();
-
-//     useEffect(() => {
-//         const stored = sessionStorage.getItem("mixerTracks");
-//         if (stored) {
-//             const parsed = JSON.parse(stored);
-//             const loadedPlayers = parsed.map((track) => {
-//                 const newTrack = {
-//                     id: crypto.randomUUID(),
-//                     player: new Tone.Player({ url: track.url }),
-//                     title: track.title,
-//                     instrument: track.instrument,
-//                     volume: track.volume || 1,
-//                     pan: 0,
-//                     url: track.url,
-//                     channel: new Tone.Channel({ volume: Tone.gainToDb(track.volume || 1) }),
-//                     panner: new Tone.Panner(0),
-//                     reverb: new Tone.Reverb({ decay: 2 }),
-//                     delay: new Tone.FeedbackDelay("8n", 0.5),
-//                     distortion: new Tone.Distortion(0.4),
-//                     effect: "none"
-//                 };
-
-//                 // Connect the new track to the audio chain
-//                 newTrack.player.connect(newTrack.channel);
-//                 newTrack.channel.connect(newTrack.panner);
-//                 newTrack.panner.toDestination();
-
-//                 return newTrack;
-//             });
-//             setPlayers(loadedPlayers);
-//         }
-//     }, []);
-
-//     useEffect(() => {
-//         players.forEach((track) => {
-//             if (!wavesurferRefs.current[track.id] && waveformRefs.current[track.id]) {
-//                 const ws = WaveSurfer.create({
-//                     container: waveformRefs.current[track.id],
-//                     url: track.url,
-//                     barWidth: 4,
-//                     barRadius: 4,
-//                     height: 80,
-//                     waveColor: "#3BC9DB",
-//                     progressColor: "#1098AD",
-//                     cursorColor: "#FFF",
-//                     plugins: [
-//                         RegionsPlugin.create({ dragSelection: false }),
-//                         EnvelopePlugin.create({ volume: 0.8 }),
-//                         Hover.create({})
-//                     ]
-//                 });
-//                 wavesurferRefs.current[track.id] = ws;
-//             }
-//         });
-//         return () => {
-//             Object.values(wavesurferRefs.current).forEach((ws) => ws.destroy());
-//             wavesurferRefs.current = {};
-//         }
-//     }, [players]);
-
-//     const handleStart = async () => {
-//         await Tone.start();
-//         Tone.Transport.cancel();
-//         players.forEach((track) => track.player.sync().start(0));
-//         Tone.Transport.start();
-//         setIsPlaying(true);
-//     };
-
-//     const handlePause = () => {
-//         Tone.Transport.pause();
-//         setIsPlaying(false);
-//     };
-
-//     const handleStop = () => {
-//         Tone.Transport.stop();
-//         Tone.Transport.cancel();
-//         setIsPlaying(false);
-//     };
-
-//     const handleVolumeChange = (index, value) => {
-//         const newPlayers = [...players];
-//         newPlayers[index].volume = value;
-//         newPlayers[index].channel.volume.value = Tone.gainToDb(value);
-//         setPlayers(newPlayers);
-//     };
-
-//     const handlePanChange = (index, value) => {
-//         const updatedPlayers = [...players];
-//         const track = updatedPlayers[index];
-//         if (!track) return;
-
-//         // Update pan value
-//         track.pan = value;
-//         track.panner.pan.value = value;
-
-//         console.log(`Pan updated for track: ${track.title}, value: ${value}`);
-
-//         setPlayers(updatedPlayers);
-//     };
-
-//     const handleEffectChange = (index, effect) => {
-//         const updatedPlayers = [...players];
-//         const track = updatedPlayers[index];
-//         if (!track) return;
-
-//         console.log(`Applying effect: ${effect} to track: ${track.title}`);
-
-//         // Disconnect all effects
-//         track.player.disconnect();
-//         track.reverb.disconnect();
-//         track.delay.disconnect();
-//         track.distortion.disconnect();
-
-//         // Connect the selected effect
-//         if (effect === "reverb") {
-//             track.player.connect(track.reverb);
-//             track.reverb.connect(track.channel);
-//         } else if (effect === "delay") {
-//             track.player.connect(track.delay);
-//             track.delay.connect(track.channel);
-//         } else if (effect === "distortion") {
-//             track.player.connect(track.distortion);
-//             track.distortion.connect(track.channel);
-//         } else {
-//             // Default connection (no effect)
-//             track.player.connect(track.channel);
-//         }
-
-//         console.log(`Effect applied: ${effect}`);
-//         track.effect = effect;
-//         setPlayers(updatedPlayers);
-//     };
-
-
-//     const startMicRecording = async () => {
-//         try {
-//             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-//             streamRef.current = stream;
-//             const recorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
-//             mediaRecorderRef.current = recorder;
-//             recordedChunksRef.current = [];
-//             recorder.ondataavailable = (e) => recordedChunksRef.current.push(e.data);
-//             recorder.onstop = () => {
-//                 const blob = new Blob(recordedChunksRef.current, { type: "audio/webm" });
-//                 const url = URL.createObjectURL(blob);
-
-//                 const newTrack = {
-//                     id: crypto.randomUUID(),
-//                     player: new Tone.Player({ url }),
-//                     title: micTrackName,
-//                     instrument: micInstrument,
-//                     description: micTrackDescription,
-//                     volume: 1,
-//                     pan: 0,
-//                     url,
-//                     channel: new Tone.Channel({ volume: Tone.gainToDb(1) }),
-//                     panner: new Tone.Panner(0),
-//                     reverb: new Tone.Reverb({ decay: 2 }),
-//                     delay: new Tone.FeedbackDelay("8n", 0.5),
-//                     distortion: new Tone.Distortion(0.4),
-//                     effect: "none"
-//                 };
-
-
-//                 // Conecta el nuevo track a la cadena de audio
-//                 newTrack.player.connect(newTrack.channel);
-//                 newTrack.channel.connect(newTrack.panner);
-//                 newTrack.panner.toDestination();
-
-//                 setPlayers((prev) => [...prev, newTrack]);
-//                 setTracks((prev) => [...prev, newTrack]);
-//                 alert("Recording added to the mixer!");
-//             };
-//             recorder.start();
-//             setIsRecording(true);
-//         } catch (err) {
-//             console.error("Mic error:", err);
-//         }
-//     };
-
-//     const stopMicRecording = () => {
-//         if (!streamRef.current || !mediaRecorderRef.current) return;
-
-//         // Detener el MediaRecorder (esto disparará onstop y agregará el track)
-//         mediaRecorderRef.current.stop();
-
-//         // Detener el stream
-//         streamRef.current.getTracks().forEach((track) => track.stop());
-//         streamRef.current = null;
-//         setIsRecording(false);
-//     };
-
-//     const openModal = () => setModalOpen(true);
-
-//     const closeModal = () => {
-//         setModalOpen(false);
-//         setNewTrackData({ title: "", instrument: "", file: null });
-//     };
-
-//     const handleFileInput = (e) => {
-//         const file = e.target.files[0];
-//         if (file) {
-//             setNewTrackData((prev) => ({
-//                 ...prev,
-//                 file,
-//             }));
-//         }
-//     };
-
-//     const handleTrackSubmit = () => {
-//         const { file, title, instrument } = newTrackData;
-//         if (!file || !title.trim()) {
-//             alert("Please provide a file and a title.");
-//             return;
-//         }
-
-//         const id = crypto.randomUUID();
-//         const url = URL.createObjectURL(file);
-
-//         const newTrack = {
-//             id,
-//             player: new Tone.Player({ url }),
-//             title,
-//             instrument,
-//             volume: 1,
-//             pan: 0,
-//             url,
-//             channel: new Tone.Channel({ volume: Tone.gainToDb(1) }),
-//             panner: new Tone.Panner(0),
-//             reverb: new Tone.Reverb({ decay: 2 }),
-//             delay: new Tone.FeedbackDelay("8n", 0.5),
-//             distortion: new Tone.Distortion(0.4),
-//             effect: "none"
-//         };
-
-//         // Connect the new track to the audio chain
-//         newTrack.player.connect(newTrack.channel);
-//         newTrack.channel.connect(newTrack.panner);
-//         newTrack.panner.toDestination();
-
-//         setTracks((prev) => [...prev, newTrack]);
-//         setPlayers((prev) => [...prev, newTrack]);
-//         closeModal();
-//     };
-
-//     //Opciones de wavesurfer, si quieren toquenlas a ver que sacan
-//     useEffect(() => {
-//         tracks.forEach((track) => {
-//             if (!wavesurferRefs.current[track.id] && waveformRefs.current[track.id]) {
-//                 const ws = WaveSurfer.create({
-//                     container: waveformRefs.current[track.id],
-//                     url: track.url,
-//                     autoCenter: true,
-//                     autoScroll: true,
-//                     minPxPerSec: zoomLevel,
-//                     barWidth: 4,
-//                     interact: true,
-//                     dragToSeek: true,
-//                     hideScrollbar: true,
-//                     barRadius: 7,
-//                     waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
-//                     progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
-//                     normalize: true,
-//                     cursorWidth: 6,
-//                     cursorColor: 'white',
-//                     trackBackground: 'transparent',
-//                     trackBorderColor: 'white',
-//                     dragBounds: false,
-//                     plugins: [
-//                         RegionsPlugin.create({
-//                             dragSelection: false
-//                         }),
-//                         EnvelopePlugin.create({
-//                             volume: 0.8,
-//                             dragLine: true,
-//                             lineColor: 'white',
-//                             lineWidth: 2,
-//                             dragPointSize: 5,
-//                             dragPointFill: 'rgb(255, 255, 255)',
-//                             points: [
-//                                 { time: 1, volume: 0.9 }],
-//                         }),
-//                         Hover.create({
-//                             lineColor: 'white',
-//                             lineWidth: 3,
-//                             labelBackground: 'rgba(39, 39, 39, 0.8)',
-//                             labelColor: 'white',
-//                             labelSize: '13px',
-//                             labelPreferLeft: false,
-//                         })
-//                     ],
-//                 });
-//                 wavesurferRefs.current[track.id] = ws;
-
-//             }
-//         });
-
-//         return () => {
-//             Object.values(wavesurferRefs.current).forEach((ws) => ws.destroy());
-//             wavesurferRefs.current = {};
-//         };
-//     }, [tracks]);
-
-
-
-//     //controles para TODOS LOS TRACKS
-//     const handlePlayPauseAll = () => {
-//         Object.values(wavesurferRefs.current).forEach((ws) => ws.playPause());
-//     };
-
-//     const handleSkipForwardsAll = () => {
-//         Object.values(wavesurferRefs.current).forEach((ws) => ws.skip(5));
-//     };
-
-//     const handleSkipBackwardsAll = () => {
-//         Object.values(wavesurferRefs.current).forEach((ws) => ws.skip(-5));
-//     };
-
-
-//     const handlePlayPause = (id) => {
-//         const ws = wavesurferRefs.current[id];
-//         if (ws) ws.playPause();
-//     };
-
-//     const handleSkipForwards = (id) => {
-//         const ws = wavesurferRefs.current[id];
-//         if (ws) ws.skip(5);
-//     };
-
-//     const handleSkipBackwards = (id) => {
-//         const ws = wavesurferRefs.current[id];
-//         if (ws) ws.skip(-5);
-//     };
-
-//     const handleRemoveTrack = (id) => {
-//         if (wavesurferRefs.current[id]) {
-//             wavesurferRefs.current[id].destroy();
-//             delete wavesurferRefs.current[id];
-//         }
-//         setTracks((prev) => prev.filter((track) => track.id !== id));
-//     };
-
-//     useEffect(() => {
-//         Object.values(wavesurferRefs.current).forEach((ws) => {
-//             ws.zoom(zoomLevel);
-//         });
-//     }, [zoomLevel]);
-
-//     const handleZoomChange = (e, value) => {
-//         setZoomLevel(value);
-//     };
-
-
-//     const handlePost = () => {
-//         console.log({
-//             tags: projectTags,
-//             description: projectDescription,
-//             keySignature,
-//             timeSignature,
-//             bpm,
-//             tracks: tracks.map(({ title, instrument, user, name }) => ({
-//                 title, instrument, user, originalFilename: name
-//             })
-//             )
-//         });
-//         alert("Publish is WIP");
-//     };
-
-//     const handleGoToMixer = () => {
-//         const tracksToSave = tracks.map(t => ({
-//             url: t.url,
-//             title: t.title,
-//             instrument: t.instrument,
-//             startTime: t.startTime || 0,
-//             volume: t.volume || 1,
-//         }));
-//         sessionStorage.setItem("mixerTracks", JSON.stringify(tracksToSave));
-//         navigate("/mixer");
-//     };
-
-//     const handleExportMix = async () => {
-//         if (tracks.length === 0) {
-//             alert("No tracks to download yet");
-//             return;
-//         }
-
-//         const buffers = [];
-
-//         // Paso 1: Cargar y decodificar cada pista
-//         for (const track of tracks) {
-//             const response = await fetch(track.url);
-//             const arrayBuffer = await response.arrayBuffer();
-//             const tempCtx = new AudioContext();
-//             const decodedBuffer = await tempCtx.decodeAudioData(arrayBuffer);
-//             buffers.push({ buffer: decodedBuffer, startTime: track.startTime || 0, volume: track.volume || 1, });
-//             tempCtx.close();
-//         }
-
-//         // Paso 2: Calcular duración total
-//         const sampleRate = 44100;
-//         const endTimes = buffers.map(({ buffer, startTime }) => startTime + buffer.duration);
-//         const lengthInSeconds = Math.max(...endTimes);
-
-//         // Paso 3: Crear contexto offline y mezclar
-//         const offlineCtx = new OfflineAudioContext(2, sampleRate * lengthInSeconds, sampleRate);
-
-//         buffers.forEach(({ buffer, startTime, volume }) => {
-//             const source = offlineCtx.createBufferSource();
-//             source.buffer = buffer;
-
-//             const gain = offlineCtx.createGain();
-//             gain.gain.value = volume;
-
-//             source.connect(gain).connect(offlineCtx.destination);
-//             source.start(startTime);
-//         });
-
-//         const renderedBuffer = await offlineCtx.startRendering();
-
-//         // Paso 4: Exportar como WAV
-//         const wavData = await WavEncoder.encode({
-//             sampleRate: renderedBuffer.sampleRate,
-//             channelData: [
-//                 renderedBuffer.getChannelData(0),
-//                 renderedBuffer.numberOfChannels > 1
-//                     ? renderedBuffer.getChannelData(1)
-//                     : renderedBuffer.getChannelData(0)
-//             ]
-//         });
-
-//         const blob = new Blob([wavData], { type: "audio/wav" });
-//         const url = URL.createObjectURL(blob);
-
-//         const a = document.createElement("a");
-//         a.href = url;
-//         a.download = "Mix.wav";
-//         a.click();
-//     };
-
-
-
-//     useEffect(() => {
-//         const stored = sessionStorage.getItem("mixerTracks");
-//         if (stored) {
-//             const parsed = JSON.parse(stored);
-//             const loadedPlayers = parsed.map((track) => {
-//                 const reverb = new Tone.Reverb({ decay: 2 }).toDestination();
-//                 const delay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
-//                 const distortion = new Tone.Distortion(0.4).toDestination();
-//                 const panner = new Tone.Panner(0).toDestination();
-
-//                 const channel = new Tone.Channel({ volume: Tone.gainToDb(track.volume || 1) }).connect(panner);
-
-//                 const player = new Tone.Player({
-//                     url: track.url,
-//                     autostart: false,
-//                 });
-
-//                 player.connect(channel);
-
-//                 return {
-//                     player,
-//                     title: track.title,
-//                     instrument: track.instrument,
-//                     volume: track.volume || 1,
-//                     pan: 0,
-//                     channel,
-//                     panner,
-//                     reverb,
-//                     delay,
-//                     distortion,
-//                     effect: "none"
-//                 };
-//             });
-//             setPlayers(loadedPlayers);
-//         }
-//     }, []);
-
-
-
-//     // const stopMicRecording = () => {
-//     //     if (!mediaRecorder) return;
-
-//     //     mediaRecorder.onstop = () => {
-//     //         const blob = new Blob(recordedChunksRef.current, { type: "audio/webm" });
-//     //         const url = URL.createObjectURL(blob);
-
-//     //         const newTrack = {
-//     //             player: new Tone.Player({ url }).toDestination(),
-//     //             title: micTrackName,
-//     //             instrument: micInstrument,
-//     //             volume: 1,
-//     //             pan: 0,
-//     //             channel: new Tone.Channel({ volume: Tone.gainToDb(1) }).toDestination(),
-//     //             panner: new Tone.Panner(0).toDestination(),
-//     //             reverb: new Tone.Reverb({ decay: 2 }).toDestination(),
-//     //             delay: new Tone.FeedbackDelay("8n", 0.5).toDestination(),
-//     //             distortion: new Tone.Distortion(0.4).toDestination(),
-//     //             effect: "none"
-//     //         };
-
-//     //         newTrack.player.connect(newTrack.channel.connect(newTrack.panner));
-//     //         setPlayers(prev => [...prev, newTrack]);
-//     //         alert("Grabación finalizada y añadida al mixer.");
-
-//     //         streamRef.current.getTracks().forEach(track => track.stop());
-//     //         setIsRecording(false);
-//     //     };
-
-//     //     mediaRecorder.stop();
-//     // };
-
-//     return (
-//         <div className="container-fluid mb-5">
-//             <div className="row">
-//                 <p className="uppy text-center">Project Maker</p>
-//             </div>
-
-//             <div className="row all-info m-2 p-4">
-//                 <div className="col-2 buttons d-flex flex-column">
-//                     <div className="d-flex justify-content-between">
-//                         <div>
-//                             <label className="controls-uppy-text text-white">Key</label>
-//                             <select className="controls-uppy ps-3" value={keySignature} onChange={e => setKeySignature(e.target.value)}>
-//                                 {["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"].map(k => <option key={k} value={k}>{k}</option>)}
-//                             </select>
-//                         </div>
-//                         <div>
-//                             <label className="controls-uppy-text text-white">Compass</label>
-//                             <select className="controls-uppy ps-3" value={timeSignature} onChange={e => setTimeSignature(e.target.value)}>
-//                                 {["4/4", "3/4", "2/4", "6/8", "5/4"].map(ts => <option key={ts} value={ts}>{ts}</option>)}
-//                             </select>
-//                         </div>
-//                     </div>
-//                     <div>
-//                         <label className="controls-uppy-text text-white">BPM</label>
-//                         <input className="controls-uppy ps-3" type="number" value={bpm} onChange={e => setBpm(Number(e.target.value))} min={40} max={240} />
-//                     </div>
-//                 </div>
-
-//                 <div className="col d-flex flex-column">
-//                     <label className="controls-uppy-text text-white fs-5">Details</label>
-//                     <div className="text-uppy gap-3 d-flex flex-column">
-//                         <div className="top-text-uppy d-flex flex-row justify-content-between gap-3">
-//                             <input className="text-uppy-input ps-3" placeholder="Project Name" value={projectTags || ""} onChange={e => setProjectTags(e.target.value)} />
-//                             <input className="text-uppy-input ps-3" placeholder="Instruments" value={""} />
-//                             <input className="text-uppy-input ps-3" placeholder="Roles" value={""} />
-//                             <input className="text-uppy-input ps-3" placeholder="Genre" value={""} />
-//                             <input className="text-uppy-input ps-3" placeholder="Visibility" value={""} />
-//                             <input className="text-uppy-input ps-3" placeholder="Tags (comma separated)" value={projectTags || ""} onChange={e => setProjectTags(e.target.value)} />
-//                         </div>
-//                         <textarea className="text-uppy-input ps-3" placeholder="Short Description" rows="4" value={projectDescription || ""} onChange={e => setProjectDescription(e.target.value)} />
-//                     </div>
-//                 </div>
-//             </div>
-
-//             <div className="row m-3">
-
-//                 <div className="col d-flex flex-row gap-3 ps-5">
-
-//                     <button className="btn-uppy d-flex flex-row align-items-center p-2 uptrack" data-bs-toggle="modal" data-bs-target="#UploadModal">
-//                         <p className="m-0 flex-row align-items-center"><UploadIcon /> Upload track</p>
-//                     </button>
-
-//                     <button className="btn-uppy d-flex flex-row align-items-center p-2 downproj" onClick={handleExportMix}>
-//                         <p className="m-0 flex-row align-items-center"> <DownloadIcon /> Download Project</p>
-//                     </button>
-
-//                     <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj" onClick={handlePost}>
-//                         <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p>
-//                     </button>
-
-//                     {!isRecording ? (
-//                         <Button variant="contained" onClick={startMicRecording} startIcon={<MicIcon />}>Start Mic</Button>
-//                     ) : (
-//                         <Button variant="outlined" color="error" onClick={stopMicRecording}>Stop Mic</Button>
-//                     )}
-
-
-//                     <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut" onClick={handleGoToMixer}>
-//                         <Link to="/mixer" className="text-decoration-none">
-//                             <p className="m-0 flex-row align-items-center text-light" ><TuneIcon /> Mixer</p>
-//                         </Link>
-//                     </button>
-
-//                     <div className="modal fade" id="UploadModal" tabIndex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
-//                         <div className="modal-dialog">
-//                             <div className="modal-content bg-dark text-white">
-//                                 <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-white">
-//                                     <p className="fs-1 m-0 p-0">Upload New Track</p>
-//                                 </div>
-
-//                                 <div className="modal-body d-flex flex-column gap-4 ">
-//                                     <input className="text-uppy-input p-3" placeholder="Title" value={newTrackData.title} onChange={(e) => setNewTrackData((prev) => ({ ...prev, title: e.target.value }))} />
-//                                     <input className="text-uppy-input p-3" placeholder="Instrument" value={newTrackData.instrument} onChange={(e) => setNewTrackData((prev) => ({ ...prev, instrument: e.target.value, }))} />
-//                                     <input className="file-in m-1 p-1" type="file" accept="audio/*" onChange={handleFileInput} />
-//                                     <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleTrackSubmit}> Submit </button>
-//                                 </div>
-
-//                                 <div className="modal-footer">
-//                                     <button className="btn-close-modal" data-bs-dismiss="modal">Close</button>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                 </div>
-
-//                 <div className="col">
-//                     <p className="magic-uppy">Here's where the magic happens...</p>
-//                 </div>
-
-//             </div>
-
-//             <div className="row mx-3">
-
-//                 <div className="col-2 mt-1">
-
-//                     <p className="mix-header text-white text-center">Preview</p>
-
-//                     <div className="d-flex flex-row justify-content-between">
-
-//                         <button className="btn-uppy p-2 seektop" onClick={handleSkipBackwardsAll}>◀◀</button>
-
-//                         <button className="btn-uppy px-5 playtop" onClick={handlePlayPauseAll}>▶</button>
-
-//                         <button className="btn-uppy p-2 seekfortop" onClick={handleSkipForwardsAll}>▶▶</button>
-
-//                     </div>
-
-//                 </div>
-
-//                 <div className="col mt-1 d-flex align-items-end">
-
-//                     <div className="zoom-line">
-
-//                         <label className="text-white fs-4 zoom-txt" htmlFor="zoom-control" >Zoom</label>
-
-//                         <Slider className="zoom-control" id="zoom-control" value={zoomLevel} onChange={handleZoomChange} />
-
-//                     </div>
-
-//                 </div>
-
-//             </div>
-
-//             {tracks.map((track) => (
-//                 <div key={track.id} className="row mx-2 py-2 pt-2 px-2 mb-4 mt-3 up-info-box">
-//                     <div className="col-1">
-//                         <p className="text-white">{track.title}</p>
-//                         <p className="text-white"> {track.instrument} </p>
-//                         <p className="text-white">Uploaded by: </p>
-//                         <p className="text-white">{currentUser}</p>
-//                     </div>
-
-//                     <div className="col-2 d-flex flex-column justify-content-center gap-1">
-
-//                         <button className="btn-uppy" onClick={() => handleSkipBackwards(track.id)}>◀◀</button>
-
-//                         <button className="btn-uppy" onClick={() => handlePlayPause(track.id)}>▶</button>
-
-//                         <button className="btn-uppy" onClick={() => handleSkipForwards(track.id)}>▶▶</button>
-
-//                     </div>
-
-//                     <div className="up-container-waves col-8 d-flex align-items-center">
-//                         <div ref={(el) => (waveformRefs.current[track.id] = el)} className="wavesurfer-container" />
-//                     </div>
-//                     <div className="col-1">
-//                         <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={() => handleRemoveTrack(track.id)}><DeleteIcon /></button>
-//                     </div>
-//                     <Slider
-//                         value={track.pan}
-//                         min={-1}
-//                         max={1}
-//                         step={0.01}
-//                         onChange={(e, newValue) => handlePanChange(players.findIndex(p => p.id === track.id), newValue)}
-//                         sx={{ width: 300 }}
-//                     />
-
-//                     <FormControl sx={{ minWidth: 200, mt: 2 }}>
-//                         <InputLabel>Effect</InputLabel>
-//                         <Select
-//                             value={track.effect}
-//                             onChange={(e) => handleEffectChange(players.findIndex(p => p.id === track.id), e.target.value)}
-//                             label="Effect"
-//                         >
-//                             <MenuItem value="none">None</MenuItem>
-//                             <MenuItem value="reverb">Reverb</MenuItem>
-//                             <MenuItem value="delay">Delay</MenuItem>
-//                             <MenuItem value="distortion">Distortion</MenuItem>
-//                         </Select>
-//                     </FormControl>
-//                 </div>))}
-
-//         </div>
-//     );
-// };
 
 
