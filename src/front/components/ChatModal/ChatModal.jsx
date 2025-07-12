@@ -71,19 +71,18 @@ const ChatModal = ({ otherUser }) => {
 
                 </div>
 
-                <div className="chat-modal-content d-flex flex-column justify-content-end align-items-end">
-                    <div className="chat-modal-body mb-3 d-flex align-items-end flex-column">
-                        {messages.map((m) => (
-                            <div key={m.id} className={`chat-message ${m.sender_id === currentUserId ? "sent" : "received"}`}>
-                                {m.content}
-                            </div>))}
-                    </div>
-                    <div className="chat-modal-footer p-2">
+                <div className="chat-modal-content d-flex">
+                    <div className="chat-modal-body mb-3">
 
-                        <textarea type="text" className="chat-input" value={newMessage} placeholder="Write a message..." onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSend()}/>
-                        
-                        <button onClick={handleSend} className="send-btn">Send</button>
+                        {messages.map((m) => (<div key={m.id} className={`chat-message d-flex flex-column mt-3 p-2 ${m.sender_id === currentUserId ? "sent" : "received"}`}>{m.content}</div>))}
+
                     </div>
+                </div>
+                <div className="chat-modal-footer p-2">
+
+                    <textarea type="text" className="chat-input" value={newMessage} placeholder="Write a message..." onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSend()}/>
+                        
+                    <button onClick={handleSend} className="send-btn">Send</button>
                 </div>
             
         </div>
