@@ -6,7 +6,8 @@
     border-right: 2px solid rgba(0,0,0,0.3);
     background: var(--bg-color);
     animation: autoShow 1s ease;
-    animation-timeline: view(60% 0%);
+    animation-timeline: view(70% 0%);
+    max-height: 500px;
 }
 
 .profile_pic_project_card {
@@ -17,7 +18,12 @@
     overflow-clip-margin: unset;
 }
 
+.project-title-container{
+  max-height: 100px;
+}
+
 .project-title-feed{
+    font-size: clamp(1.375rem, 2.5rem, 3rem);
     text-shadow: 0px 0px 0px transparent;
     animation: gradient-shift 15s infinite; 
     background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
@@ -38,10 +44,30 @@
   transition: 1s ease;
 }
 
+.genre-container{
+  border-bottom: 2px solid var(--color-3);
+}
+
+.especifications_container{
+   border-bottom: 2px solid var(--color-3);
+}
+
+.collaborators_container {
+  border-bottom: 2px solid var(--color-3);
+}
+
 .project_especifications {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.description-box-feed{
+  scrollbar-width:none ;
+  overflow-y: scroll;
+  max-height: 200px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 1px black inset;
 }
 
 .pill {
@@ -49,20 +75,37 @@
   box-shadow:1px 1px 1px 1px black;
   border-radius: 15px;
   font-size: 0.8rem;
+  flex-wrap: wrap;
 }
 
 .like_button {
   background: none;
   border: none;
-  font-size: 60px;
+  font-size: 100px;
   cursor: pointer;
   display: flex;
-  color: white;
-  transition: 1s 1s ease;
+  background: black;
+  color: transparent;
+  text-shadow: 0px 0px 10px var(--bg-color);
+  background-clip: text;
+  transition: 1s ease;
+}
+
+.liked{
+  color: transparent;
+  background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+  text-shadow: 0px 0px 3px transparent;
+  background-size: 200% 200%;
+  background-clip: text;
+  transition: 1s ease;
+  animation: gradient-shift 15s infinite;
 }
 
 .like_button:hover {
   transform: scale(1.2);
+  background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+  text-shadow: 0px 0px 3px var(--bg-color);
+  background-clip: text;
   transition: 1s ease;
 }
 

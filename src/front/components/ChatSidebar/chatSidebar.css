@@ -72,7 +72,6 @@ border: 0px;
     transition: 1s ease;
     color: white;
     cursor: pointer;
-    height: 40px;
 }
 
 .chat-btn-unfollow:active {

@@ -71,8 +71,8 @@ const ChatModal = ({ otherUser }) => {
 
                 </div>
 
-                <div className="chat-modal-content">
-                    <div className="chat-modal-body mb-3">
+                <div className="chat-modal-content d-flex flex-column justify-content-end align-items-end">
+                    <div className="chat-modal-body mb-3 d-flex align-items-end flex-column">
                         {messages.map((m) => (
                             <div key={m.id} className={`chat-message ${m.sender_id === currentUserId ? "sent" : "received"}`}>
                                 {m.content}

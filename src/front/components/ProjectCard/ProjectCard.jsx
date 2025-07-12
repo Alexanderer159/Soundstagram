@@ -36,39 +36,38 @@ export const ProjectCard = ({ project }) => {
 
                 <div className="row">
 
-                    <div className="col-4 project_card_header d-flex flex-column justify-content-between gap-3">
+                    <div className="col-4 project_card_header d-flex flex-column gap-3">
 
                         <div className="owner_container d-flex flex-row gap-3 align-items-center">
 
-                                <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover"/>
+                            <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover"/>
 
-                                <span className="owner_username fs-4">{project.owner_username}</span>
-
-                            </div>
-
-                        <div>
-
-                            <p className="fs-4">Description</p>
-                            <p className="fs-5">{project.description}</p>
+                            <span className="owner_username fs-4">{project.owner_username}</span>
 
                         </div>
 
+                        <div className='mt-1'>
+
+                            <p className="fs-4">Description</p>
+                            <p className="fs-5 text-center description-box-feed p-3">{project.description}</p>
+
+                        </div>
 
                     </div>
 
-                    <div className="col-4 d-flex flex-column justify-content-between gap-3">
+                    <div className="col-4 d-flex flex-column gap-3">
 
-                        <div className="d-flex flex-column justify-content-center align-items-center">
+                        <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
                                 
-                            <p className="project-title-feed text-center fs-1">{project.title}</p>
+                            <p className="project-title-feed text-center fw-bold">{project.title}</p>
 
                         </div>
 
-                            <div className="d-flex justify-content-center flex-column">
+                            <div className="genre-container d-flex justify-content-center flex-column pb-5">
 
                                 <p className="d-flex justify-content-center fs-5">Genre</p>
 
-                                <div className="d-flex justify-content-center">
+                                <div className="d-flex justify-content-center gap-2 flex-wrap">
 
                                     {project.genres.map((g) => (<span key={g.id} className="pill text-center p-2">{g.name}</span>))}
 
@@ -76,13 +75,13 @@ export const ProjectCard = ({ project }) => {
 
                             </div>
 
-                        <div className="d-flex flex-column gap-3 align-items-center ">
+                        <div className="d-flex flex-column gap-3 align-items-center justify-content-center">
 
                             Looking for
-                            <div className="d-flex flex-row gap-1">
-                            {project.seeking_roles.map((r) => (<span key={r.id} className="pill text-center m-0 p-2">{r.name}</span>))}
+                            <div className="d-flex flex-row gap-1 flex-wrap justify-content-center">
+                            {project.seeking_roles.map((r) => (<span key={r.id} className="pill text-center mt-1 p-2">{r.name}</span>))}
 
-                            {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center m-0 p-2">{i.name}</span>))}
+                            {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center mt-1 p-2">{i.name}</span>))}
                             </div>
 
                         </div>
@@ -91,7 +90,7 @@ export const ProjectCard = ({ project }) => {
 
                     <div className="col-4 d-flex flex-column justify-content-between gap-4">
 
-                        <div className="especifications_container d-flex justify-content-center gap-5">
+                        <div className="especifications_container d-flex justify-content-center gap-5 pb-5">
 
                             <div className='project_especifications'>
                                 <span className="font-bold">BPM</span> 
@@ -111,7 +110,7 @@ export const ProjectCard = ({ project }) => {
                         </div>
 
                         
-                        <div className="collaborators_container d-flex justify-content-center align-items-center flex-column">
+                        <div className="collaborators_container d-flex align-items-center flex-column pb-5">
 
                         <p>Collaborators</p>
 
@@ -133,8 +132,8 @@ export const ProjectCard = ({ project }) => {
 
                         </div>
 
-                        <div className="d-flex justify-content-center">
-                            <button className={`like_button ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>{liked ? '💚' : '🤍'}</button>
+                        <div className="d-flex justify-content-center p-0 m-0">
+                            <button className={`like_button ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>{liked ? '♥' : '♥'}</button>
                         </div>
 
                     </div>
