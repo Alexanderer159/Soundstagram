@@ -31,97 +31,116 @@ export const ProjectCard = ({ project }) => {
 
 
     return (
+        <>
+            <div className='container-fluid project_card text-white p-4 mb-3'>
 
-        <div className="project_card">
+                <div className="row">
 
-            <div className="project_card_header">
+                    <div className="col-4 project_card_header d-flex flex-column justify-content-between gap-3">
 
-                <div className="d-flex justify-start align-items-end gap-5">
+                        <div className="owner_container d-flex flex-row gap-3 align-items-center">
 
-                    <div className="owner_container">
+                                <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover"/>
 
-                        <img
-                            src={project.owner_pic}
-                            alt={project.owner_username}
-                            className="profile_pic_project_card"
-                        />
+                                <span className="owner_username fs-4">{project.owner_username}</span>
 
-                        <span className="owner_username">{project.owner_username}</span>
-
-                    </div>
-
-                    <h3 className="text-lg font-bold">{project.title}</h3>
-
-                </div>
-
-                {project.collaborators?.length > 0 && (
-
-                    <div className="collaborators_container">
-
-                        {project.collaborators.map((colab) => (
-
-                            <div key={colab.id} className="collaborator_avatar">
-
-                                <img
-                                    src={colab.profile_pic_url}
-                                    alt={colab.username}
-                                    className="profile_pic_project_card"
-                                />
-                                <span className="owner_username">{colab.username}</span>
                             </div>
-                        ))}
+
+                        <div>
+
+                            <p className="fs-4">Description</p>
+                            <p className="fs-5">{project.description}</p>
+
+                        </div>
+
+
                     </div>
-                )}
 
-                <div className="especifications_container">
-                    <div className='project_especifications'><span className="font-bold">BPM</span> {project.bpm}</div>
-                    <div className='project_especifications'><span className="font-bold ml-2">Key</span> {project.key}</div>
-                    <div className='project_especifications'><span className="font-bold ml-2">Meter</span> {project.meter}</div>
-                </div>
-            </div>
+                    <div className="col-4 d-flex flex-column justify-content-between gap-3">
 
-            <p className="text-sm text-gray-400">{project.description}</p>
+                        <div className="d-flex flex-column justify-content-center align-items-center">
+                                
+                            <p className="project-title-feed text-center fs-1">{project.title}</p>
 
-            <div className="project_card_footer">
-                <div>
-                    Esta buscando:
-                    {project.seeking_roles.map((r) => (
-                        <span key={r.id} className="pill">{r.name}</span>
-                    ))}
-                    {project.seeking_instruments.map((i) => (
-                        <span key={i.id} className="pill">{i.name}</span>
-                    ))}
-                </div>
+                        </div>
 
-                <div className="collaborators_container">
-                    {Array.isArray(project.collaborators) && project.collaborators.length > 0 ? (
-                        project.collaborators.map((colab) => (
-                            <div key={colab.id} className="collaborator_avatar">
-                                <img
-                                    src={colab.profile_pic_url}
-                                    alt={colab.username}
-                                    className="profile_pic_project_card"
-                                />
-                                <span className="owner_username">{colab.username}</span>
+                            <div className="d-flex justify-content-center flex-column">
+
+                                <p className="d-flex justify-content-center fs-5">Genre</p>
+
+                                <div className="d-flex justify-content-center">
+
+                                    {project.genres.map((g) => (<span key={g.id} className="pill text-center p-2">{g.name}</span>))}
+
+                                </div>
+
                             </div>
-                        ))
-                    ) : (
-                        <p className="no_collaborators_text">Este proyecto no tiene colaboradores de momento.</p>
-                    )}
 
-                </div>
+                        <div className="d-flex flex-column gap-3 align-items-center ">
 
-                <div className="footer_right_corner">
-                    <div>
-                        {project.genres.map((g) => (
-                            <span key={g.id} className="pill">{g.name}</span>
-                        ))}
+                            Looking for
+                            <div className="d-flex flex-row gap-1">
+                            {project.seeking_roles.map((r) => (<span key={r.id} className="pill text-center m-0 p-2">{r.name}</span>))}
+
+                            {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center m-0 p-2">{i.name}</span>))}
+                            </div>
+
+                        </div>
+
                     </div>
-                    <button className={`like_button ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>
-                        {liked ? '❤️' : '🤍'}
-                    </button>
-                </div>
+
+                    <div className="col-4 d-flex flex-column justify-content-between gap-4">
+
+                        <div className="especifications_container d-flex justify-content-center gap-5">
+
+                            <div className='project_especifications'>
+                                <span className="font-bold">BPM</span> 
+                                {project.bpm}
+                                </div>
+
+                            <div className='project_especifications'>
+                                <span className="font-bold ml-2">Key</span> 
+                                {project.key}
+                                </div>
+
+                            <div className='project_especifications'>
+                                <span className="font-bold ml-2">Meter</span> 
+                                {project.meter}
+                                </div>
+
+                        </div>
+
+                        
+                        <div className="collaborators_container d-flex justify-content-center align-items-center flex-column">
+
+                        <p>Collaborators</p>
+
+                        <div className="d-flex flex-row justify-content-between">
+
+                            {Array.isArray(project.collaborators) && project.collaborators.length > 0 ? (project.collaborators.map((colab) => (
+
+                                    <div key={colab.id} className="collaborator_avatar">
+
+                                        <img src={colab.profile_pic_url} className="profile_pic_project_card rounded-circle object-fit-cover" />
+
+                                    </div>
+
+                                ))) : (
+
+                                <p className="no_collaborators_text">This project has no collaborators yet!</p>)}
+
+                        </div>        
+
+                        </div>
+
+                        <div className="d-flex justify-content-center">
+                            <button className={`like_button ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>{liked ? '💚' : '🤍'}</button>
+                        </div>
+
+                    </div>
+
+                    </div>   
             </div>
-        </div>
+        </>
     );
 };

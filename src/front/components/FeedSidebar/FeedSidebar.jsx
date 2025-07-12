@@ -10,57 +10,66 @@ export const FeedSidebar = () => {
 
     return (
         <>
-            <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg w-full md:w-72">
+            <div className="feed-sidebar container-fluid">
 
-                <div className="userSidebar_header text-center">
+                <div className="all-info-user p-4 text-white">
 
-                    <img src={user.profile_pic_url} alt={user.username} className="sidebar_profile_pic" />
+                    <div className="row">
 
-                    <h2 className="mt-2 text-lg font-semibold">{user.username}</h2>
+                        <div className="d-flex justify-content-center">
+
+                            <img src={user.profile_pic_url} className="sidebar_profile_pic rounded-circle object-fit-cover" />
+
+                        </div>
+
+                    </div>
+
+
+
+                <div className="row">
+
+                    <p className="text-center fs-3">{user.username}</p>
 
                 </div>
 
-                {user.spotify_playlist && (
+                <div className="row">
 
-                    <div className="spotify_link">
-                        <a href={user.spotify_playlist} target="_blank" rel="noopener noreferrer" className="spotify_link" > Ver Playlist en Spotify </a>
-                    </div>
+                        <a href={user.spotify_playlist} target="_blank" rel="noopener noreferrer" className="spotify_link text-center" >See Spotify Playlist</a>
 
-                )}
+                </div>    
 
+                <hr className="break-feed" />
 
-                <hr className="my-4 border-gray-700" />
+                <div className="row">
 
-                <div className='roles_instruments_container'>
+                    <div className="col">
 
-                    <div className=''>
+                        <p className="fs-3">Roles</p>
 
-                        <h3 className="text-sm font-semibold text-gray-300 mb-1">Roles:</h3>
+                        <div className="d-flex justify-content-between">
 
-                        <div className="flex flex-wrap gap-1">
-
-                            {user.roles?.map((role) => (
-                                <span key={role.id} className="role-pill" > {role.name} </span>
-                            ))}
+                            {user.roles?.map((role) => (<span key={role.id} className="role-pill py-1 px-2" > {role.name} </span>))}
 
                         </div>
                     </div>
 
-                    <div className="">
+                    <div className="col">
 
-                        <h3 className="text-sm font-semibold text-gray-300 mb-1">Instrumentos:</h3>
+                        <p className="fs-3">Instruments</p>
 
-                        <div className="pill_container">
+                        <div className="d-flex justify-content-between">
 
-                            {user.instruments?.map((instrument) => (
-                                <span key={instrument.id} className="role-pill" > {instrument.name} </span>
-                            ))}
+                            {user.instruments?.map((instrument) => (<span key={instrument.id} className="role-pill py-1 px-2" > {instrument.name} </span>))}
 
                         </div>
                     </div>
                 </div>
+
+                <hr className="break-feed" />
 
                 <FilterForm />
+
+                </div>
             </div>
         </>
     );

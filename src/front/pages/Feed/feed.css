@@ -1,11 +1,8 @@
-.feed_userSidebar_container {
-  height: 100vh;
-  width: 20%;
-}
-.feed_projects_container {
-  width: 60%;
-}
-.feed_container{
-  height:100vh;
-  width:100%;
+.header-feed{
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: gradient-shift 5s infinite, fadeIn 4s 1s forwards, slidebackwards 2s 1s forwards;
 }

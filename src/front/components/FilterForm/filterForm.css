@@ -1,26 +1,23 @@
-.filters_section {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #444;
-}
-
 .filter_checkbox {
-  display: block;
-  font-size: 0.85rem;
-  margin: 0.3rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 4px;
+  box-shadow:1px 1px 1px 1px black;
+  border-top: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 7px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: 1s ease;
 }
 
-.filter_buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.filter_checkbox:hover{
+  font-size: 80%;
+  transition: 1s ease;
+  border-top: 1px solid var(--color-3);
 }
+
+.input-box-feed:checked + .inside-button{
+  color: var(--color-2);
+}
+
 
 .filter_btn {
   padding: 0.3rem;
@@ -31,18 +28,76 @@
 }
 
 .filter_btn.apply {
-  background-color: #16a34a;
-  color: white;
+border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 1px 1px black;
+    border-radius: 5px;
+    background: var(--bg-color);
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: white;
+    cursor: pointer;
+    height: 40px;
 }
 
+.filter_btn.apply:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.filter_btn.apply:hover {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    transition: 1s ease;
+    font-size: large;
+    cursor: pointer;
+}
+
+
 .filter_btn.reset {
-  background-color: #dc2626;
-  color: white;
+border: 0px;
+    border-top: 1px solid var(--accent);
+    box-shadow: 1px 1px 1px 1px black;
+    border-radius: 5px;
+    background: var(--bg-color);
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+}
+
+.filter_btn.reset:active {
+    border: 1px solid var(--color-5);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-4), var(--color-5), var(--color-4));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.filter_btn.reset:hover {
+    border: 1px solid var(--color-5);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-5), var(--color-4), var(--color-5));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+    transition: 1s ease;
+    font-size: large;
+    cursor: pointer;
 }
 
 .filter_container {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 5px;
 }
