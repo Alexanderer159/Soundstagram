@@ -1,6 +1,8 @@
 .feed-sidebar{
   opacity: 0;
   transform: translateX(-150%);
+  position: sticky;
+  top: 100px ;
   animation: fadeIn 2s 1s forwards, slideforwards 2s 1s forwards;
 }
 

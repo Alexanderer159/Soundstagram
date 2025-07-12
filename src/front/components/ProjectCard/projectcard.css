@@ -16,6 +16,33 @@
     box-shadow: 2px 2px 5px 5px black;
     border-top: 2px solid var(--accent);
     overflow-clip-margin: unset;
+    transition: 1s ease;
+}
+
+.profile_pic_project_card:hover {
+    height: 100px;
+    width: 100px;
+    box-shadow: 2px 2px 5px 5px black;
+    border-top: 2px solid var(--accent);
+    overflow-clip-margin: unset;
+    transition: 1s ease;
+}
+
+.profile_pic_project_card-collab{
+    height: 50px;
+    width: 50px;
+    box-shadow: 2px 2px 5px 5px black;
+    border-top: 2px solid var(--accent);
+    overflow-clip-margin: unset;
+    transition: 1s ease;
+}
+.profile_pic_project_card-collab:hover{
+    height: 60px;
+    width: 60px;
+    box-shadow: 2px 2px 5px 5px black;
+    border-top: 2px solid var(--accent);
+    overflow-clip-margin: unset;
+    transition: 1s ease;
 }
 
 .project-title-container{

@@ -52,7 +52,7 @@ const ChatSidebar = () => {
 
     return (
 <>
-        <div className="chat-sidebar text-white px-4 py-2">
+        <div className="container-fluid chat-sidebar text-white px-4 py-2">
 
             <p className="text-white fs-1 text-center">Users</p>
 
@@ -75,9 +75,12 @@ const ChatSidebar = () => {
             </div>
 
             
-            <div>
-                <p className="fs-4 text-center">All users</p>
-                {allUsers .filter((user) => user.id !== currentUserId) .map((user) => { const isFollowing = followStore.following.some((f) => f.followed_id === user.id);
+                <details className="dropdown_section">
+
+                    <summary className="fs-2 pb-3">All users</summary>
+
+                <div className="all-users-container p-3">         
+                    {allUsers .filter((user) => user.id !== currentUserId) .map((user) => { const isFollowing = followStore.following.some((f) => f.followed_id === user.id);
 
                         return (
                             <div key={user.id} className="user-chat d-flex flex-column align-items-start gap-3 mb-4 pb-3">
@@ -89,14 +92,15 @@ const ChatSidebar = () => {
                                     <span className="text-white">{user.username}</span>
 
                                 </div>
+
                                 <div className="d-flex gap-2">
-                                    <button onClick={() => handleFollowToggle(user)} className={isFollowing ? "chat-btn-unfollow me-1" : "chat-btn-follow me-1"}> {isFollowing ? "Unfollow" : "Follow"} </button>
+                                    <button onClick={() => handleFollowToggle(user)} className={isFollowing ? "chat-btn-unfollow me-1" : "chat-btn-follow me-1"}> {isFollowing ? "Following" : "Follow"} </button>
                                     <button className="chat-btn-follow" onClick={() => openChatWithUser(user)}> Message</button>
                                 </div>
-                            </div>
-                        );
-                    })}
-            </div>
+
+                            </div>);})}
+                </div>   
+                </details>
 
             {currentChat && <ChatModal otherUser={currentChat} />}
         </div>
