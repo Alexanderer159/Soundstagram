@@ -6,6 +6,8 @@
     border-right: 2px solid rgba(0,0,0,0.3);
     background: var(--bg-color);
     animation: slidebackwards 2s forwards, fadeIn 2s forwards;
+    position: sticky;
+    top: 100px ;
 }
 
 .chat_sidebar_profile_pic {
@@ -36,6 +38,14 @@ border: 0px;
     height: 30px;
 }
 
+.all-users-container{
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 5px black inset;
+    max-height: 400px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
 .user-chat{
   border-bottom: 1px solid var(--color-3);
 }
@@ -62,7 +72,8 @@ border: 0px;
 
 
 .chat-btn-unfollow {
-border: 0px;
+    content: " ";
+    border: 0px;
     border-top: 1px solid var(--accent);
     box-shadow: 1px 1px 1px 1px black;
     border-radius: 5px;
@@ -83,6 +94,7 @@ border: 0px;
     color: transparent;
 }
 .chat-btn-unfollow:hover {
+    content: "Unfollow";
     border: 1px solid var(--color-5);
     border-radius: 5px;
     background: linear-gradient(270deg, var(--color-5), var(--color-4), var(--color-5));

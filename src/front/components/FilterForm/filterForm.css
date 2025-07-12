@@ -100,4 +100,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 2%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px 5px black inset;
 }

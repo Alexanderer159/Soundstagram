@@ -120,7 +120,7 @@ export const ProjectCard = ({ project }) => {
 
                                     <div key={colab.id} className="collaborator_avatar">
 
-                                        <img src={colab.profile_pic_url} className="profile_pic_project_card rounded-circle object-fit-cover" />
+                                        <img src={colab.profile_pic_url} className="profile_pic_project_card-collab rounded-circle object-fit-cover" />
 
                                     </div>
 
