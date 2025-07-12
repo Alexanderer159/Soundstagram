@@ -9,7 +9,7 @@
 }
 
 .filter_checkbox:hover{
-  font-size: 80%;
+  font-size: 90%;
   transition: 1s ease;
   border-top: 1px solid var(--color-3);
 }
@@ -28,7 +28,7 @@
 }
 
 .filter_btn.apply {
-border: 0px;
+    border: 0px;
     border-top: 1px solid var(--accent);
     box-shadow: 1px 1px 1px 1px black;
     border-radius: 5px;
@@ -63,7 +63,7 @@ border: 0px;
 
 
 .filter_btn.reset {
-border: 0px;
+    border: 0px;
     border-top: 1px solid var(--accent);
     box-shadow: 1px 1px 1px 1px black;
     border-radius: 5px;

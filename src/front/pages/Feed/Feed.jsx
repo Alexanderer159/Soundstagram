@@ -34,7 +34,7 @@ export const Feed = () => {
 
                         </div>
 
-                        <div className="col-6 feed_projects_container pb-5">
+                        <div className="col-6 feed_projects_container pb-5 d-flex flex-column-reverse justify-content-end">
 
                             {projects?.map((project) => (<ProjectCard key={project.id} project={project} />))}
 

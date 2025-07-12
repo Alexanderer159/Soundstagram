@@ -23,21 +23,13 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: end;
 }
 
 .chat-modal-body{
   border-bottom: 1px solid var(--color-3);
-  display: flex;
-      word-wrap: break-word;         /* Break long words */
-  overflow-wrap: break-word;     /* Modern standard */
-  white-space: normal;           /* Allow wrapping */
-  flex-direction: column;
-  align-items: flex-end;
   overflow: scroll;
+  width: 400px;
+  scrollbar-width: none;
   scrollbar-color: transparent transparent;
 }
 
@@ -67,6 +59,16 @@
   color: white;
 }
 
+.sent{
+color: green;
+}
+
+.received{
+color: red;
+justify-content: start;
+align-items: start;
+width: 400px;
+}
 
 .send-btn {
     width: 15%;
