@@ -27,7 +27,6 @@ export const ProjectCard = ({ project }) => {
         }
     };
 
-    console.log(`🎯 Renderizando ProjectCard ${project.id} - liked: ${liked}`);
 
 
     return (
@@ -40,7 +39,7 @@ export const ProjectCard = ({ project }) => {
 
                         <div className="owner_container d-flex flex-row gap-3 align-items-center">
 
-                            <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover"/>
+                            <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover" />
 
                             <span className="owner_username fs-4">{project.owner_username}</span>
 
@@ -58,30 +57,30 @@ export const ProjectCard = ({ project }) => {
                     <div className="col-4 d-flex flex-column gap-3">
 
                         <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
-                                
+
                             <p className="project-title-feed text-center fw-bold">{project.title}</p>
 
                         </div>
 
-                            <div className="genre-container d-flex justify-content-center flex-column pb-5">
+                        <div className="genre-container d-flex justify-content-center flex-column pb-5">
 
-                                <p className="d-flex justify-content-center fs-5">Genre</p>
+                            <p className="d-flex justify-content-center fs-5">Genre</p>
 
-                                <div className="d-flex justify-content-center gap-2 flex-wrap">
+                            <div className="d-flex justify-content-center gap-2 flex-wrap">
 
-                                    {project.genres.map((g) => (<span key={g.id} className="pill text-center p-2">{g.name}</span>))}
-
-                                </div>
+                                {project.genres.map((g) => (<span key={g.id} className="pill text-center p-2">{g.name}</span>))}
 
                             </div>
+
+                        </div>
 
                         <div className="d-flex flex-column gap-3 align-items-center justify-content-center">
 
                             Looking for
                             <div className="d-flex flex-row gap-1 flex-wrap justify-content-center">
-                            {project.seeking_roles.map((r) => (<span key={r.id} className="pill text-center mt-1 p-2">{r.name}</span>))}
+                                {project.seeking_roles.map((r) => (<span key={r.id} className="pill text-center mt-1 p-2">{r.name}</span>))}
 
-                            {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center mt-1 p-2">{i.name}</span>))}
+                                {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center mt-1 p-2">{i.name}</span>))}
                             </div>
 
                         </div>
@@ -93,30 +92,30 @@ export const ProjectCard = ({ project }) => {
                         <div className="especifications_container d-flex justify-content-center gap-5 pb-5">
 
                             <div className='project_especifications'>
-                                <span className="font-bold">BPM</span> 
+                                <span className="font-bold">BPM</span>
                                 {project.bpm}
-                                </div>
+                            </div>
 
                             <div className='project_especifications'>
-                                <span className="font-bold ml-2">Key</span> 
+                                <span className="font-bold ml-2">Key</span>
                                 {project.key}
-                                </div>
+                            </div>
 
                             <div className='project_especifications'>
-                                <span className="font-bold ml-2">Meter</span> 
+                                <span className="font-bold ml-2">Meter</span>
                                 {project.meter}
-                                </div>
+                            </div>
 
                         </div>
 
-                        
+
                         <div className="collaborators_container d-flex align-items-center flex-column pb-5">
 
-                        <p>Collaborators</p>
+                            <p>Collaborators</p>
 
-                        <div className="d-flex flex-row justify-content-between">
+                            <div className="d-flex flex-row justify-content-between">
 
-                            {Array.isArray(project.collaborators) && project.collaborators.length > 0 ? (project.collaborators.map((colab) => (
+                                {Array.isArray(project.collaborators) && project.collaborators.length > 0 ? (project.collaborators.map((colab) => (
 
                                     <div key={colab.id} className="collaborator_avatar">
 
@@ -126,9 +125,9 @@ export const ProjectCard = ({ project }) => {
 
                                 ))) : (
 
-                                <p className="no_collaborators_text">This project has no collaborators yet!</p>)}
+                                    <p className="no_collaborators_text">This project has no collaborators yet!</p>)}
 
-                        </div>        
+                            </div>
 
                         </div>
 
@@ -138,7 +137,7 @@ export const ProjectCard = ({ project }) => {
 
                     </div>
 
-                    </div>   
+                </div>
             </div>
         </>
     );

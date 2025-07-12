@@ -81,7 +81,7 @@ def get_project_by_id(project_id):
     if not project:
         return jsonify({'msg': 'Proyecto no encontrado'}), 404
 
-    if user_id != project.owner_id:
+    if user_id != project.owner_id and project.visibility != VisibilityEnum.public:
         return jsonify({'msg': 'No autorizado para ver este proyecto'}), 403
 
     return jsonify(project.serialize()), 200
