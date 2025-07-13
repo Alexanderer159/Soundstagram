@@ -38,6 +38,37 @@ body {
 html, body {
     height: 100%;
     scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.route-error{
+    animation: gradient-shift 15s infinite, fadeIn 2s forwards;
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
+    user-select: none;
+    font-size: 280px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.go-back-home{
+    opacity: 0;
+    animation: gradient-shift 15s infinite, fadeIn 2s 2s forwards;
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    border: 0;
+    font-size: 50px;
+    transition: 1s ease;
+}
+
+.go-back-home:hover{
+    font-size: 75px;
+    transition: 1s ease;
 }
 
 /* ----------------     KEYFRAMES    ----------------- */

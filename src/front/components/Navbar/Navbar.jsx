@@ -47,32 +47,27 @@ export const Navbar = () => {
 					</div>
 				</Link>
 
-				<Link to="/add_project" className="text-decoration-none">
-					<p className="navbar-text fw-bold text-center p-0 m-0">Make a project</p>
-				</Link>
-
-
 				<div className="actions gap-4 justify-content-between d-flex flex-row me-3">
 
 					<form className="search-function d-flex">
 
 						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search" />
 
-						<button className="btn search-navbar-icon-btn p-0" type="submit">
+						<button className="btn search-navbar-icon-btn p-0 m-0" type="submit">
 
-							<FontAwesomeIcon className="search-navbar-icon icon-navbar" icon={faMagnifyingGlass} mask={faSquareFull} />
+							<p className="icon-navbar search-navbar-icon p-0 m-0 ">⌕</p>
 
 						</button>
 
 					</form>
 
 					<Link to="/notifications" className="text-decoration-none">
-						<FontAwesomeIcon className="icon-navbar" icon={faBell} mask={faSquareFull} />
+						<p className="icon-navbar bell-navbar-icon p-0 m-0">🔔</p>
 					</Link>
 
 					<div className="dropdown profile">
 
-						<FontAwesomeIcon type="button" className="icon-navbar" data-bs-toggle="dropdown" icon={faCircleUser} mask={faSquareFull} />
+						<p type="button" data-bs-toggle="dropdown" className="icon-navbar user-navbar-icon p-0 m-0">👤</p>
 
 						<ul className="dropdown-menu dropdown-menu-end text-end">
 							<li>

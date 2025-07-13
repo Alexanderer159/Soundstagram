@@ -1,12 +1,19 @@
 import React from 'react';
 import { useUserReducer } from '../../reducers/userReducer';
+import { Link, useNavigate } from "react-router-dom";
 import './/feedsidebar.css';
 import FilterForm from '../FilterForm/FilterForm';
 
 export const FeedSidebar = () => {
 
+    const navigate = useNavigate()
+
     const { userStore } = useUserReducer();
     const { user } = userStore;
+
+        const handleGoNewProject = () =>{
+        navigate(`/add_project`);
+    }
 
     return (
         <>
@@ -18,13 +25,15 @@ export const FeedSidebar = () => {
 
                         <div className="d-flex justify-content-center">
 
-                            <img src={user.profile_pic_url} className="sidebar_profile_pic rounded-circle object-fit-cover" />
+                            <Link to="/profile">
+                            
+                                <img src={user.profile_pic_url} className="sidebar_profile_pic rounded-circle object-fit-cover" />
+
+                            </Link>
 
                         </div>
 
                     </div>
-
-
 
                 <div className="row">
 
@@ -34,7 +43,13 @@ export const FeedSidebar = () => {
 
                 <div className="row">
 
+                    <div className="col d-flex flex-column gap-3 align-items-center">
+
                         <a href={user.spotify_playlist} target="_blank" rel="noopener noreferrer" className="spotify_link text-center" >See Spotify Playlist</a>
+
+                        <button className='make-project' onClick={handleGoNewProject}>Make a new Project!</button>
+
+                    </div>
 
                 </div>    
 

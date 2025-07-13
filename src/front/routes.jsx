@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, Link } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home/Home";
 import { EditProfile } from "./pages/EditProfile/EditProfile";
@@ -14,9 +14,10 @@ import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
 import BeatMaker from "./components/beatmaker/BeatMaker";
 
 export const router = createBrowserRouter(
+
   createRoutesFromElements(
 
-    <Route path="/" element={<Layout />} errorElement={<h1 className="text-white">These sounds are unknown!</h1>} >
+    <Route path="/" element={<Layout />} errorElement={<><div className="d-flex flex-column gap-2 align-items-center"><p className="route-error text-center">These sounds are unknown!</p> <Link to="/" className="text-decoration-none"> <button className="text-white go-back-home" >Lets go back to civilization...</button> </Link> </div></>} >
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/hans" element={<Easter />} />
