@@ -125,7 +125,7 @@ export const Profile = () => {
 
               {tracks.length === 0 ? (<p className="text-white p-3">No collabs yet.</p>) : (
                 <ul className="profile-list p-3">
-                  {tracks.map(track => (<li key={track.id} className="text-white fs-3 p-1">{track.track_name} ({track.instrument})</li>))}
+                  {tracks.map(track => (<li key={track.id} className="text-white fs-3 p-1">{track.track_name} ({track.instrument?.name})</li>))}
                 </ul>)}
 
             </div>
