@@ -129,8 +129,6 @@ export const AudioUploaderAndPoster = () => {
         };
     }, [tracks]);
 
-
-
     //controles para TODOS LOS TRACKS
     const handlePlayPauseAll = () => {
         Object.values(wavesurferRefs.current).forEach((ws) => ws.playPause());
@@ -218,16 +216,21 @@ export const AudioUploaderAndPoster = () => {
         const offlineCtx = new OfflineAudioContext(2, sampleRate * maxDuration, sampleRate);
 
         // Paso 2: Procesar cada track
-        tracks.forEach((track) => {
+        for (const track of tracks) {
+            if (!track.url) continue;
+            const response = await fetch(track.url);
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await offlineCtx.decodeAudioData(arrayBuffer);
+
             const source = offlineCtx.createBufferSource();
-            source.buffer = track.buffer;
+            source.buffer = audioBuffer;
 
             const gain = offlineCtx.createGain();
-            gain.gain.value = volume;
+            gain.gain.value = track.volume || 1;
 
             source.connect(gain).connect(offlineCtx.destination);
-            source.start(startTime);
-        });
+            source.start(track.startTime || 0);
+        }
 
         const renderedBuffer = await offlineCtx.startRendering();
 
