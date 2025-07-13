@@ -10,13 +10,15 @@ import SendIcon from "@mui/icons-material/Send";
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TuneIcon from '@mui/icons-material/Tune';
-import WavEncoder from "wav-encoder";
 import "../styles/upload_play.css"
 import "../styles/index.css"
 
 const currentUser = "Test User";
 
 export const AudioUploaderAndPoster = () => {
+
+    const navigate = useNavigate(); // Añadir esta línea
+
 
     const [projectInfo, setProjectInfo] = useState({});
     const [projectTags, setProjectTags] = useState("");
@@ -60,16 +62,59 @@ export const AudioUploaderAndPoster = () => {
 
         const id = crypto.randomUUID();
         const url = URL.createObjectURL(file);
-        setTracks((prev) => [...prev, {
-            id,
-            file,
-            title,
-            instrument,
-            url,
-            startTime: 0,
-            volume: 1,
-        }]);
-        closeModal();
+
+
+        // Crear un AudioContext temporal para obtener la duración
+        const tempAudioContext = new AudioContext();
+        const reader = new FileReader();
+
+        reader.onload = async (e) => {
+            try {
+                const arrayBuffer = e.target.result;
+                const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
+
+                setTracks((prev) => [...prev, {
+                    id,
+                    file,
+                    title,
+                    instrument,
+                    url,
+                    startTime: 0,
+                    volume: 1,
+                    duration: audioBuffer.duration,
+                }]);
+
+                // Limpiar el formulario
+                setNewTrackData({ title: "", instrument: "", file: null });
+
+                // Cerrar el modal
+                const modal = document.getElementById('UploadModal');
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // Fallback si no hay instancia de Bootstrap
+                    const modalElement = document.getElementById('UploadModal');
+                    if (modalElement) {
+                        modalElement.classList.remove('show');
+                        modalElement.style.display = 'none';
+                        document.body.classList.remove('modal-open');
+                        const backdrop = document.querySelector('.modal-backdrop');
+                        if (backdrop) {
+                            backdrop.remove();
+                        }
+                    }
+                }
+
+                tempAudioContext.close();
+            } catch (error) {
+                console.error("Error loading audio file:", error);
+                alert("Error loading audio file. Please try again.");
+                tempAudioContext.close();
+            }
+        };
+
+        reader.readAsArrayBuffer(file);
     };
 
     //Opciones de wavesurfer, si quieren toquenlas a ver que sacan
@@ -129,7 +174,6 @@ export const AudioUploaderAndPoster = () => {
             wavesurferRefs.current = {};
         };
     }, [tracks]);
-
 
 
     //controles para TODOS LOS TRACKS
@@ -209,61 +253,110 @@ export const AudioUploaderAndPoster = () => {
 
     const handleExportMix = async () => {
         if (tracks.length === 0) {
-            alert("No tracks to download yet");
+            alert("No tracks to export");
             return;
         }
 
-        const buffers = [];
 
-        // Paso 1: Cargar y decodificar cada pista
-        for (const track of tracks) {
-            const response = await fetch(track.url);
-            const arrayBuffer = await response.arrayBuffer();
-            const tempCtx = new AudioContext();
-            const decodedBuffer = await tempCtx.decodeAudioData(arrayBuffer);
-            buffers.push({ buffer: decodedBuffer, startTime: track.startTime || 0, volume: track.volume || 1, });
-            tempCtx.close();
+        try {
+            console.log("🎵 Iniciando exportación de mezcla...");
+
+            // Paso 1: Obtener duraciones de los tracks
+            const trackDurations = [];
+            for (const track of tracks) {
+                if (!track.url) continue;
+
+                try {
+                    const response = await fetch(track.url);
+                    const arrayBuffer = await response.arrayBuffer();
+                    const tempCtx = new AudioContext();
+                    const audioBuffer = await tempCtx.decodeAudioData(arrayBuffer);
+                    trackDurations.push(audioBuffer.duration);
+                    tempCtx.close();
+                } catch (error) {
+                    console.error(`Error procesando track ${track.title}:`, error);
+                    trackDurations.push(0);
+                }
+            }
+
+            const maxDuration = Math.max(...trackDurations, 30); // Mínimo 30 segundos
+            console.log(`📏 Duración máxima detectada: ${maxDuration}s`);
+
+            // Paso 2: Crear contexto offline
+            const sampleRate = 44100;
+            const offlineCtx = new OfflineAudioContext(2, sampleRate * maxDuration, sampleRate);
+
+            // Paso 3: Procesar cada track
+            for (const track of tracks) {
+                if (!track.url) continue;
+
+                try {
+                    console.log(`🎛️ Procesando track: ${track.title}`);
+                    const response = await fetch(track.url);
+                    const arrayBuffer = await response.arrayBuffer();
+                    const audioBuffer = await offlineCtx.decodeAudioData(arrayBuffer);
+
+                    const source = offlineCtx.createBufferSource();
+                    source.buffer = audioBuffer;
+
+                    const gain = offlineCtx.createGain();
+                    gain.gain.value = track.volume || 1;
+
+                    source.connect(gain).connect(offlineCtx.destination);
+                    source.start(track.startTime || 0);
+
+                    console.log(`✅ Track ${track.title} procesado correctamente`);
+                } catch (error) {
+                    console.error(`❌ Error procesando track ${track.title}:`, error);
+                }
+            }
+
+            console.log("🎵 Renderizando mezcla...");
+            const renderedBuffer = await offlineCtx.startRendering();
+            console.log(`✅ Mezcla renderizada: ${renderedBuffer.duration}s`);
+
+            // Paso 4: Exportar como WebM usando MediaRecorder
+            const audioContext = new AudioContext();
+            const source = audioContext.createBufferSource();
+            source.buffer = renderedBuffer;
+            const destination = audioContext.createMediaStreamDestination();
+            source.connect(destination);
+
+            const mediaRecorder = new MediaRecorder(destination.stream, {
+                mimeType: 'audio/webm;codecs=opus'
+            });
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                const webmBlob = new Blob(chunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(webmBlob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "Mix.webm";
+                a.click();
+                URL.revokeObjectURL(url);
+
+                console.log("✅ Archivo descargado: Mix.webm");
+            };
+
+            source.start(0);
+            mediaRecorder.start();
+            console.log("🎙️ Grabación iniciada...");
+
+            setTimeout(() => {
+                mediaRecorder.stop();
+                source.stop();
+                audioContext.close();
+                console.log("🎙️ Grabación finalizada");
+            }, renderedBuffer.duration * 1000);
+
+        } catch (error) {
+            console.error("❌ Error en la exportación:", error);
+            alert("Error al exportar la mezcla. Revisa la consola para más detalles.");
         }
 
-        // Paso 2: Calcular duración total
-        const sampleRate = 44100;
-        const endTimes = buffers.map(({ buffer, startTime }) => startTime + buffer.duration);
-        const lengthInSeconds = Math.max(...endTimes);
-
-        // Paso 3: Crear contexto offline y mezclar
-        const offlineCtx = new OfflineAudioContext(2, sampleRate * lengthInSeconds, sampleRate);
-
-        buffers.forEach(({ buffer, startTime, volume }) => {
-            const source = offlineCtx.createBufferSource();
-            source.buffer = buffer;
-
-            const gain = offlineCtx.createGain();
-            gain.gain.value = volume;
-
-            source.connect(gain).connect(offlineCtx.destination);
-            source.start(startTime);
-        });
-
-        const renderedBuffer = await offlineCtx.startRendering();
-
-        // Paso 4: Exportar como WAV
-        const wavData = await WavEncoder.encode({
-            sampleRate: renderedBuffer.sampleRate,
-            channelData: [
-                renderedBuffer.getChannelData(0),
-                renderedBuffer.numberOfChannels > 1
-                    ? renderedBuffer.getChannelData(1)
-                    : renderedBuffer.getChannelData(0)
-            ]
-        });
-
-        const blob = new Blob([wavData], { type: "audio/wav" });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "Mix.wav";
-        a.click();
     };
 
 
@@ -302,6 +395,8 @@ export const AudioUploaderAndPoster = () => {
                             <p className="controls-uppy-text text-white">BPM</p>
                             <p className="controls-uppy-text text-white form-info-uppy p-2" value={bpm} onChange={e => setBpm(Number(e.target.value))}>{projectInfo.bpm}</p>
                         </div>
+
+
 
                         <div className="text-center d-flex flex-column gap-4">
                             <p className="controls-uppy-text text-white" >Instruments</p>
@@ -344,7 +439,8 @@ export const AudioUploaderAndPoster = () => {
                         </Link>
                     </button>
 
-                    <div className="modal fade" id="UploadModal" tabindex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
+                    <div className="modal fade" id="UploadModal" tabIndex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
+
                         <div className="modal-dialog">
                             <div className="modal-content bg-dark text-white">
                                 <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-white">
@@ -395,9 +491,10 @@ export const AudioUploaderAndPoster = () => {
 
                     <div className="zoom-line">
 
-                        <label className="text-white fs-4 zoom-txt" for="zoom-control" >Zoom</label>
+                        <label className="text-white fs-4 zoom-txt" htmlFor="zoom-control" >Zoom</label>
 
                         <Slider className="zoom-control" id="zoom-control" value={zoomLevel} onChange={handleZoomChange} />
+
 
                     </div>
 
