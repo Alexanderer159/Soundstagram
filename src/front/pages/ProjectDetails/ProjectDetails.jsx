@@ -1,5 +1,7 @@
 // src/pages/ProjectDetails.jsx
 import React, { useEffect, useState, useRef } from "react";
+import { toast } from "react-toastify";
+import { uploadTrackToCloudinary } from "../../services/cloudinaryService";
 import { useParams, Link } from "react-router-dom";
 import { getProjectById } from "../../services/projectService";
 import { approveTrack, rejectTrack } from "../../services/trackService";
@@ -12,7 +14,9 @@ import TrackWaveform from "../../components/TrackWaveform/TrackWaveform";
 import AddTrackModal from "../../components/AddTrackModal/AddTrackModal";
 import { downloadProjectAsZip } from "../../utils/downloadZip";
 import useTrackReducer from "../../reducers/trackReducer";
+import { useProjectReducer } from "../../reducers/projectReducer";
 import { useUserReducer } from "../../reducers/userReducer"
+import { updateMainTrack } from "../../services/projectService"
 import './ProjectDetails.css'
 
 
@@ -24,14 +28,11 @@ const ProjectDetails = () => {
     const [zoomLevel, setZoomLevel] = useState(0);
     const [activeTab, setActiveTab] = useState('approved');
     const wavesurferRefs = useRef({});
+    const { projectStore, projectDispatch } = useProjectReducer()
     const { trackStore, trackDispatch } = useTrackReducer();
     const { userStore } = useUserReducer();
+    const [showSettings, setShowSettings] = useState(false);
     const currentUser = userStore.user;
-
-
-
-
-
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -50,14 +51,33 @@ const ProjectDetails = () => {
         fetchProject();
     }, [id]);
 
+    const handleMainTrackUpload = async (file) => {
+        try {
+            if (!file) return toast.error("Selecciona un archivo para subir como Main Track.");
 
+            const url = await uploadTrackToCloudinary(file, project.title);
 
+            await updateMainTrack(project.id, url);
+            const refreshed = await getProjectById(project.id);
+
+            setProject(refreshed);
+            projectDispatch({ type: "update_project", payload: refreshed });
+
+            toast.success("✅ Main track actualizada y sincronizada");
+            console.log(project.main_track_url)
+        } catch (error) {
+            console.error("❌ Error al subir la main track:", error);
+            toast.error("Hubo un error al subir la pista principal.");
+        }
+    };
 
     const handleApprove = async (trackId) => {
         try {
             const updated = await approveTrack(trackId);
             trackDispatch({ type: "approve_track", payload: updated });
+            toast.success("Track aprobada")
         } catch (err) {
+            toast.error("Error al aprobar track")
             console.error("❌ Error al aprobar track", err);
         }
     };
@@ -66,7 +86,9 @@ const ProjectDetails = () => {
         try {
             const updated = await rejectTrack(trackId);
             trackDispatch({ type: "reject_track", payload: updated });
+            toast.success("track rechazada")
         } catch (err) {
+            toast.error("Error al rechazar track")
             console.error("❌ Error al rechazar track", err);
         }
     };
@@ -77,7 +99,9 @@ const ProjectDetails = () => {
 
     const isOwner = currentUser?.id === project?.owner_id;
 
-    const approvedTracks = trackStore.tracks.filter(t => t.status === 'approved');
+    const approvedTracks = trackStore.tracks.filter(
+        t => t.status === 'approved' && t.file_url !== project.main_track_url
+    );
     const pendingTracks = trackStore.tracks.filter(t => t.status === 'pending');
 
     console.log('tracks', trackStore)
@@ -163,15 +187,23 @@ const ProjectDetails = () => {
                         <p className="m-0 flex-row align-items-center"> <DownloadIcon /> Download Project</p>
                     </button>
 
-                    <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj" >
-                        <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p>
-                    </button>
-
                     <button className="btn-uppy d-flex flex-row align-items-center p-2 mixbut" >
                         <Link to="/mixer" className="text-decoration-none">
                             <p className="m-0 flex-row align-items-center text-light" ><TuneIcon /> Mixer</p>
                         </Link>
                     </button>
+
+                    {isOwner && (
+                        <>
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj" >
+                                <p className="m-0 flex-row align-items-center"> <SendIcon /> Publish Project</p>
+                            </button>
+
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2 settings-btn" onClick={() => setShowSettings((prev) => !prev)} >
+                                <p className="m-0 flex-row align-items-center text-light"> ⚙ Settings </p>
+                            </button>
+                        </>
+                    )}
 
                 </div>
 
@@ -180,22 +212,79 @@ const ProjectDetails = () => {
                 </div>
 
                 {/* TABS */}
-                {isOwner && (
-                    <div className="tabs d-flex gap-4 px-5 mt-4">
-                        <button className={`tab-btn ${activeTab === 'approved' ? 'active' : ''}`} onClick={() => setActiveTab('approved')}>
-                            🎵 Approved Tracks ({approvedTracks.length})
-                        </button>
-                        <button className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`} onClick={() => setActiveTab('pending')}>
-                            ⏳ Pending Tracks ({pendingTracks.length})
-                        </button>
-                    </div>
+                {isOwner && showSettings && (
+                    <>
+                        <h3 className="text-white mb-4">⚙️ Project Settings</h3>
+
+                        {trackStore.tracks.map((track) => (
+                            <div key={track.id} className="track_container w-100">
+                                <div className="track_container  text-white w-100">
+                                    <div className="track_container_info">
+                                        <img src={track.uploader?.profile_pic_url} className="collaborator_pic" />
+                                        <div>
+                                            <p className="m-0 fw-bold">{track.track_name}</p>
+                                            <small className={`text-${track.status === 'approved' ? 'success' : track.status === 'pending' ? 'warning' : 'muted'}`}>
+                                                {track.status}
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <TrackWaveform
+                                        track={track}
+                                        zoomLevel={zoomLevel}
+                                        onInit={(id, instance) => {
+                                            wavesurferRefs.current[id] = instance;
+                                        }}
+                                    />
+                                    <div className="d-flex flex-column gap-2">
+                                        {track.status !== "approved" && (
+                                            <button className="btn btn-success btn-sm" onClick={() => handleApprove(track.id)}>Aprobar</button>
+                                        )}
+                                        {track.status !== "rejected" && (
+                                            <button className="btn btn-danger btn-sm" onClick={() => handleReject(track.id)}>Rechazar</button>
+                                        )}
+                                        {track.file_url !== project.main_track_url && (
+                                            <button
+                                                className="btn btn-warning btn-sm"
+                                                onClick={() => handleMainTrackUpload(track.file_url)}
+                                            >
+                                                Set as Main Track
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                            </div>
+                        ))}
+                    </>
                 )}
 
                 {/* TRACKS */}
+
+                {project.main_track_url && (
+                    <div className="track_container my-4">
+                        <div className="track_container_info">
+                            <img
+                                className="collaborator_pic"
+                                src={project.owner_pic}
+                                alt="Owner pic"
+                            />
+                            <p className=" mt-2 text-white">Main Track</p>
+                        </div>
+                        <TrackWaveform
+                            key="main"
+                            track={{ file_url: project.main_track_url, track_name: "Main Track" }}
+                            zoomLevel={zoomLevel}
+                            onInit={(id, instance) => {
+                                wavesurferRefs.current["main"] = instance;
+                            }}
+                        />
+                    </div>
+                )}
                 <div className="text-white mt-4">
                     {(activeTab === 'approved' || !isOwner) && (
                         <details className="dropdown_section">
-                            <summary className="fs-4">Approved Tracks</summary>
+                            <summary className="fs-4">Individual Tracks</summary>
                             {approvedTracks.length === 0 ? (
                                 <p className="text-muted">No approved tracks yet.</p>
                             ) : (

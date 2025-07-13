@@ -14,9 +14,12 @@ export default function projectReducer(state, action) {
       return { ...state, projects: [...state.projects, action.payload] };
 
     case 'update_project':
+      const updatedProject = action.payload;
       return {
         ...state,
-        projects: state.projects.map((p) => (p.id === action.payload.id ? action.payload : p)),
+        projects: state.projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
+        selectedProject:
+          state.selectedProject?.id === updatedProject.id ? updatedProject : state.selectedProject,
       };
 
     case 'delete_project':
