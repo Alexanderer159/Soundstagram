@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { useProjectReducer } from '../../reducers/projectReducer';
 import { FeedSidebar } from '../../components/FeedSidebar/FeedSidebar';
 import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
-import "./feed.css"
+import { Loader } from "../../components/Loader/Loader.jsx"
 import ChatSidebar from '../../components/ChatSidebar/ChatSidebar';
+import "./feed.css"
 
 export const Feed = () => {
     const { projectStore, fetchPublicProjects } = useProjectReducer();
@@ -13,9 +15,18 @@ export const Feed = () => {
         fetchPublicProjects();
     }, []);
 
-    if (loading) return <p className="text-white text-center mt-5">Cargando proyectos...</p>;
+    if (loading) return <><p className="text-white text-center mt-5 fs-1">Loading projects!</p></>;
 
-    if (error) return <p className="text-danger text-center mt-5">Error: {error}</p>;
+    if (error) 
+        
+        return <>
+        <div className="d-flex flex-column align-items-center gap-3">
+
+        <p className="no-user text-center mt-5">No User connected!</p>
+
+        <Link to="/" className="text-decoration-none"> <button className="text-white jazz-back" >Jazz-back and log in!</button> </Link>
+        </div>
+        </>;
 
     else
         return (

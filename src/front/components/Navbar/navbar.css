@@ -39,20 +39,54 @@
   }
 }
 
-.icon-navbar {
-  background-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-1));
-  color: var(--bg-color);
-  background-size: 200%, 200%;
-  font-size: 25px;
-  transition: 1s;
-  animation: gradient-shift 5s infinite linear;
+.icon-navbar:hover {
+  font-size: 200%;
+  transition: 1s ease;
+  height: 35px;
+  width: 35px;
 }
 
-.icon-navbar:hover {
-  font-size: 35px;
-  background-size: 200%, 200%;
-  transition: 1s;
-  animation: gradient-shift 5s infinite linear;
+.search-navbar-icon-btn:hover{
+  font-size: 200%;
+  transition: 0.5s ease;
+  height: 35px;
+  width: 35px;
+}
+
+.search-navbar-icon{
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    font-size: 40px;
+    line-height: 0.25;
+    height: 25px;
+    width: 25px;
+    transition: 0.5s ease;
+}
+
+.bell-navbar-icon{
+      background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    font-size: 21px;
+    line-height: 1;
+    height: 25px;
+    width: 25px;
+    transition: 1s ease;
+}
+
+.user-navbar-icon{
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    font-size: 22px;
+    line-height: 1;
+    height: 25px;
+    width: 25px;
+    transition: 1s ease;
 }
 
 .search-function:hover .search-navbar-bar {

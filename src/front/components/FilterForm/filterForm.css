@@ -5,6 +5,7 @@
   padding: 7px;
   margin-top: 5px;
   cursor: pointer;
+  text-shadow: 0px 0px 0px transparent;
   transition: 1s ease;
 }
 
@@ -101,6 +102,7 @@
   justify-content: center;
   flex-wrap: wrap;
   padding: 2%;
+  text-shadow: 0px 0px 0px transparent;
   border-radius: 10px;
   box-shadow: 0px 0px 15px 5px black inset;
 }

@@ -87,7 +87,7 @@ const FilterForm = () => {
 
                         <summary className="fs-4">Filter by genre</summary>
 
-                        <div className="filter_container my-2">
+                        <div className="filter_container my-2 d-flex gap-1">
 
                             {genres.map(genre => (<label key={genre.id} className="filter_checkbox">
 
@@ -107,7 +107,7 @@ const FilterForm = () => {
 
                         <summary className="fs-4">Filter by roles</summary>
 
-                        <div className="filter_container my-2">
+                        <div className="filter_container my-2 d-flex gap-1">
 
                             {roles.map(role => (<label key={role.id} className="filter_checkbox">
 
@@ -128,7 +128,7 @@ const FilterForm = () => {
 
                         <summary className="fs-4">Filter by instruments</summary>
 
-                        <div className="filter_container my-2">
+                        <div className="filter_container my-2 d-flex gap-1">
 
                             {instruments.map(inst => (<label key={inst.id} className="filter_checkbox">
 
