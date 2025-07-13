@@ -874,28 +874,42 @@ export const Mixer = () => {
                 console.log(`📁 Archivo WebM completo creado: ${webmBlob.size} bytes (${(webmBlob.size / 1024 / 1024).toFixed(2)} MB)`);
                 console.log(`⏱️ Duración final: ${renderedBuffer.duration}s`);
 
-                console.log("☁️ Subiendo a Cloudinary...");
-                // Subir a Cloudinary
-                const file = new File([webmBlob], `${projectName}_Mix.webm`, { type: 'audio/webm' });
-                const cloudinaryUrl = await uploadTrackToCloudinary(file);
+                // DESCARGAR AUTOMÁTICAMENTE PRIMERO
+                console.log("📥 Descargando archivo automáticamente...");
+                const downloadUrl = URL.createObjectURL(webmBlob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.download = `${projectName}_Mix.webm`;
+                downloadLink.click();
+                URL.revokeObjectURL(downloadUrl);
+                console.log("✅ Archivo descargado automáticamente");
 
-                console.log("💾 Guardando en backend...");
-                // Guardar en backend
-                await fetch('/api/projects/save-mix', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        projectId,
-                        mixUrl: cloudinaryUrl,
-                        projectName,
-                        bpm,
-                        trackCount: validTracks.length
-                    }),
-                });
+                // LUEGO SUBIR A CLOUDINARY
+                try {
+                    console.log("☁️ Subiendo a Cloudinary...");
+                    const file = new File([webmBlob], `${projectName}_Mix.webm`, { type: 'audio/webm' });
+                    const cloudinaryUrl = await uploadTrackToCloudinary(file);
 
-                setMixUrl(cloudinaryUrl);
-                console.log("✅ Export de duración completa con efectos completado y guardado");
-                alert("✅ Mezcla exportada y guardada exitosamente con efectos aplicados!");
+                    console.log("💾 Guardando en backend...");
+                    await fetch('/api/projects/save-mix', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            projectId,
+                            mixUrl: cloudinaryUrl,
+                            projectName,
+                            bpm,
+                            trackCount: validTracks.length
+                        }),
+                    });
+
+                    setMixUrl(cloudinaryUrl);
+                    console.log("✅ Export de duración completa con efectos completado y guardado");
+                    alert("✅ Mezcla exportada, descargada y guardada exitosamente con efectos aplicados!");
+                } catch (uploadError) {
+                    console.error("❌ Error subiendo a Cloudinary:", uploadError);
+                    alert("✅ Mezcla exportada y descargada exitosamente! (Error al guardar en la nube)");
+                }
 
                 audioContext.close();
             };
@@ -1512,7 +1526,7 @@ export const Mixer = () => {
                             borderColor: '#a855f7'
                         }}
                     >
-                        {isExporting ? '🔄 EXPORTING...' : '💾 EXPORT & SAVE MIX (Full Duration)'}
+                        {isExporting ? '🔄 EXPORTING & DOWNLOADING...' : '💾 EXPORT & DOWNLOAD MIX (Full Duration)'}
                     </button>
 
                     {mixUrl && (
