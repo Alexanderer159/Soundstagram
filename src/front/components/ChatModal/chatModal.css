@@ -58,7 +58,7 @@
   white-space: normal;
   justify-content: start;
   width: 100%;
-  animation: autoShow 1s ease;
+  animation: autoShowMessages 1s ease;
   animation-timeline: view(100% 0%);
 }
 
@@ -110,4 +110,16 @@ border-bottom-left-radius: 0px;
     transition: 1s ease;
     font-size: large;
     cursor: pointer;
+}
+
+@keyframes autoShowMessages{
+  0%{
+    opacity: 0;
+    transform: translateY(200px) scale(0.3);
+  }
+
+  100%{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
