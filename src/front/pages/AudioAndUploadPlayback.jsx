@@ -16,7 +16,9 @@ import "../styles/index.css"
 const currentUser = "Test User";
 
 export const AudioUploaderAndPoster = () => {
+
     const navigate = useNavigate(); // Añadir esta línea
+
 
     const [projectInfo, setProjectInfo] = useState({});
     const [projectTags, setProjectTags] = useState("");
@@ -60,6 +62,7 @@ export const AudioUploaderAndPoster = () => {
 
         const id = crypto.randomUUID();
         const url = URL.createObjectURL(file);
+
 
         // Crear un AudioContext temporal para obtener la duración
         const tempAudioContext = new AudioContext();
@@ -172,6 +175,7 @@ export const AudioUploaderAndPoster = () => {
         };
     }, [tracks]);
 
+
     //controles para TODOS LOS TRACKS
     const handlePlayPauseAll = () => {
         Object.values(wavesurferRefs.current).forEach((ws) => ws.playPause());
@@ -252,6 +256,7 @@ export const AudioUploaderAndPoster = () => {
             alert("No tracks to export");
             return;
         }
+
 
         try {
             console.log("🎵 Iniciando exportación de mezcla...");
@@ -351,6 +356,7 @@ export const AudioUploaderAndPoster = () => {
             console.error("❌ Error en la exportación:", error);
             alert("Error al exportar la mezcla. Revisa la consola para más detalles.");
         }
+
     };
 
 
@@ -389,6 +395,8 @@ export const AudioUploaderAndPoster = () => {
                             <p className="controls-uppy-text text-white">BPM</p>
                             <p className="controls-uppy-text text-white form-info-uppy p-2" value={bpm} onChange={e => setBpm(Number(e.target.value))}>{projectInfo.bpm}</p>
                         </div>
+
+
 
                         <div className="text-center d-flex flex-column gap-4">
                             <p className="controls-uppy-text text-white" >Instruments</p>
@@ -432,6 +440,7 @@ export const AudioUploaderAndPoster = () => {
                     </button>
 
                     <div className="modal fade" id="UploadModal" tabIndex="-1" aria-labelledby="UploadModalLabel" aria-hidden="true">
+
                         <div className="modal-dialog">
                             <div className="modal-content bg-dark text-white">
                                 <div className="modal-header d-flex flex-column gap-2 p-4 bg-dark text-white">
@@ -485,6 +494,7 @@ export const AudioUploaderAndPoster = () => {
                         <label className="text-white fs-4 zoom-txt" htmlFor="zoom-control" >Zoom</label>
 
                         <Slider className="zoom-control" id="zoom-control" value={zoomLevel} onChange={handleZoomChange} />
+
 
                     </div>
 
