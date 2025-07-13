@@ -68,6 +68,7 @@ class Project(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
+    main_track_url: Mapped[str] = mapped_column(Text, nullable=True)
     key: Mapped[KeyEnum] = mapped_column(SQLEnum(KeyEnum), nullable=True)
     meter: Mapped[MeterEnum] = mapped_column(SQLEnum(MeterEnum), nullable=True)
     bpm: Mapped[int] = mapped_column(nullable=True)
@@ -97,6 +98,7 @@ class Project(db.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
+            "main_track_url": self.main_track_url,
             "tags": self.tags,
             "key": self.key.value if self.key else None,
             "meter": self.meter.value if self.meter else None,

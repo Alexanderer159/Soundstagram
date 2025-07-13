@@ -191,3 +191,26 @@ def get_projects_from_followed_users(user_id):
         Project.visibility == VisibilityEnum.public
     ).all()
     return jsonify([p.serialize() for p in projects]), 200
+
+@project_api.route('/projects/<int:id>/main-track', methods=['PUT'])
+@jwt_required()
+def update_main_track(id):
+    user_id = int(get_jwt_identity())
+    project = db.session.get(Project, id)
+
+    if not project:
+        return jsonify({"msg": "Proyecto no encontrado"}), 404
+
+    if project.owner_id != user_id:
+        return jsonify({"msg": "No autorizado para modificar este proyecto"}), 403
+
+    data = request.get_json()
+    new_url = data.get("main_track_url")
+
+    if not new_url:
+        return jsonify({"msg": "Se requiere 'main_track_url'"}), 400
+
+    project.main_track_url = new_url
+    db.session.commit()
+
+    return jsonify(project.serialize()), 200

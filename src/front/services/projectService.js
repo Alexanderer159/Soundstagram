@@ -49,3 +49,10 @@ export const getProjectsFromFollowedUsers = async (userId) => {
   const response = await api.get(`/projects/followed/${userId}`);
   return response.data;
 };
+
+export const updateMainTrack = async (projectId, mainTrackUrl) => {
+  const response = await api.put(`/projects/${projectId}/main-track`, {
+    main_track_url: mainTrackUrl,
+  });
+  return response.data;
+};
