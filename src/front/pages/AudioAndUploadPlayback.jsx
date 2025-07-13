@@ -10,7 +10,6 @@ import SendIcon from "@mui/icons-material/Send";
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TuneIcon from '@mui/icons-material/Tune';
-import "../styles/upload_play.css"
 import "../styles/index.css"
 
 const currentUser = "Test User";

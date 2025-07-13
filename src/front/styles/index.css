@@ -52,3 +52,23 @@ html, body {
     50% { background-position: 100% 50%;}
     100% { background-position: 0% 100%;}
 }
+
+@keyframes bouncein {
+    from{ transform: translateY(-50%);}
+    to{ transform: translateY(00%);}
+}
+
+@keyframes slideforwards {
+    0%{ transform: translateX(-150%);}
+    100% { transform: translateX(0%);}
+}
+
+@keyframes growline {
+    from{width: 0%;}
+    to{width: 10%;}
+}
+
+@keyframes coverdesc {
+    0%{ transform: translateX(-103%);}
+    100% { transform: translateX(0%);}
+}
