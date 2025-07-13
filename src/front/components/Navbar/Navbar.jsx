@@ -40,21 +40,13 @@ export const Navbar = () => {
 		<nav className="navbar">
 			<div className="container-fluid d-flex flex-row m-0 p-0 justify-content-between align-items-center">
 
-
-				<Link to="/" className="text-decoration-none">
+				<Link to="/feed" className="text-decoration-none">
 					<div className="d-flex flex-row align-items-center">
 						<img src="/Pictures/Soundstagram_no_bg.svg" className="soundstagram-icon img-fluid icon mx-3 p-1" />
 						<p className="navbar-text fw-bold m-0 p-0 text-center">Soundstagram!</p>
 					</div>
 				</Link>
 
-
-				<Link to="/feed" className="text-decoration-none">
-					<p className="navbar-text fw-bold text-center p-0 m-0">Feed</p>
-				</Link>
-				<Link to="/comments" className="text-decoration-none">
-					<p className="navbar-text fw-bold text-center p-0 m-0">Messages</p>
-				</Link>
 				<Link to="/add_project" className="text-decoration-none">
 					<p className="navbar-text fw-bold text-center p-0 m-0">Make a project</p>
 				</Link>

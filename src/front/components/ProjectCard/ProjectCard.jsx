@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import useLikeReducer from '../../reducers/likeReducer';
 import { getUserLikes, toggleProjectLike } from '../../services/likeService';
 import { useUserReducer } from '../../reducers/userReducer';
 import "./projectcard.css";
 
 export const ProjectCard = ({ project }) => {
+
+    const navigate = useNavigate()
 
     const { likeStore, likeDispatch } = useLikeReducer();
     const { userLikes } = likeStore;
@@ -27,7 +30,9 @@ export const ProjectCard = ({ project }) => {
         }
     };
 
-
+    const handleNavigateProject = () =>{
+        navigate(`/project/${project.id}`);
+    }
 
     return (
         <>
@@ -84,6 +89,8 @@ export const ProjectCard = ({ project }) => {
                             </div>
 
                         </div>
+
+                        <button className="go-project" onClick={handleNavigateProject}>Go to project</button>
 
                     </div>
 

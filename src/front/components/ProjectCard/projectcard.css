@@ -92,7 +92,7 @@
 .description-box-feed{
   scrollbar-width:none ;
   overflow-y: scroll;
-  max-height: 200px;
+  max-height: 240px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 1px black inset;
 }
@@ -134,6 +134,28 @@
   text-shadow: 0px 0px 3px var(--bg-color);
   background-clip: text;
   transition: 1s ease;
+}
+
+.go-project{
+    border: 0px;
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: var(--bg-color);
+}
+.go-project:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.go-project:hover {
+    transition: 1s ease;
+    font-size: x-large;
 }
 
 @keyframes autoShow{
