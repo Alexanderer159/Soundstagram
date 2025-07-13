@@ -112,4 +112,5 @@ class Project(db.Model):
             "seeking_roles": [r.serialize() for r in self.seeking_roles],
             "seeking_instruments": [i.serialize() for i in self.seeking_instruments],
             "collaborators": [c.user.serialize() for c in self.collaborators],
+            "tracks": [track.serialize() for track in self.tracks]
         }

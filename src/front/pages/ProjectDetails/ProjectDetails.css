@@ -1,0 +1,23 @@
+.collaborator_pic {
+  height: 100px;
+  width: 100px;
+  box-shadow: 2px 2px 5px 5px black;
+  border-top: 2px solid var(--accent);
+  overflow-clip-margin: unset;
+  border-radius: 50%;
+}
+
+.track_container {
+  display: flex;
+  width: 100%;
+  gap: 1%;
+}
+
+.track_container_info {
+  display: flex;
+  flex-direction: column;
+  gap: 4%;
+  width: 5%;
+  justify-content: center;
+  align-items: center;
+}

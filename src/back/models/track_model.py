@@ -46,4 +46,6 @@ class Track(db.Model):
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "instrument_id": self.instrument_id,
+            "instrument": self.instrument.serialize() if self.instrument else None,
+            "uploader": self.uploader.serialize() if self.uploader else None
         }

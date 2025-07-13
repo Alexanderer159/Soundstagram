@@ -68,11 +68,12 @@ export const AddProject = () => {
             sessionStorage.setItem("ProjectInfo", JSON.stringify(playbackForm));
             navigate("/uploader-poster");
 
-            console.log("Payload enviado:", payload); // 👈 MUY IMPORTANTE
+            console.log("Payload enviado:", payload);
 
             const created = await createProject(payload);
             toast.success("Proyecto creado correctamente");
             console.log("Proyecto creado:", created);
+            navigate(`/project/${created.id}`);
 
         } catch (err) {
             toast.error("Error al crear el proyecto");
