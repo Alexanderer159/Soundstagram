@@ -66,26 +66,19 @@ export const Home = () => {
 							<p className="form-text my-2">We'll never share your email with anyone else.</p>
 						</div>
 
-						<div className="my-3">
+						<div className="my-4">
 							<label htmlFor="PasswordInput" className="form-label">Password</label>
 							<input type="password" className="form-control textinput bg-dark text-white" id="passwordInput" name="password" value={formData.password} onChange={handleChange} required />
 						</div>
-						<div className="my-3 form-check d-flex justify-content-end gap-1 mx-3">
-							<input type="checkbox" className="form-check-input bg-dark" id="rememberme" />
-							<label className="text-start form-label" htmlFor="rememberme">Remember me</label>
-						</div>
-						<button type="submit" className="btn mt-3">Login</button>
-						<div className="mt-4 px-1">
-							<Link to="/register" className="text-decoration-none">
-								<p className="form-text">Forgot your password?</p>
-							</Link>
-						</div>
+
+						<button type="submit" className="btn my-3">Login</button>
+
 					</form>
 				</div>
 
 				<div className="col-12 col-md-3 d-flex align-items-center justify-content-center my-2">
 					<div className="newuser btn fw-bold">
-						<Link to="/register" className="text-decoration-none">
+						<Link to="/register" className="text-decoration-none" viewTransition>
 							<button className="newuser-btn btn fw-bold">New user? <br /> Create an account!</button>
 						</Link>
 					</div>
