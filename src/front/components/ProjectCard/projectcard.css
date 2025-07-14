@@ -1,12 +1,13 @@
 .project_card {
     box-shadow: 40px 40px 2px 0px rgba(33, 37, 41, 0.568);
     border-radius: 10px;
+    opacity: 0;
     border-top: 1px solid var(--accent);
     border-bottom: 2px solid rgba(0,0,0,0.3);
     border-right: 2px solid rgba(0,0,0,0.3);
     background: var(--bg-color);
     animation: autoShow 1s ease;
-    animation-timeline: view();
+    animation-timeline: view(0% 10%);
     max-height: 500px;
 }
 
@@ -24,7 +25,7 @@
 .profile_pic_project_card:hover {
     min-height: 100px;
     min-width: 100px;
-       height: 100px;
+    height: 100px;
     width: 100px;
     box-shadow: 2px 2px 5px 5px black;
     border-top: 2px solid var(--accent);
@@ -113,7 +114,10 @@
 .like_button {
   background: none;
   border: none;
+  height: 75px;
+  width: 100px;
   font-size: 100px;
+  line-height: 0.5;
   cursor: pointer;
   display: flex;
   background: black;

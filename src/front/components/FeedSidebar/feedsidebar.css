@@ -10,7 +10,7 @@
 }
 
 .all-info-user{
-    box-shadow: 40px 40px 2px 0px rgba(33, 37, 41, 0.568);
+    box-shadow: 40px 40px 30px 0px rgba(33, 37, 41, 0.568);
     border-radius: 10px;
     border-top: 1px solid var(--accent);
     border-bottom: 2px solid rgba(0,0,0,0.3);

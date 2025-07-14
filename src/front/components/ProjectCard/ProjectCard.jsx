@@ -134,7 +134,7 @@ export const ProjectCard = ({ project }) => {
                         </div>
 
                         <div className="d-flex justify-content-center p-0 m-0">
-                            <button className={`like_button ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>{liked ? '♥' : '♥'}</button>
+                            <button className={`like_button d-flex justify-content-center align-items-center p-0 m-0 ${liked ? 'liked' : ''}`} onClick={handleLikeToggle}>{liked ? '♥' : '♥'}</button>
                         </div>
 
                     </div>
