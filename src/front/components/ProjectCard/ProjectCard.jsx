@@ -50,22 +50,6 @@ export const ProjectCard = ({ project }) => {
 
                         </div>
 
-                        <div className='mt-1'>
-
-                            <p className="fs-4">Description</p>
-                            <p className="fs-5 text-center description-box-feed p-3">{project.description}</p>
-
-                        </div>
-
-                    </div>
-
-                    <div className="col-4 d-flex flex-column gap-3">
-
-                        <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
-
-                            <p className="project-title-feed text-center fw-bold">{project.title}</p>
-
-                        </div>
 
                         <div className="genre-container d-flex justify-content-center flex-column pb-5">
 
@@ -87,6 +71,17 @@ export const ProjectCard = ({ project }) => {
 
                                 {project.seeking_instruments.map((i) => (<span key={i.id} className="pill text-center mt-1 p-2">{i.name}</span>))}
                             </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div className="col-4 d-flex flex-column gap-3">
+
+                        <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
+
+                            <p className="project-title-feed text-center fw-bold">{project.title}</p>
 
                         </div>
 
