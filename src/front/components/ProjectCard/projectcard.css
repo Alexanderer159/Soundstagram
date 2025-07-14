@@ -11,6 +11,8 @@
 }
 
 .profile_pic_project_card {
+    min-height: 120px;
+    min-width: 120px;
     height: 120px;
     width: 120px;
     box-shadow: 2px 2px 5px 5px black;
@@ -20,7 +22,9 @@
 }
 
 .profile_pic_project_card:hover {
-    height: 100px;
+    min-height: 100px;
+    min-width: 100px;
+       height: 100px;
     width: 100px;
     box-shadow: 2px 2px 5px 5px black;
     border-top: 2px solid var(--accent);
