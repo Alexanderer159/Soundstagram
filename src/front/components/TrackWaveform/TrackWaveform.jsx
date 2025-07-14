@@ -28,15 +28,15 @@ const TrackWaveform = ({ track, zoomLevel = 0, onInit }) => {
             autoCenter: true,
             autoScroll: true,
             minPxPerSec: zoomLevel,
-            barWidth: 3,
+            barWidth: 4,
             interact: true,
             dragToSeek: true,
             hideScrollbar: true,
             barRadius: 3,
-            waveColor: "#00ffee",
-            progressColor: "#0099cc",
+            waveColor: ['rgb(13, 202, 240)', 'rgb(0, 255, 191)', 'rgb(0, 255, 136)'],
+            progressColor: ['rgba(13, 202, 240,0.6)', 'rgba(0, 255, 191,0.6)', 'rgba(0, 255, 136,0.6)'],
             cursorColor: "white",
-            cursorWidth: 2,
+            cursorWidth: 4,
             responsive: true,
             normalize: true,
             backend: "mediaelement",
@@ -115,15 +115,14 @@ const TrackWaveform = ({ track, zoomLevel = 0, onInit }) => {
 
     return (
         <>
-            <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+            <div className="d-flex flex-column gap-4 justify-content-center align-items-center">
                 <div onClick={handlePlayPause} >
                     {isPlaying ? <FaCirclePause size={'35px'} className="controller-btn" /> : <FaCirclePlay size={'35px'} className="controller-btn" />}
                 </div>
                 <FaCircleStop onClick={handleStop} size={'35px'} className="controller-btn" />
             </div>
-            <div ref={containerRef} className="wavesurfer-container mb-2" style={{ width: "100%" }} />
+            <div ref={containerRef} className="wavesurfer-container p-2" />
             <audio ref={audioRef} src={track.file_url} preload="auto" controls style={{ display: "none" }} />
-
         </>
     )
 };

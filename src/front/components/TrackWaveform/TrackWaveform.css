@@ -1,3 +1,18 @@
 .controller-btn {
   cursor: pointer;
+  transition: 1s ease;
+}
+
+.controller-btn:hover{
+width: 120%;
+height: 120%;
+transition: 1s ease;
+color: var(--color-3);
+}
+
+.wavesurfer-container {
+    width: 100%;
+    box-shadow: 0px 0px 15px 1px black inset;
+    border-radius: 5px;
+    height:fit-content;
 }

@@ -87,19 +87,19 @@ const AddTrackModal = ({ projectId, onTrackCreated }) => {
 
                         <div className="modal-body d-flex flex-column gap-4">
                             <input
-                                className="form-control text-uppy-input p-3"
+                                className="text-uppy-input p-3"
                                 placeholder="Track Name"
                                 name="track_name"
                                 value={trackData.track_name}
                                 onChange={handleInputChange}
                             />
                             <select
-                                className="form-select text-uppy-input p-3"
+                                className="text-uppy-input p-3"
                                 name="instrument_id"
                                 value={trackData.instrument_id}
                                 onChange={handleInputChange}
                             >
-                                <option value="">Selecciona un instrumento</option>
+                                <option value="">Select an instrument</option>
                                 {instrumentsList.map((inst) => (
                                     <option key={inst.id} value={inst.id}>
                                         {inst.name}
@@ -107,13 +107,13 @@ const AddTrackModal = ({ projectId, onTrackCreated }) => {
                                 ))}
                             </select>
                             <textarea
-                                className="form-control text-uppy-input p-3"
+                                className="text-uppy-input p-3"
                                 placeholder="Description"
                                 name="description"
                                 value={trackData.description}
                                 onChange={handleInputChange}
                             />
-                            <input className="form-control file-in m-1 p-1" type="file" accept="audio/*" onChange={handleFileChange} />
+                            <input className="file-in m-1 p-1" type="file" accept="audio/*" onChange={handleFileChange} />
 
                             <button className="btn-uppy d-flex flex-row align-items-center p-2" onClick={handleSubmit} disabled={uploading}>
                                 {uploading ? "Uploading..." : "Submit Track"}
