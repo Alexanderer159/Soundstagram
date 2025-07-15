@@ -77,7 +77,7 @@ export const ProjectCard = ({ project }) => {
 
                     </div>
 
-                    <div className="col-4 d-flex flex-column gap-3">
+                    <div className="col-4 d-flex flex-column justify-content-between gap-3">
 
                         <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
 
