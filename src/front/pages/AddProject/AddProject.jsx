@@ -65,18 +65,15 @@ export const AddProject = () => {
                 genre: setGenres(await getAllGenres()),
             }
 
-            sessionStorage.setItem("ProjectInfo", JSON.stringify(playbackForm));
-            navigate("/uploader-poster");
-
             console.log("Payload enviado:", payload);
 
             const created = await createProject(payload);
-            toast.success("Proyecto creado correctamente");
+            toast.success("Project created successfully!");
             console.log("Proyecto creado:", created);
             navigate(`/project/${created.id}`);
 
         } catch (err) {
-            toast.error("Error al crear el proyecto");
+            toast.error("Error creating project");
             console.error("ERROR AL CREAR:", err.response?.data || err.message);
         }
     };
