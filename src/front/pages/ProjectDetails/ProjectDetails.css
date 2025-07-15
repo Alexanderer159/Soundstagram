@@ -1,3 +1,13 @@
+.no-project{
+    animation: gradient-shift 15s infinite, fadeIn 2s forwards;
+    background: linear-gradient(270deg, var(--color-1),  var(--color-2), var(--color-1));
+    background-size: 200%, 200%;
+    background-clip: text;
+    color: transparent;
+    border: 0;
+    font-size: 150px;
+}
+
 .collaborator_pic {
     min-height: 100px;
     min-width: 100px;

@@ -41,7 +41,7 @@ export const FeedSidebar = () => {
 
                 </div>
 
-                <div className="row">
+                <div className="row spot-proj pb-4">
 
                     <div className="col d-flex flex-column gap-3 align-items-center">
 
@@ -53,15 +53,13 @@ export const FeedSidebar = () => {
 
                 </div>    
 
-                <hr className="break-feed" />
-
-                <div className="row">
+                <div className="roles-inst row pb-4 d-flex justify-content-between">
 
                     <div className="col">
 
-                        <p className="fs-3">Roles</p>
+                        <p className="fs-3 text-center">Roles</p>
 
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-center">
 
                             {user.roles?.map((role) => (<span key={role.id} className="role-pill py-1 px-2" > {role.name} </span>))}
 
@@ -70,17 +68,15 @@ export const FeedSidebar = () => {
 
                     <div className="col">
 
-                        <p className="fs-3">Instruments</p>
+                        <p className="fs-3 text-center">Instruments</p>
 
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-center">
 
                             {user.instruments?.map((instrument) => (<span key={instrument.id} className="role-pill py-1 px-2" > {instrument.name} </span>))}
 
                         </div>
                     </div>
                 </div>
-
-                <hr className="break-feed" />
 
                 <FilterForm />
 
