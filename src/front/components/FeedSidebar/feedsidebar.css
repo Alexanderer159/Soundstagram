@@ -50,8 +50,12 @@
   transition: 1s ease;
 }
 
-.break-feed{
-  color: var(--color-3);
+.spot-proj{
+  border-bottom: 2px solid var(--color-3);
+}
+
+.roles-inst{
+  border-bottom: 2px solid var(--color-3);
 }
 
 .role-pill {

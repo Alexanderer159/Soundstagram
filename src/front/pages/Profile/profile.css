@@ -1,8 +1,10 @@
 .profile-info{
     border-top: 1px solid var(--accent);
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
     background: var(--bg-color);
-    border-radius: 15px;
-    box-shadow: 1px 1px 15px 1px black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 10px black;
     animation: fadeIn 4s forwards, slideforwards 2s forwards;
 }
 
@@ -66,7 +68,8 @@
 
 .profile-list {
   max-height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   list-style: none
 }
 
@@ -111,6 +114,10 @@
     scrollbar-color: var(--color-3) transparent;
 }
 
+.over-btn{
+    border-bottom: 1px solid var(--accent);
+}
+
 .pro-btn{
     border: 0px;
     font-size: x-large;
@@ -145,9 +152,8 @@
     cursor: pointer;
 }
 
-.pro-btn-out{
+.pro-btn-proj{
     border: 0px;
-    font-size: x-large;
     border-top: 1px solid var(--accent);
     border-radius: 5px;
     background: var(--bg-color);
@@ -159,31 +165,34 @@
     cursor: pointer;
 }
 
-.pro-btn-out:active {
-    border: 1px solid var(--color-5);
+.pro-btn-proj:active {
+    border: 1px solid var(--color-3);
     border-radius: 5px;
-    background: linear-gradient(270deg, var(--color-4), var(--color-5), var(--color-4));
+    background: linear-gradient(270deg, var(--color-1), var(--color-3), var(--color-2));
     background-clip: text;
     background-size: 200%, 200%;
+    font-size: x-large;
     color: transparent;
 }
-.pro-btn-out:hover {
-    border: 1px solid var(--color-5);
-    border-radius: 5px;
-    background: linear-gradient(270deg, var(--color-5), var(--color-4), var(--color-5));
+.pro-btn-proj:hover {
+    border: 1px solid var(--color-3);
+    border-radius: 10px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-3), var(--color-2));
     background-clip: text;
     background-size: 200%, 200%;
     color: transparent;
+    font-size: x-large;
     transition: 1s ease;
-    font-size: xx-large;
     cursor: pointer;
 }
 
 .profile-show-things{
     border-top: 1px solid var(--accent);
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
     background: var(--bg-color);
-    border-radius: 15px;
-    box-shadow: 1px 1px 15px 1px black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 10px black;
 }
 
 .profile-show-things-left{

@@ -44,7 +44,7 @@ const ProjectDetails = () => {
                 setProject(data);
                 trackDispatch({ type: "set_tracks", payload: data.tracks });
             } catch (err) {
-                setError("No se pudo cargar el proyecto");
+                setError("Couldn't load the project!");
                 console.error("❌ Error al obtener proyecto:", err);
             } finally {
                 setLoading(false);
@@ -56,7 +56,7 @@ const ProjectDetails = () => {
 
     const handleMainTrackUpload = async (file) => {
         try {
-            if (!file) return toast.error("Selecciona un archivo para subir como Main Track.");
+            if (!file) return toast.error("Choose a file to upload as Main Track.");
 
             const url = await uploadTrackToCloudinary(file, project.title);
 
@@ -66,11 +66,11 @@ const ProjectDetails = () => {
             setProject(refreshed);
             projectDispatch({ type: "update_project", payload: refreshed });
 
-            toast.success("✅ Main track actualizada y sincronizada");
+            toast.success("✅ Main track updated and synchronized");
             console.log(project.main_track_url)
         } catch (error) {
             console.error("❌ Error al subir la main track:", error);
-            toast.error("Hubo un error al subir la pista principal.");
+            toast.error("There was an error uploading the main track.");
         }
     };
 
@@ -78,9 +78,9 @@ const ProjectDetails = () => {
         try {
             const updated = await approveTrack(trackId);
             trackDispatch({ type: "approve_track", payload: updated });
-            toast.success("Track aprobada")
+            toast.success("Track approved")
         } catch (err) {
-            toast.error("Error al aprobar track")
+            toast.error("Error approving track")
             console.error("❌ Error al aprobar track", err);
         }
     };
@@ -89,15 +89,15 @@ const ProjectDetails = () => {
         try {
             const updated = await rejectTrack(trackId);
             trackDispatch({ type: "reject_track", payload: updated });
-            toast.success("track rechazada")
+            toast.success("track discarded")
         } catch (err) {
-            toast.error("Error al rechazar track")
+            toast.error("Error discarding track")
             console.error("❌ Error al rechazar track", err);
         }
     };
 
-    if (loading) return <p className="text-white text-center mt-5">Cargando proyecto...</p>;
-    if (error) return <p className="text-danger text-center mt-5">{error}</p>;
+    if (loading) return <p className="text-white text-center mt-5">Loading Project...</p>;
+    if (error) return <p className="no-project text-center mt-5">{error}</p>;
     if (!project) return null;
 
     const isOwner = currentUser?.id === project?.owner_id;
