@@ -124,7 +124,7 @@ export const Profile = () => {
 
               <Link to="/add_project" className="text-decoration-none">
 
-                <button className="pro-btn ">Add Project</button>
+                <button className="make-project-prof">Add Project</button>
 
               </Link>
 

@@ -152,6 +152,29 @@
     cursor: pointer;
 }
 
+.make-project-prof{
+    border: 0px;
+    border-radius: 5px;
+    font-size: x-large;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 300%, 300%;
+    animation: gradient-shift 3s ease infinite;
+    transition: 1s ease;
+    color: var(--bg-color);
+}
+.make-project-prof:active {
+    border: 1px solid var(--color-3);
+    border-radius: 5px;
+    background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
+    background-clip: text;
+    background-size: 200%, 200%;
+    color: transparent;
+}
+.make-project-prof:hover {
+    transition: 1s ease;
+    font-size: xx-large;
+}
+
 .pro-btn-proj{
     border: 0px;
     border-top: 1px solid var(--accent);
