@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../services/userService";
+import { Link, useNavigate } from "react-router-dom";
 import { toggleFollowUser, getFollowing } from "../../services/followService";
 import { useUserReducer } from "../../reducers/userReducer";
 import { useFollowReducer } from "../../reducers/followReducer";
@@ -47,7 +48,11 @@ const ChatSidebar = () => {
     };
 
     const openChatWithUser = (user) => {
+         if (currentChat && currentChat.id === user.id) {
+        chatDispatch({ type: "set_current_chat", payload: null });
+    } else {
         chatDispatch({ type: "set_current_chat", payload: user });
+    }
     };
 
     return (
@@ -65,7 +70,7 @@ const ChatSidebar = () => {
 
                     return (
                         <div key={chat.id} className="d-flex align-items-center gap-3 mb-2 chat-user clickable cursor-pointer" onClick={() => openChatWithUser(user)} >
-                            
+
                             <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
 
                             <span className="text-white">{user.username}</span>
@@ -87,7 +92,9 @@ const ChatSidebar = () => {
 
                                 <div className="d-flex align-items-center gap-3">
 
-                                    <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+                                    <Link to={`/profile/${user.username}`}>
+                                        <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+                                    </Link>
 
                                     <span className="text-white">{user.username}</span>
 

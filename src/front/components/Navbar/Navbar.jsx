@@ -86,7 +86,7 @@ export const Navbar = () => {
 
 						<ul className="dropdown-menu dropdown-menu-end text-end">
 							<li>
-								<Link to="/profile" className="dropdown-item">Profile</Link>
+								<Link to={`/profile/${user.username}`} className="dropdown-item">Profile</Link>
 							</li>
 							<li>
 								<button type="button" className="dropdown-item-red logout-btn" onClick={(e) => handleLogout(e)}>Log Out</button>

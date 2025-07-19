@@ -25,7 +25,7 @@ export const FeedSidebar = () => {
 
                         <div className="d-flex justify-content-center">
 
-                            <Link to="/profile">
+                            <Link to={`/profile/${user.username}`}>
                             
                                 <img src={user.profile_pic_url} className="sidebar_profile_pic rounded-circle object-fit-cover" />
 

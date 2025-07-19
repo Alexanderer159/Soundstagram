@@ -41,7 +41,7 @@ export const Profile = () => {
     navigate(`/project/${projectId}`);
   };
 
-  if (!profileUser) return <p className="text-white text-center mt-5">Cargando perfil...</p>;
+  if (!profileUser) return <p className="text-white text-center mt-5">Loading Profile...</p>;
 
   return (
     <div className="container-fluid m-5">

@@ -263,7 +263,9 @@ const handleNavMixer = () => {
                 {project.main_track_url && (
                     <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2">
                         <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
+                            <Link to={`/profile/${project.owner_username}`}>
                             <img className="collaborator_pic rounded-circle object-fit-cover" src={project.owner_pic} />
+                            </Link>
                             <p className=" mt-2 text-white">Main Track</p>
                         </div>
                         <TrackWaveform key="main" track={{ file_url: project.main_track_url, track_name: "Main Track" }} zoomLevel={zoomLevel} onInit={(id, instance) => { wavesurferRefs.current["main"] = instance;}}/>
@@ -280,7 +282,9 @@ const handleNavMixer = () => {
                                     <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2 p-2" key={track.id}>
                                         <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
 
+                                            <Link to={`/profile/${track.uploader?.username}`}>
                                             <img className="collaborator_pic rounded-circle object-fit-cover" src={track.uploader?.profile_pic_url} />
+                                            </Link>
 
                                             <p className="text-center">{track.instrument?.name || "No instrument"}</p>
                                             
@@ -301,7 +305,9 @@ const handleNavMixer = () => {
                                 pendingTracks.map((track) => (
                                     <div className="track_container" key={track.id}>
                                         <div className="track_container_info">
+                                            <Link to={`/profile/${track.uploader?.username}`}>
                                             <img className="collaborator_pic" src={track.uploader?.profile_pic_url} />
+                                            </Link>
                                             {track.instrument?.name || "No instrument"}
                                         </div>
                                         <TrackWaveform
@@ -312,8 +318,8 @@ const handleNavMixer = () => {
                                             }}
                                         />
                                         <div className="d-flex gap-2 mt-2">
-                                            <button className="btn btn-success" onClick={() => handleApprove(track.id)}>Aprobar</button>
-                                            <button className="btn btn-danger" onClick={() => handleReject(track.id)}>Rechazar</button>
+                                            <button className="btn btn-success" onClick={() => handleApprove(track.id)}>Approve</button>
+                                            <button className="btn btn-danger" onClick={() => handleReject(track.id)}>Decline</button>
                                         </div>
                                     </div>
                                 ))
