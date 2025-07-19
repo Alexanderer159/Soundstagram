@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faSquareFull } from '@fortawesome/free-solid-svg-icons'
 import { faBell, faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import { logoutUser } from "../../services/authService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserReducer } from "../../reducers/userReducer"
 import '../../styles/index.css'
 import './navbar.css'
@@ -12,6 +12,21 @@ export const Navbar = () => {
 
 	const { userStore, userDispatch } = useUserReducer();
 	const { user } = userStore;
+	const [input, setInput] = useState("");
+
+	const fetchData = (value) => {
+		fetch("https://jsonplaceholder.typicode.com/users")
+		.then((response) => response.json())
+		.then(json => {
+			console.log(json);
+		});
+	}
+
+	const handleChange = (value) => {
+		setInput(value);
+		fetchData(value);
+	}
+
 	const navigate = useNavigate();
 
 	console.log("👤 Usuario en Navbar:", user);
@@ -51,7 +66,7 @@ export const Navbar = () => {
 
 					<form className="search-function d-flex">
 
-						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search" />
+						<input className="form-control search-navbar-bar me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
 
 						<button className="btn search-navbar-icon-btn p-0 m-0" type="submit">
 

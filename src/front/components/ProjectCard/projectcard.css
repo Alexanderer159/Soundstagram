@@ -6,9 +6,10 @@
     border-bottom: 2px solid rgba(0,0,0,0.3);
     border-right: 2px solid rgba(0,0,0,0.3);
     background: var(--bg-color);
-    animation: autoShow 1s ease;
+    animation: autoShow 1s ease forwards;
     animation-timeline: view(0% 10%);
     max-height: 500px;
+  
 }
 
 .profile_pic_project_card {
@@ -20,6 +21,7 @@
     border-top: 2px solid var(--accent);
     overflow-clip-margin: unset;
     transition: 1s ease;
+    cursor: pointer;
 }
 
 .profile_pic_project_card:hover {
@@ -147,6 +149,7 @@
 
 .go-project{
     border: 0px;
+    font-size: x-large;
     border-radius: 5px;
     background: linear-gradient(270deg, var(--color-1), var(--color-2), var(--color-1));
     background-size: 300%, 300%;
@@ -164,7 +167,8 @@
 }
 .go-project:hover {
     transition: 1s ease;
-    font-size: x-large;
+    font-size: xx-large;
+    transform: rotateZ(5deg);
 }
 
 @keyframes autoShow{

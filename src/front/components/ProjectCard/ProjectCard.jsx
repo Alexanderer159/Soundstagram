@@ -83,7 +83,7 @@ export const ProjectCard = ({ project }) => {
 
                     </div>
 
-                    <div className="col-4 d-flex flex-column justify-content-between gap-3">
+                    <div className="col-4 d-flex flex-column justify-content-center gap-5">
 
                         <div className="project-title-container d-flex flex-column justify-content-center align-items-center">
 
@@ -91,7 +91,7 @@ export const ProjectCard = ({ project }) => {
 
                         </div>
 
-                        <button className="go-project" onClick={handleNavigateProject}>Go to project</button>
+                        <button className="go-project p-3" onClick={handleNavigateProject}>Go to project</button>
 
                     </div>
 

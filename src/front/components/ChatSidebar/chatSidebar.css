@@ -21,7 +21,16 @@
   border-top: 2px solid var(--accent);
   overflow-clip-margin: unset;
   object-fit: cover;
+  cursor: pointer;
+  transition: 1s ease;
 }
+
+.chat_sidebar_profile_pic:hover{
+    width: 40px;
+  height: 40px;
+  transition: 1s ease;
+}
+
 
 .chat-active-users {
   border-bottom: 1px solid var(--color-3);
