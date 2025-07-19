@@ -30,7 +30,7 @@ export const ProjectCard = ({ project }) => {
         }
     };
 
-    const handleNavigateProject = () =>{
+    const handleNavigateProject = () => {
         navigate(`/project/${project.id}`);
     }
 
@@ -44,7 +44,13 @@ export const ProjectCard = ({ project }) => {
 
                         <div className="owner_container d-flex flex-row gap-3 align-items-center">
 
-                            <img src={project.owner_pic} className="profile_pic_project_card rounded-circle object-fit-cover" />
+                            <Link to={`/profile/${project.owner_username}`}>
+                                <img
+                                    src={project.owner_pic}
+                                    className="profile_pic_project_card rounded-circle object-fit-cover"
+                                    alt="Owner profile"
+                                />
+                            </Link>
 
                             <span className="owner_username fs-4">{project.owner_username}</span>
 
@@ -121,7 +127,13 @@ export const ProjectCard = ({ project }) => {
 
                                     <div key={colab.id} className="collaborator_avatar">
 
-                                        <img src={colab.profile_pic_url} className="profile_pic_project_card-collab rounded-circle object-fit-cover" />
+                                        <Link to={`/profile/${colab.username}`} key={colab.id} className="collaborator_avatar">
+                                            <img
+                                                src={colab.profile_pic_url}
+                                                className="profile_pic_project_card-collab rounded-circle object-fit-cover"
+                                                alt={`${colab.username} profile`}
+                                            />
+                                        </Link>
 
                                     </div>
 

@@ -25,6 +25,11 @@ export const getUsersByRole = async (roleId) => {
   return response.data;
 };
 
+export const getUserByUsername = async (username) => {
+  const response = await api.get(`/users/username/${username}`);
+  return response.data;
+};
+
 export const getUsersByInstrument = async (instrumentId) => {
   const response = await api.get(`/users/instrument/${instrumentId}`);
   return response.data;

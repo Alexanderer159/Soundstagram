@@ -20,6 +20,14 @@ def get_user(user_id):
         return jsonify(user.serialize()), 200
     return jsonify({"error": "Usuario no encontrado"}), 404
 
+@user_api.route('/users/username/<string:username>', methods=['GET'])
+def get_user_by_username(username):
+    user = db.session.query(User).filter_by(username=username).first()
+    if not user:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+    return jsonify(user.serialize()), 200
+
+
 
 @user_api.route("/users", methods=["POST"])
 def create_user():

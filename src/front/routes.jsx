@@ -24,7 +24,7 @@ export const router = createBrowserRouter(
       <Route path="/about" element={< About />} />
       <Route path="/feed" element={< Feed />} />
       <Route path="/mixer" element={< Mixer />} />
-      <Route path="/profile" element={< Profile />} />
+      <Route path="/profile/:userName" element={< Profile />} />
       <Route path="/editprofile" element={< EditProfile />} />
       <Route path="/uploader-poster" element={<AudioUploaderAndPoster />} />
       <Route path="/add_project" element={<AddProject />} />
