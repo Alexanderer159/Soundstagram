@@ -9,7 +9,7 @@ import {
 import api from '../../services/authService';
 import { useUserReducer } from '../../reducers/userReducer';
 import { useProjectReducer } from '../../reducers/projectReducer';
-import './FilterForm.css';
+import './filterForm.css';
 
 const FilterForm = () => {
     const { userStore } = useUserReducer();
