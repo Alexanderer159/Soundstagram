@@ -68,7 +68,7 @@ export const logoutUser = () => {
 };
 
 const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: `${API_URL}`,
 });
 
 api.interceptors.request.use(
