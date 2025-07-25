@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import profile_pic_default from "../../assets/default-profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import useLikeReducer from '../../reducers/likeReducer';
 import { getUserLikes, toggleProjectLike } from '../../services/likeService';
@@ -46,7 +47,7 @@ export const ProjectCard = ({ project }) => {
 
                             <Link to={`/profile/${project.owner_username}`}>
                                 <img
-                                    src={project.owner_pic}
+                                    src={project.owner_pic || profile_pic_default}
                                     className="profile_pic_project_card rounded-circle object-fit-cover"
                                     alt="Owner profile"
                                 />
@@ -129,7 +130,7 @@ export const ProjectCard = ({ project }) => {
 
                                         <Link to={`/profile/${colab.username}`} key={colab.id} className="collaborator_avatar">
                                             <img
-                                                src={colab.profile_pic_url}
+                                                src={colab.profile_pic_url || profile_pic_default}
                                                 className="profile_pic_project_card-collab rounded-circle object-fit-cover"
                                                 alt={`${colab.username} profile`}
                                             />

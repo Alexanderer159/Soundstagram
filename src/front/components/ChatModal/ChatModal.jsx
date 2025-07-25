@@ -65,7 +65,7 @@ const ChatModal = ({ otherUser }) => {
 
                 <div className="chat-modal-header d-flex flex-row align-items-center gap-3 pb-3 pt-1 px-1 fs-3 mb-2">
 
-                    <img src={otherUser.profile_pic_url} className="chat_modal_avatar" />
+                    <img src={otherUser.profile_pic_url || profile_pic_default} className="chat_modal_avatar" />
 
                     <span className="chat_modal_username">{otherUser.username}</span>
 

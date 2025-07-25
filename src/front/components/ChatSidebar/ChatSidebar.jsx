@@ -9,6 +9,7 @@ import { getUserChats } from "../../services/chatService";
 import { Button } from "react-bootstrap";
 import ChatModal from "../ChatModal/ChatModal";
 import "./chatSidebar.css";
+import profile_pic_default from "../../assets/default-profile.png";
 
 const ChatSidebar = () => {
     const { userStore } = useUserReducer();
@@ -71,7 +72,7 @@ const ChatSidebar = () => {
                     return (
                         <div key={chat.id} className="d-flex align-items-center gap-3 mb-2 chat-user clickable cursor-pointer" onClick={() => openChatWithUser(user)} >
 
-                            <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+                            <img src={user.profile_pic_url || profile_pic_default} className="chat_sidebar_profile_pic" />
 
                             <span className="text-white">{user.username}</span>
                         </div>
@@ -93,7 +94,7 @@ const ChatSidebar = () => {
                                 <div className="d-flex align-items-center gap-3">
 
                                     <Link to={`/profile/${user.username}`}>
-                                        <img src={user.profile_pic_url} className="chat_sidebar_profile_pic" />
+                                        <img src={user.profile_pic_url || profile_pic_default} className="chat_sidebar_profile_pic" />
                                     </Link>
 
                                     <span className="text-white">{user.username}</span>

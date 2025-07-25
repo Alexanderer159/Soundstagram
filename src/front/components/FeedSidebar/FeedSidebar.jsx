@@ -27,7 +27,7 @@ export const FeedSidebar = () => {
 
                             <Link to={`/profile/${user.username}`}>
                             
-                                <img src={user.profile_pic_url} className="sidebar_profile_pic rounded-circle object-fit-cover" />
+                                <img src={user.profile_pic_url || profile_pic_default} className="sidebar_profile_pic rounded-circle object-fit-cover" />
 
                             </Link>
 
