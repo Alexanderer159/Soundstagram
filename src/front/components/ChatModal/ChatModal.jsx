@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getChatMessages, sendMessageToUser, getUserChats } from "../../services/chatService";
 import { useUserReducer } from "../../reducers/userReducer";
 import useChatReducer from "../../reducers/chatReducer";
+import profile_pic_default from "../../assets/default-profile.png";
 import "./chatModal.css";
 
 const ChatModal = ({ otherUser }) => {

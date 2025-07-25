@@ -1,6 +1,7 @@
 import React from 'react';
 import { useUserReducer } from '../../reducers/userReducer';
 import { Link, useNavigate } from "react-router-dom";
+import profile_pic_default from "../../assets/default-profile.png";
 import './/feedsidebar.css';
 import FilterForm from '../FilterForm/FilterForm';
 

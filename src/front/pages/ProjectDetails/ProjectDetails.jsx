@@ -17,6 +17,7 @@ import useTrackReducer from "../../reducers/trackReducer";
 import { useProjectReducer } from "../../reducers/projectReducer";
 import { useUserReducer } from "../../reducers/userReducer"
 import { updateMainTrack } from "../../services/projectService"
+import profile_pic_default from "../../assets/default-profile.png";
 import './ProjectDetails.css'
 
 
@@ -224,7 +225,7 @@ const handleNavMixer = () => {
 
                                 <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
 
-                                    <img src={track.uploader?.profile_pic_url} className="collaborator_pic rounded-circle object-fit-cover" />
+                                    <img src={track.uploader?.profile_pic_url || profile_pic_default} className="collaborator_pic rounded-circle object-fit-cover" />
 
                                     <div className="text-center d-flex flex-column gap-2 my-3">
 
@@ -264,7 +265,7 @@ const handleNavMixer = () => {
                     <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2">
                         <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
                             <Link to={`/profile/${project.owner_username}`}>
-                            <img className="collaborator_pic rounded-circle object-fit-cover" src={project.owner_pic} />
+                            <img className="collaborator_pic rounded-circle object-fit-cover" src={project.owner_pic || profile_pic_default} />
                             </Link>
                             <p className=" mt-2 text-white">Main Track</p>
                         </div>
@@ -283,7 +284,7 @@ const handleNavMixer = () => {
                                         <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
 
                                             <Link to={`/profile/${track.uploader?.username}`}>
-                                            <img className="collaborator_pic rounded-circle object-fit-cover" src={track.uploader?.profile_pic_url} />
+                                            <img className="collaborator_pic rounded-circle object-fit-cover" src={track.uploader?.profile_pic_url || profile_pic_default} />
                                             </Link>
 
                                             <p className="text-center">{track.instrument?.name || "No instrument"}</p>
@@ -306,7 +307,7 @@ const handleNavMixer = () => {
                                     <div className="track_container" key={track.id}>
                                         <div className="track_container_info">
                                             <Link to={`/profile/${track.uploader?.username}`}>
-                                            <img className="collaborator_pic" src={track.uploader?.profile_pic_url} />
+                                            <img className="collaborator_pic" src={track.uploader?.profile_pic_url || profile_pic_default} />
                                             </Link>
                                             {track.instrument?.name || "No instrument"}
                                         </div>
