@@ -36,7 +36,24 @@ const ProjectDetails = () => {
     const { trackStore, trackDispatch } = useTrackReducer();
     const { userStore } = useUserReducer();
     const [showSettings, setShowSettings] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const currentUser = userStore.user;
+    
+
+const togglePlayAll = () => {
+    setIsPlaying((prev) => {
+        const shouldPlay = !prev;
+        Object.values(wavesurferRefs.current).forEach(instance => {
+            if (!instance) return;
+            if (shouldPlay) {
+                instance.play();
+            } else {
+                instance.pause();
+            }
+        });
+        return shouldPlay;
+    });
+};
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -260,6 +277,10 @@ const handleNavMixer = () => {
                 )}
 
                 {/* TRACKS */}
+
+                <button className="btn-uppy d-flex flex-row align-items-center p-2 play-all-btn z-2" onClick={togglePlayAll}>
+                    <p className="m-0 flex-row align-items-center">{isPlaying ? "⏸" : "▶"}</p>
+                </button>
 
                 {project.main_track_url && (
                     <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2">
