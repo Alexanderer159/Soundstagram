@@ -14,7 +14,7 @@ services:
           - key: VITE_BASENAME # Imported from Heroku app
             value: /
           - key: FLASK_APP # Imported from Heroku app
-            value: src/app.py
+            value: src/back/app.py
           - key: FLASK_DEBUG # Imported from Heroku app
             value: 0
           - key: FLASK_APP_KEY # Imported from Heroku app
