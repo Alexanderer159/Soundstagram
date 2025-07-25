@@ -29,11 +29,11 @@ services:
             value: 3.13.5
           - key: DATABASE_URL # Render PostgreSQL database
             fromDatabase:
-                name: postgresql-trapezoidal-42170
+                name: soundstagram-database
                 property: connectionString
 
 databases: # Render PostgreSQL database
-    - name: postgresql-trapezoidal-42170
+    - name: soundstagram-database
       region: ohio
       ipAllowList: [] # only allow internal connections
       plan: free # optional; defaults to starter
