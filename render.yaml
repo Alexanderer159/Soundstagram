@@ -4,15 +4,21 @@
 services:
     - type: web # valid values: https://render.com/docs/yaml-spec#type
       region: ohio
-      name: sample-service-name
+      name: Soundstagram
       env: python # valid values: https://render.com/docs/yaml-spec#environment
       buildCommand: "./render_build.sh"
-      startCommand: "gunicorn wsgi --chdir ./src/"
+      startCommand: "gunicorn wsgi --chdir ./src/back/"
       plan: free # optional; defaults to starter
       numInstances: 1
       envVars:
           - key: VITE_BASENAME # Imported from Heroku app
             value: /
+          - key: VITE_CLOUDINARY_CLOUD_NAME
+            value: dqgfqxjdv
+          - key: VITE_CLOUDINARY_UPLOAD_PRESET
+            value: soundstagram_unsigned_profile_pics
+          - key: VITE_CLOUDINARY_TRACK_PRESET
+            value: soundstagram_unsigned_tracks
           - key: FLASK_APP # Imported from Heroku app
             value: src/back/app.py
           - key: FLASK_DEBUG # Imported from Heroku app
