@@ -5,7 +5,7 @@ import os
 from flask import Flask, jsonify, send_from_directory
 from flask_migrate import Migrate
 from flask_cors import CORS
-from back.utils import APIException, generate_sitemap
+from utils import APIException, generate_sitemap
 from back.extensions import db, bcrypt, jwt
 from back.auth.auth import auth_api
 from back.controllers.project_controller import project_api
