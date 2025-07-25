@@ -20,7 +20,7 @@ services:
           - key: VITE_CLOUDINARY_TRACK_PRESET
             value: soundstagram_unsigned_tracks
           - key: FLASK_APP # Imported from Heroku app
-            value: src/back/app.py
+            value: src/app.py
           - key: FLASK_DEBUG # Imported from Heroku app
             value: 0
           - key: FLASK_APP_KEY # Imported from Heroku app
