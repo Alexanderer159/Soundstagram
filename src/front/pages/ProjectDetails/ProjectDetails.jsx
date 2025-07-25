@@ -15,31 +15,33 @@ import AddTrackModal from "../../components/AddTrackModal/AddTrackModal";
 import { downloadProjectAsZip } from "../../utils/downloadZip";
 import useTrackReducer from "../../reducers/trackReducer";
 import { useProjectReducer } from "../../reducers/projectReducer";
-import { useUserReducer } from "../../reducers/userReducer";
-import { updateMainTrack } from "../../services/projectService";
+import { useUserReducer } from "../../reducers/userReducer"
+import { updateMainTrack } from "../../services/projectService"
 import profile_pic_default from "../../assets/default-profile.png";
-import './ProjectDetails.css';
+import './ProjectDetails.css'
+
 
 const ProjectDetails = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(0);
-  const [activeTab, setActiveTab] = useState("approved");
-  const [showSettings, setShowSettings] = useState(false);
-  const [isSettingsPlaying, setIsSettingsPlaying] = useState(false);
-  const [isIndividualPlaying, setIsIndividualPlaying] = useState(false);
+    const navigate = useNavigate()
 
-  const wavesurferRefs = useRef({});
-  const { projectDispatch } = useProjectReducer();
-  const { trackStore, trackDispatch } = useTrackReducer();
-  const { userStore } = useUserReducer();
-  const currentUser = userStore.user;
+    const { id } = useParams();
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [zoomLevel, setZoomLevel] = useState(0);
+    const [activeTab, setActiveTab] = useState('approved');
+    const wavesurferRefs = useRef({});
+    const { projectStore, projectDispatch } = useProjectReducer()
+    const { trackStore, trackDispatch } = useTrackReducer();
+    const { userStore } = useUserReducer();
+    const [showSettings, setShowSettings] = useState(false);
+    const [isSettingsPlaying, setIsSettingsPlaying] = useState(false);
+    const [isIndividualPlaying, setIsIndividualPlaying] = useState(false);
+    const currentUser = userStore.user;
+    
 
-  const togglePlayGroup = (group) => {
+const togglePlayGroup = (group) => {
     const isCurrentlyPlaying = group === "settings" ? isSettingsPlaying : isIndividualPlaying;
     const shouldPlay = !isCurrentlyPlaying;
 
@@ -53,176 +55,306 @@ const ProjectDetails = () => {
     else setIsIndividualPlaying(shouldPlay);
   };
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const data = await getProjectById(id);
-        setProject(data);
-        trackDispatch({ type: "set_tracks", payload: data.tracks });
-      } catch (err) {
-        setError("Couldn't load the project!");
-        console.error("❌ Error loading project:", err);
-      } finally {
-        setLoading(false);
-      }
+
+    useEffect(() => {
+        const fetchProject = async () => {
+            try {
+                const data = await getProjectById(id);
+                setProject(data);
+                trackDispatch({ type: "set_tracks", payload: data.tracks });
+            } catch (err) {
+                setError("Couldn't load the project!");
+                console.error("❌ Error al obtener proyecto:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProject();
+    }, [id]);
+
+    const handleMainTrackUpload = async (file) => {
+        try {
+            if (!file) return toast.error("Choose a file to upload as Main Track.");
+
+            const url = await uploadTrackToCloudinary(file, project.title);
+
+            await updateMainTrack(project.id, url);
+            const refreshed = await getProjectById(project.id);
+
+            setProject(refreshed);
+            projectDispatch({ type: "update_project", payload: refreshed });
+
+            toast.success("✅ Main track updated and synchronized");
+            console.log(project.main_track_url)
+        } catch (error) {
+            console.error("❌ Error al subir la main track:", error);
+            toast.error("There was an error uploading the main track.");
+        }
     };
 
-    fetchProject();
-  }, [id]);
+    const handleApprove = async (trackId) => {
+        try {
+            const updated = await approveTrack(trackId);
+            trackDispatch({ type: "approve_track", payload: updated });
+            toast.success("Track approved")
+        } catch (err) {
+            toast.error("Error approving track")
+            console.error("❌ Error al aprobar track", err);
+        }
+    };
 
-  const handleMainTrackUpload = async (file) => {
-    try {
-      if (!file) return toast.error("Choose a file to upload as Main Track.");
+    const handleReject = async (trackId) => {
+        try {
+            const updated = await rejectTrack(trackId);
+            trackDispatch({ type: "reject_track", payload: updated });
+            toast.success("track discarded")
+        } catch (err) {
+            toast.error("Error discarding track")
+            console.error("❌ Error al rechazar track", err);
+        }
+    };
 
-      const url = await uploadTrackToCloudinary(file, project.title);
-      await updateMainTrack(project.id, url);
-      const refreshed = await getProjectById(project.id);
-      setProject(refreshed);
-      projectDispatch({ type: "update_project", payload: refreshed });
-      toast.success("✅ Main track updated and synchronized");
-    } catch (error) {
-      console.error("❌ Error uploading main track:", error);
-      toast.error("There was an error uploading the main track.");
-    }
-  };
+    if (loading) return <p className="text-white text-center mt-5">Loading Project...</p>;
+    if (error) return <p className="no-project text-center mt-5">{error}</p>;
+    if (!project) return null;
 
-  const handleApprove = async (trackId) => {
-    try {
-      const updated = await approveTrack(trackId);
-      trackDispatch({ type: "approve_track", payload: updated });
-      toast.success("Track approved");
-    } catch (err) {
-      toast.error("Error approving track");
-      console.error("❌ Error approving track:", err);
-    }
-  };
+    const isOwner = currentUser?.id === project?.owner_id;
 
-  const handleReject = async (trackId) => {
-    try {
-      const updated = await rejectTrack(trackId);
-      trackDispatch({ type: "reject_track", payload: updated });
-      toast.success("Track rejected");
-    } catch (err) {
-      toast.error("Error rejecting track");
-      console.error("❌ Error rejecting track:", err);
-    }
-  };
+    const approvedTracks = trackStore.tracks.filter(
+        t => t.status === 'approved' && t.file_url !== project.main_track_url
+    );
+    const pendingTracks = trackStore.tracks.filter(t => t.status === 'pending');
 
-  if (loading) return <p className="text-white text-center mt-5">Loading Project...</p>;
-  if (error) return <p className="no-project text-center mt-5">{error}</p>;
-  if (!project) return null;
+    console.log('tracks', trackStore)
+    console.log('isOwner', isOwner)
+    console.log('currentId', currentUser)
+   
+const handleNavMixer = () => {
+    navigate("/mixer");
+}
 
-  const isOwner = currentUser?.id === project?.owner_id;
-  const approvedTracks = trackStore.tracks.filter(t => t.status === "approved" && t.file_url !== project.main_track_url);
-  const pendingTracks = trackStore.tracks.filter(t => t.status === "pending");
+    return (
+        <div className="container-fluid mb-5">
 
-  return (
-    <div className="container-fluid mb-5">
-      <AddTrackModal projectId={project.id} onTrackCreated={(newTrack) => trackDispatch({ type: "add_track", payload: newTrack })} />
+            <AddTrackModal projectId={project.id} onTrackCreated={(newTrack) => trackDispatch({ type: "add_track", payload: newTrack })} />
 
-      <div className="row">
-        <p className="uppy text-center">{project.title}</p>
-      </div>
-
-      {/* ... description + details section ... */}
-
-      <div className="row m-3">
-        <div className="col d-flex flex-row justify-content-between">
-          <button className="btn-uppy" data-bs-toggle="modal" data-bs-target="#UploadModal">Upload Track</button>
-          <button className="btn-uppy" onClick={() => downloadProjectAsZip(trackStore.tracks, project.title)}>Download Project</button>
-          <button className="btn-uppy" onClick={() => navigate("/mixer")}>Mixer</button>
-          {isOwner && (
-            <>
-              <button className="btn-uppy">Publish Project</button>
-              <button className="btn-uppy" onClick={() => setShowSettings(prev => !prev)}>⚙ Settings</button>
-            </>
-          )}
-        </div>
-
-        {isOwner && showSettings && (
-          <>
-            <p className="text-white mt-4">⚙ Project Settings</p>
-            <button className="btn btn-secondary mb-3" onClick={() => togglePlayGroup("settings")}>
-              {isSettingsPlaying ? "⏸ Stop Settings Tracks" : "▶ Play Settings Tracks"}
-            </button>
-
-            {trackStore.tracks.map((track) => (
-              <div key={track.id} className="track-container">
-                <div className="track_container_info">
-                  <img src={track.uploader?.profile_pic_url || profile_pic_default} className="collaborator_pic" />
-                  <p>{track.track_name}</p>
-                </div>
-                <TrackWaveform
-                  track={track}
-                  zoomLevel={zoomLevel}
-                  onInit={(id, instance) => {
-                    wavesurferRefs.current[id] = { instance, group: "settings" };
-                  }}
-                />
-                <div>
-                  {track.status !== "approved" && <button onClick={() => handleApprove(track.id)}>Approve</button>}
-                  {track.status !== "rejected" && <button onClick={() => handleReject(track.id)}>Reject</button>}
-                  {track.file_url !== project.main_track_url && <button onClick={() => handleMainTrackUpload(track.file_url)}>Set as Main</button>}
-                </div>
-              </div>
-            ))}
-          </>
-        )}
-
-        {project.main_track_url && (
-          <div className="track-container">
-            <div className="track_container_info">
-              <Link to={`/profile/${project.owner_username}`}>
-                <img src={project.owner_pic || profile_pic_default} className="collaborator_pic" />
-              </Link>
-              <p>Main Track</p>
+            <div className="row">
+                <p className="uppy text-center">{project.title}</p>
             </div>
-            <TrackWaveform
-              key="main"
-              track={{ file_url: project.main_track_url, track_name: "Main Track" }}
-              zoomLevel={zoomLevel}
-              onInit={(id, instance) => {
-                wavesurferRefs.current["main"] = { instance, group: "settings" };
-              }}
-            />
-          </div>
-        )}
 
-        <div className="text-white mt-4">
-          {(activeTab === "approved" || !isOwner) && (
-            <details>
-              <summary>Individual Tracks</summary>
-              <button className="btn btn-secondary mb-3" onClick={() => togglePlayGroup("individual")}> 
-                {isIndividualPlaying ? "⏸ Stop Individual Tracks" : "▶ Play Individual Tracks"}
-              </button>
+            <div className="row all-info text-uppy m-2">
 
-              {approvedTracks.length === 0 ? (
-                <p>No approved tracks yet.</p>
-              ) : (
-                approvedTracks.map((track) => (
-                  <div key={track.id} className="track-container">
-                    <div className="track_container_info">
-                      <Link to={`/profile/${track.uploader?.username}`}>
-                        <img src={track.uploader?.profile_pic_url || profile_pic_default} className="collaborator_pic" />
-                      </Link>
-                      <p>{track.instrument?.name || "No instrument"}</p>
+                <div className="col">
+                    <div className="text-center">
+                        <p className="controls-uppy-text text-white fs-1 desc-header" >Description</p>
+                        <p className="description-box text-white p-2 fs-5 d-flex align-items-center justify-content-center">{project.description}</p>
                     </div>
-                    <TrackWaveform
-                      track={track}
-                      zoomLevel={zoomLevel}
-                      onInit={(id, instance) => {
-                        wavesurferRefs.current[id] = { instance, group: "individual" };
-                      }}
-                    />
-                  </div>
-                ))
-              )}
-            </details>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+                </div>
 
+
+                <div className="col">
+                    <p className="controls-uppy-text text-white text-center fs-1 details-header">Details</p>
+
+                    <div className="d-flex flex-row justify-content-between p-2 mb-3 deets-proj gap-2">
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white">Key</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">{project.key}</p>
+                        </div>
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white">Compass</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">{project.meter}</p>
+                        </div>
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white">BPM</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">{project.bpm}</p>
+                        </div>
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white" >Instruments</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">
+                                {project.seeking_instruments.map((inst) => inst.name).join(" ")}
+                            </p>
+                        </div>
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white" >Roles</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">
+                                {project.seeking_roles.map((role) => role.name).join(" ")}
+                            </p>
+                        </div>
+
+                        <div className="deets-inside text-center d-flex flex-column justify-content-between p-2">
+                            <p className="controls-uppy-text text-white" >Genre</p>
+                            <p className="controls-uppy-text text-white form-info-uppy p-1">
+                                {project.genres.map((genre) => genre.name).join(" ")}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="row m-3">
+
+                <div className="col d-flex flex-row justify-content-between">
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 uptrack" data-bs-toggle="modal" data-bs-target="#UploadModal">
+                        <p className="m-0 flex-row align-items-center"> 🡹 Upload track</p>
+                    </button>
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 downproj" onClick={() => downloadProjectAsZip(trackStore.tracks, project.title)} >
+                        <p className="m-0 flex-row align-items-center"> 🡻 Download Project</p>
+                    </button>
+
+                    <button className="btn-uppy d-flex flex-row align-items-center p-2 z-2 mixbut" onClick={handleNavMixer} >
+                            <p className="m-0 flex-row align-items-center" >⏏ Mixer</p>
+                    </button>
+
+                    {isOwner && (
+                        <>
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2 pubproj z-2" >
+                                <p className="m-0 flex-row align-items-center"> 🡽 Publish Project</p>
+                            </button>
+
+                            <button className="btn-uppy d-flex flex-row align-items-center p-2 settings-btn z-2 setbut" onClick={() => setShowSettings((prev) => !prev)} >
+                                <p className="m-0 flex-row align-items-center"> ⚙ Settings </p>
+                            </button>
+                        </>
+                    )}
+
+                </div>
+
+                <div className="col">
+                    <p className="magic-uppy text-center">Here's where the magic happens...</p>
+                </div>
+
+                {/* TABS */}
+                {isOwner && showSettings && (
+                    <>
+                        <p className="proj-settings-title text-white mb-4 p-0 m-0">⚙ Project Settings</p>
+
+                <button className="btn-uppy d-flex flex-row align-items-center p-2 play-all-btn z-2" onClick={() => togglePlayGroup("settings")}>
+                    <p className="m-0 flex-row align-items-center">{isSettingsPlaying ? "⏸" : "▶"}</p>
+                </button>
+
+                        {trackStore.tracks.map((track) => (
+                            
+                            <div key={track.id} className="track-container text-white gap-3 d-flex align-items-center w-100 my-2">
+
+                                <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
+
+                                    <img src={track.uploader?.profile_pic_url || profile_pic_default} className="collaborator_pic rounded-circle object-fit-cover" />
+
+                                    <div className="text-center d-flex flex-column gap-2 my-3">
+
+                                        <p className="fw-bold p-0 m-0">{track.track_name}</p>
+
+                                        <p className={`p-0 m-0 text-${track.status === 'approved' ? 'success' : track.status === 'pending' ? 'warning' : 'muted'}`}>
+
+                                            {track.status}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <TrackWaveform track={track} zoomLevel={zoomLevel} onInit={(id, instance) => { wavesurferRefs.current[id] = { instance, group: "settings" };}} />
+
+                                <div className="d-flex flex-column gap-2">
+                                    {track.status !== "approved" && (
+                                        <button className="track-approve-btn" onClick={() => handleApprove(track.id)}>Approve</button>
+                                    )}
+                                    {track.status !== "rejected" && (
+                                        <button className="track-discard-btn" onClick={() => handleReject(track.id)}>Discard</button>
+                                    )}
+                                    {track.file_url !== project.main_track_url && (
+                                        <button className="track-maint-btn" onClick={() => handleMainTrackUpload(track.file_url)}>Set as Main Track</button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                )}
+
+                {/* TRACKS */}
+
+                {project.main_track_url && (
+                    <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2">
+                        <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
+                            <Link to={`/profile/${project.owner_username}`}>
+                            <img className="collaborator_pic rounded-circle object-fit-cover" src={project.owner_pic || profile_pic_default} />
+                            </Link>
+                            <p className=" mt-2 text-white">Main Track</p>
+                        </div>
+                        <TrackWaveform key="main" track={{ file_url: project.main_track_url, track_name: "Main Track" }} zoomLevel={zoomLevel} onInit={(id, instance) => { wavesurferRefs.current["main"] = instance;}}/>
+                    </div>
+                )}
+                <div className="text-white mt-4">
+                    {(activeTab === 'approved' || !isOwner) && (
+                        <details className="dropdown_section">
+                            <summary className="fs-4">Individual Tracks</summary>
+                                <button className="btn-uppy d-flex flex-row align-items-center p-2 play-all-btn z-2" onClick={() => togglePlayGroup("individual")}>
+                                 <p className="m-0 flex-row align-items-center">{isIndividualPlaying ? "⏸" : "▶"}</p>
+                                </button>
+                            {approvedTracks.length === 0 ? (
+                                <p className="text-white">No approved tracks yet.</p>
+                            ) : (
+                                approvedTracks.map((track) => (
+                                    <div className="track-container text-white gap-3 d-flex flex-row align-items-center w-100 my-2 p-2" key={track.id}>
+                                        <div className="track_container_info d-flex flex-column justify-content-center align-items-center gap-2 p-2">
+
+                                            <Link to={`/profile/${track.uploader?.username}`}>
+                                            <img className="collaborator_pic rounded-circle object-fit-cover" src={track.uploader?.profile_pic_url || profile_pic_default} />
+                                            </Link>
+
+                                            <p className="text-center">{track.instrument?.name || "No instrument"}</p>
+                                            
+                                        </div>
+                                        <TrackWaveform track={track} zoomLevel={zoomLevel} onInit={(id, instance) => { wavesurferRefs.current[id] = { instance, group: "individual" };}}/>
+                                    </div>
+                                ))
+                            )}
+                        </details>
+                    )}
+
+                    {isOwner && activeTab === 'pending' && (
+                        <details className="dropdown_section">
+                            <summary className="fs-4">Tracks Pending Approval</summary>
+                            {pendingTracks.length === 0 ? (
+                                <p className="text-muted">No tracks pending approval.</p>
+                            ) : (
+                                pendingTracks.map((track) => (
+                                    <div className="track_container" key={track.id}>
+                                        <div className="track_container_info">
+                                            <Link to={`/profile/${track.uploader?.username}`}>
+                                            <img className="collaborator_pic" src={track.uploader?.profile_pic_url || profile_pic_default} />
+                                            </Link>
+                                            {track.instrument?.name || "No instrument"}
+                                        </div>
+                                        <TrackWaveform
+                                            track={track}
+                                            zoomLevel={zoomLevel}
+                                            onInit={(id, instance) => {
+                                                wavesurferRefs.current[id] = { instance, group: "settings" };
+                                            }}
+                                        />
+                                        <div className="d-flex gap-2 mt-2">
+                                            <button className="btn btn-success" onClick={() => handleApprove(track.id)}>Approve</button>
+                                            <button className="btn btn-danger" onClick={() => handleReject(track.id)}>Decline</button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </details>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+}
 export default ProjectDetails;
