@@ -7,7 +7,7 @@ services:
       name: Soundstagram
       env: python # valid values: https://render.com/docs/yaml-spec#environment
       buildCommand: "./render_build.sh"
-      startCommand: "gunicorn wsgi --chdir ./src/back/"
+      startCommand: "gunicorn wsgi:app --chdir ./src/back/"
       plan: free # optional; defaults to starter
       numInstances: 1
       envVars:
