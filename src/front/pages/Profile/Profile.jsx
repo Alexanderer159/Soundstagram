@@ -3,20 +3,38 @@ import "../../styles/index.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useUserReducer } from "../../reducers/userReducer";
+import { useProjectReducer } from "../../reducers/projectReducer";
+import useTrackReducer from "../../reducers/trackReducer";
+import { useFollowReducer } from "../../reducers/followReducer";
 import { getProjectsByUser, getTracksByUser, getUserByUsername } from "../../services/userService";
+import { getFollowers, getFollowing, toggleFollowUser } from "../../services/followService";
 import profile_pic_default from "../../assets/default-profile.png";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const { userName } = useParams();
+
   const { userStore } = useUserReducer();
   const currentUser = userStore.user;
 
+  const { projectStore, projectDispatch } = useProjectReducer();
+  const { trackStore, trackDispatch } = useTrackReducer();
+  const { followStore, followDispatch } = useFollowReducer();
+
+  const { projects } = projectStore;
+  const { tracks } = trackStore;
+  const { followers, following } = followStore;
+
   const [profileUser, setProfileUser] = useState(null);
-  const [projects, setProjects] = useState([]);
-  const [tracks, setTracks] = useState([]);
 
   const isOwner = currentUser?.username === userName;
+  const isFollowing = profileUser && currentUser
+    ? following.some(f => f.followed_id === profileUser.id)
+    : false;
+
+
+
+  console.log("▶ following store:", following);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,11 +42,18 @@ export const Profile = () => {
         const user = await getUserByUsername(userName);
         setProfileUser(user);
 
-        const userProjects = await getProjectsByUser(user.id);
-        setProjects(userProjects);
+        const [userProjects, userTracks, userFollowers, userFollowing] =
+          await Promise.all([
+            getProjectsByUser(user.id),
+            getTracksByUser(user.id),
+            getFollowers(user.id),
+            getFollowing(user.id)
+          ]);
 
-        const userTracks = await getTracksByUser(user.id);
-        setTracks(userTracks);
+        projectDispatch({ type: "set_projects", payload: userProjects });
+        trackDispatch({ type: "set_tracks", payload: userTracks });
+        followDispatch({ type: "set_followers", payload: userFollowers });
+        followDispatch({ type: "set_following", payload: userFollowing });
       } catch (err) {
         console.error("❌ Error cargando perfil:", err);
       }
@@ -37,8 +62,20 @@ export const Profile = () => {
     fetchData();
   }, [userName]);
 
+
+
   const handleGoProject = (projectId) => {
     navigate(`/project/${projectId}`);
+  };
+
+  const handleToggleFollow = async () => {
+    try {
+      await toggleFollowUser(profileUser.id);
+      const updatedFollowers = await getFollowers(profileUser.id);
+      followDispatch({ type: "set_followers", payload: updatedFollowers });
+    } catch (err) {
+      console.error("Error en follow/unfollow:", err);
+    }
   };
 
   if (!profileUser) return <p className="text-white text-center mt-5">Loading Profile...</p>;
@@ -51,10 +88,29 @@ export const Profile = () => {
             src={profileUser.profile_pic_url || profile_pic_default}
             className="pro-pic-user rounded-circle"
           />
+
+          <a
+            href={profileUser.spotify_playlist}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="spotify_link text-center mt-3"
+          >
+            See Spotify Playlist
+          </a>
+
           {isOwner && (
             <Link to="/editprofile" className="text-decoration-none my-4">
               <button className="pro-btn">Edit Profile</button>
             </Link>
+          )}
+
+          {!isOwner && currentUser && (
+            <button
+              className={isFollowing ? "chat-btn-unfollow me-1 mt-2 px-4" : "chat-btn-follow me-1 mt-2 px-4"}
+              onClick={handleToggleFollow}
+            >
+              {isFollowing ? "Unfollow" : "Follow"}
+            </button>
           )}
         </div>
 
@@ -78,12 +134,19 @@ export const Profile = () => {
 
             <div className="ps-5 ms-5 text-center">
               <p className="text-white fs-4">Followers</p>
-              <p className="">Not mapped yet.</p>
+              <p className="text-white">{followers.length}</p>
+            </div>
+
+            <div className="text-center">
+              <p className="text-white fs-4">Following</p>
+              <p className="text-white">{following.length}</p>
             </div>
           </div>
 
           <p className="text-white fs-3">Bio</p>
-          <p className="pro-user-bio p-3">{profileUser.bio || "User wants to remain mysterious"}</p>
+          <p className="pro-user-bio p-3">
+            {profileUser.bio || "User wants to remain mysterious"}
+          </p>
         </div>
       </div>
 
@@ -100,8 +163,11 @@ export const Profile = () => {
                     key={project.id}
                     className="over-btn text-white w-75 fs-3 py-3 d-flex justify-content-center my-1"
                   >
-                    <button className="pro-btn-proj" onClick={() => handleGoProject(project.id)}>
-                      {project.title} - ({project.visibility})
+                    <button
+                      className="pro-btn-proj px-3"
+                      onClick={() => handleGoProject(project.id)}
+                    >
+                      {project.title}
                     </button>
                   </li>
                 ))}
@@ -129,7 +195,10 @@ export const Profile = () => {
                     key={track.id}
                     className="over-btn text-white w-75 fs-3 py-3 d-flex justify-content-center my-1"
                   >
-                    <button className="pro-btn-proj" onClick={() => handleGoProject(track.project_id)}>
+                    <button
+                      className="pro-btn-proj"
+                      onClick={() => handleGoProject(track.project_id)}
+                    >
                       {track.track_name} - ({track.instrument?.name})
                     </button>
                   </li>
