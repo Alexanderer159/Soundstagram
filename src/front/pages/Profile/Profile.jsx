@@ -132,12 +132,12 @@ export const Profile = () => {
               ))}
             </div>
 
-            <div className="ps-5 ms-5 text-center">
+            <div className="ps-5 text-center">
               <p className="text-white fs-4">Followers</p>
               <p className="text-white">{followers.length}</p>
             </div>
 
-            <div className="text-center">
+            <div className="ms-5 text-center">
               <p className="text-white fs-4">Following</p>
               <p className="text-white">{following.length}</p>
             </div>
